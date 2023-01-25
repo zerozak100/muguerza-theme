@@ -1,0 +1,17 @@
+.distignore
+.git
+.gitignore
+.eslintrc.js
+.prettierrc
+composer.json
+composer.lock
+developer.readme.md
+mix-manifest.json
+package.json
+.tsconfig.json
+webpack.mix.js
+yarn.lock
+
+node_modules/
+resources/js/
+releases/
