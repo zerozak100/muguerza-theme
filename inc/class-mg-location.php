@@ -19,6 +19,10 @@ class MG_Location {
             'l1' => array(
                 'city_id' => 15, // Monterrey
                 'unit_id' => 62, // Hospital San Nicolás
+                'coords' => array(
+                    'lat' => '40.97079',
+                    'long' => '72.51374',
+                ),
             ),
         );
     }

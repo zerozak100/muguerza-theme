@@ -2,19 +2,6 @@
 
 // TODO en cada request checar si existe una ubicación disponible pedirle que seleccione ubicación
 class MG_User_Location {
-    public function __construct() {
-        add_action( 'init', array( $this, 'ask_for_location' ) );
-        // despues de registrarse que se guarde la ubicacion seleccionada
-    }
-
-    public function ask_for_location() {
-        $location_id = self::get();
-
-        if ( ! $location_id ) {
-            self::save( 'l1' );
-        }
-    }
-
     public static function save( $location ) {
         if ( is_user_logged_in() ) {
             $user_id = get_current_user_id();
@@ -37,5 +24,3 @@ class MG_User_Location {
         return $location;
     }
 }
-
-new MG_User_Location();
