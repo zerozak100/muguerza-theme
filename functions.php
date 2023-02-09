@@ -46,6 +46,12 @@ function hello_elementor_child_enqueue_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'hello_elementor_child_enqueue_scripts', 20 );
 
+include_once 'inc/class-mg-user-location.php';
+include_once 'inc/class-mg-product-archive.php';
+include_once 'inc/class-mg-location.php';
+include_once 'inc/class-mg-locations.php';
+include_once 'inc/class-mg-user.php';
+
 include_once 'inc/shortcodes.php';
 include_once 'inc/mg-helpers.php';
 include_once 'inc/mg-template-functions.php';
