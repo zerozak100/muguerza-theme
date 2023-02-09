@@ -16,9 +16,16 @@
 function hello_elementor_child_enqueue_scripts() {
 	wp_enqueue_style(
 		'default',
-		get_stylesheet_directory_uri() . '/default.css',
+		get_stylesheet_directory_uri() . '/css/default.css',
 		[],
 		MG_THEME_VERSION,
+	);
+
+	wp_enqueue_style(
+		'tingle',
+		get_stylesheet_directory_uri() . '/lib/tingle/dist/tingle.min.css',
+		[],
+		'0.16.0',
 	);
 
 	wp_enqueue_style(
@@ -28,6 +35,13 @@ function hello_elementor_child_enqueue_scripts() {
 			'hello-elementor-theme-style',
 		],
 		MG_THEME_VERSION,
+	);
+
+	wp_enqueue_script(
+		'tingle',
+		get_stylesheet_directory_uri() . '/lib/tingle/dist/tingle.min.js',
+		[],
+		'0.16.0',
 	);
 }
 add_action( 'wp_enqueue_scripts', 'hello_elementor_child_enqueue_scripts', 20 );
