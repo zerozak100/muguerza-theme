@@ -25,6 +25,8 @@ class MG_User {
             $this->geolocation = $this->get_geolocation();
             $this->location = $this->get_location();
         }
+
+        // $this->reset();
     }
 
     public function get_geolocation() {
@@ -33,6 +35,10 @@ class MG_User {
 
     public function get_location() {
         return $this->get_prop( 'mg_location' );
+    }
+
+    public function get_address() {
+        return $this->get_prop( 'mg_address' );
     }
 
     public function save_geolocation( $lat, $long ) {
@@ -46,6 +52,16 @@ class MG_User {
 
     public function save_location( $location_id ) {
         $this->save_prop( 'mg_location', $location_id );
+    }
+
+    public function save_address( $address ) {
+        $this->save_prop( 'mg_address', $address );
+    }
+
+    public function reset() {
+        $this->save_prop( 'mg_location', '' );
+        $this->save_prop( 'mg_geolocation', '' );
+        $this->save_prop( 'mg_address', '' );
     }
 
     private function save_prop( $name, $value ) {

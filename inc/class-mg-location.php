@@ -15,16 +15,8 @@ class MG_Location {
     }
 
     public static function all() {
-        return array(
-            'l1' => array(
-                'city_id' => 15, // Monterrey
-                'unit_id' => 62, // Hospital San Nicolás
-                'coords' => array(
-                    'lat' => '40.97079',
-                    'long' => '72.51374',
-                ),
-            ),
-        );
+        $locations = include get_stylesheet_directory() . '/i18n/locations.php';
+        return $locations;
     }
 
     public static function location_exists( $location_id ) {

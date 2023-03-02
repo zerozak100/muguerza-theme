@@ -9,6 +9,10 @@ class MG_Locations
 
     public function check_location()
     {
+        if ( is_admin() ) {
+            return;
+        }
+
         $user = MG_User::current(); // puede ser un usuario invitado (sin cuenta)
         $user_location = $user->get_location();
         if ( ! $user_location ) {
@@ -25,7 +29,13 @@ class MG_Locations
         mg_get_template( 'location-selector.php' );
         $modal_content = ob_get_clean();
         
-        wp_localize_script( 'mg-location-selector', 'DATA', array( 'modal_content' => $modal_content ) );
+        $data = array(
+            'modal_content' => $modal_content,
+            'locations' => MG_Location::all(),
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+        );
+
+        wp_localize_script( 'mg-location-selector', 'DATA', $data );
     }
 
     // public static function get_locations() {

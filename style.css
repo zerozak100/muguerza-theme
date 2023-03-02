@@ -15,6 +15,10 @@ Tags: flexible-header, custom-colors, custom-menu, custom-logo, editor-style, fe
     Add your custom styles here
 */
 
+h1.entry-title {
+    display: none;
+}
+
 /* 
 COLORS
 */
@@ -285,6 +289,88 @@ input.mg-product-filter-bar__filter {
     height: 300px;
     width: 100%;
     margin-top: 10px;
+    flex: 1;
+}
+
+.mg-location-selector__list {
+    width: 300px;
+    text-align: center;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.mg-location-selector__list-item {
+    border-bottom: 1px solid #dadce0;
+}
+
+.mg-location-selector__wrapper {
+    display: flex;
+}
+
+.mg-location-selector__autocomplete {
+    display: flex;
+}
+
+.mg-location-selector__geolocate-btn {
+    margin-left: 10px;
+}
+
+.mg-location-selector__actions {
+    padding-top: 10px;
+    text-align: right;
+}
+
+.mg-location-selector__info {
+    padding-top: 10px;
+}
+
+.mg-location-selector__info p {
+    margin: 0;
+}
+
+.mg-location-selector__selected {
+    font-style: italic;
+}
+
+.mg-location-selector__my-location {
+    font-style: italic;
+}
+
+.mg-location-selector__accept-btn {
+
+}
+
+/* .mg-location-selector__list-item p {
+    line-height: 1;
+} */
+
+.mg-location-item {
+    padding: 15px;
+    /* padding-top: 8px;
+    padding-bottom: 16px; */
+}
+.mg-location-item:hover {
+    background-color: #f7f8f8;
+    cursor: pointer;
+}
+
+.mg-location-item p {
+    line-height: 1.2;
+    margin-bottom: 5px;
+}
+
+.mg-location-item__name {
+    font-weight: bold;
+    text-align: left;
+}
+
+.mg-location-item__address {
+    text-align: left;
+    color: #70757a;
+}
+
+.mg-location-modal .tingle-modal-box__content {
+    padding: 0;
 }
 
 /* .mg-location-selector #mg-location-selector {
