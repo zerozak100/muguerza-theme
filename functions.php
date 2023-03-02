@@ -29,6 +29,13 @@ function hello_elementor_child_enqueue_scripts() {
 	);
 
 	wp_enqueue_style(
+		'toastify',
+		get_stylesheet_directory_uri() . '/lib/toastify-js/toastify.css',
+		[],
+		'1.12.0',
+	);
+
+	wp_enqueue_style(
 		'muguerza-theme',
 		get_stylesheet_directory_uri() . '/style.css',
 		[
@@ -43,6 +50,13 @@ function hello_elementor_child_enqueue_scripts() {
 		[],
 		'0.16.0',
 	);
+
+	wp_enqueue_script(
+		'toastify',
+		get_stylesheet_directory_uri() . '/lib/toastify-js/toastify.js',
+		[],
+		'1.12.0',
+	);
 }
 add_action( 'wp_enqueue_scripts', 'hello_elementor_child_enqueue_scripts', 20 );
 
@@ -51,6 +65,7 @@ include_once 'inc/class-mg-product-archive.php';
 include_once 'inc/class-mg-location.php';
 include_once 'inc/class-mg-locations.php';
 include_once 'inc/class-mg-user.php';
+include_once 'inc/class-mg-ajax.php';
 
 include_once 'inc/shortcodes.php';
 include_once 'inc/mg-helpers.php';
