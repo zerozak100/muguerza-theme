@@ -36,6 +36,13 @@ function hello_elementor_child_enqueue_scripts() {
 	);
 
 	wp_enqueue_style(
+		'tipografia-gotham',
+		get_stylesheet_directory_uri() . '/css/tipografia-gotham.css',
+		[],
+		MG_THEME_VERSION,
+	);
+
+	wp_enqueue_style(
 		'muguerza-theme',
 		get_stylesheet_directory_uri() . '/style.css',
 		[
