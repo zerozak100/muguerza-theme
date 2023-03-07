@@ -30,6 +30,9 @@ class MG_Location {
 
     public static function get_location( $location_id ) {
         $locations = self::all();
+        if ( ! isset( $locations[ $location_id ] ) ) {
+            return false;
+        }
         return $locations[ $location_id ];
     }
 
