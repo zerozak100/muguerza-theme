@@ -414,3 +414,195 @@ ul#tabs-nav li.active {
   border: 5px solid var(--primary);
   background-color: #FFF;
 }
+
+/* menu principal */
+
+.menu-principal {
+    justify-content: flex-end;
+}
+
+.menu-principal .menu-item--ubicaciones .dropdown-menu {
+    top: unset;
+    max-width: 900px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0;
+    padding-bottom: 14px;
+}
+
+.menu-principal .menu-item--ubicaciones .dropdown-menu .col {
+    border-right: 1px solid #F2F2F2;
+}
+
+.menu-principal .menu-item--ubicaciones .dropdown-menu .list-group-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: bold;
+    font-family: "HCo Gotham SSm";
+    font-weight: 500;
+    border-bottom-width: 0;
+}
+
+.menu-principal .menu-item--ubicaciones .dropdown-menu .dropdown-menu__col-encabezado {
+    text-transform: uppercase;
+    padding-bottom: 12px;
+    padding-top: 14px;
+    letter-spacing: 0.7px;
+    color: #000;
+    font-weight: normal;
+    font-weight: 700;
+    border-bottom-width: 1px;
+    border-color: #F2F2F2;
+}
+
+.menu-principal .menu-item--buscador .dropdown-menu {
+    left: unset;
+    right: 0;
+}
+
+.menu-principal .search-form {
+    display: flex;
+}
+
+.menu-principal .search-button {
+    background-color: var(--primary);
+    color: white;
+}
+
+.menu-principal .search-box {
+    position: relative;
+}
+
+.menu-principal .search-input {
+    padding-left: 30px;
+    padding-right: 10px;
+    /* height: 20px; */
+    width: 300px;
+    margin-right: 10px;
+}
+
+.menu-principal .search-input-icon {
+    background-image: url(img/icono-busqueda.svg);
+    background-position: left center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.menu-principal .nav-link {
+    font-size: 12px;
+    font-family: "HCo Gotham SSm";
+    font-weight: 500;
+    color: #000;
+}
+
+.menu-principal .navbar-nav {
+    align-items: center;
+    flex: 1;
+}
+
+.site-header-cart .cart-contents::after {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("img/icono-carrito.svg");
+    background-size: 18px 24px;
+    content: '';
+    display: block;
+    float: none;
+    height: 25px;
+    width: 25px;
+}
+
+.site-header-cart {
+    position: relative;
+}
+
+.site-header-cart .cart-contents .count {
+    font-size: 12px;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Montserrat", Helvetica, Arial, sans-serif;
+    background-color: #E88D21;
+    border-radius: 50%;
+    color: #FFFFFF;
+    left: calc(100% - 8px);
+    line-height: 1;
+    min-height: 18px;
+    min-width: 18px;
+    padding: 2px 5px;
+    position: absolute;
+    text-align: center;
+    top: -5px;
+    z-index: 1;
+}
+
+header .menu__logo {
+    width: 200px;
+}
+
+.menu-principal .navbar-nav > li > span {
+    display: flex;
+    align-items: center;
+}
+
+.menu-principal .menu-item--mi-cuenta .nav-link {
+    font-size: 10px;
+    max-width: 120px;
+}
+
+.menu-principal .menu-item--mi-cuenta > span::before {
+    content: '';
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    background-image: url("img/icono-cuenta.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.menu-principal .menu-item--buscador > span::before {
+    content: '';
+    width: 22px;
+    height: 22px;
+    /* margin-right: 5px; */
+    background-image: url("img/icono-busqueda.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.menu-principal .menu-item--ubicacion {
+    font-size: 10px;
+    flex: 1;
+}
+
+.menu-principal .menu-item--ubicacion .col {
+    display: flex;
+    align-items: center;
+}
+
+.menu-principal .menu-item--ubicacion .icono-ubicacion-morado {
+    background-image: url("img/icono-ubicacion-morado.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+}
+
+.menu-principal .ubicacion-seleccionada {
+    font-size: 12px;
+    color: var(--primary);
+}
