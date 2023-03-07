@@ -67,6 +67,26 @@ function hello_elementor_child_enqueue_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'hello_elementor_child_enqueue_scripts', 20 );
 
+function mg_load_bootstrap() {
+	wp_enqueue_style(
+		'bootstrap',
+		get_stylesheet_directory_uri() . '/lib/bootstrap-5.0.2-dist/css/bootstrap.min.css',
+		// "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css",
+		// [ 'hello-elementor', 'hello-elementor-theme-style' ],
+		[],
+		'5.3.0',
+	);
+	wp_enqueue_script(
+		'bootstrap',
+		// "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js",
+		get_stylesheet_directory_uri() . '/lib/bootstrap-5.0.2-dist/js/bootstrap.min.js',
+		[],
+		'5.3.0',
+	);
+}
+add_action( 'wp_enqueue_scripts', 'mg_load_bootstrap', 9 );
+
+
 include_once 'inc/class-mg-user-location.php';
 include_once 'inc/class-mg-product-archive.php';
 include_once 'inc/class-mg-location.php';
