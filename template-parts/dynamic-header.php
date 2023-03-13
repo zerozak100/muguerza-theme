@@ -1,4 +1,30 @@
 <header>
+    <div class="header-band">
+        <span class="header-band__text">RENUEVA O ADQUIERE TU MEMBRESÍA, OBTÉN BENEFICIOS PARA TU SALUD, ¡ES GRATIS! QUIERO SER SOCIO CHRISTUS</span>
+    </div>
+    <div class="menu-terciario-wrapper container">
+        <nav class="navbar navbar-expand-lg">
+            <div class="menu-terciario navbar-collapse collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item menu-item--casa-cuna-conchita">
+                        <a class="nav-link" href="#">
+                            Casa Cuna Conchita
+                        </a>
+                    </li>
+                    <li class="nav-item menu-item--serviciones-en-linea">
+                        <a class="nav-link" href="#">
+                            Servicios en Línea
+                        </a>
+                    </li>
+                    <li class="nav-item menu-item--membresias">
+                        <a class="nav-link" href="#">
+                            Membresías
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
     <div class="menu-principal-wrapper container">
         <nav class="navbar navbar-expand-lg">
             <div class="navbar-brand-wrapper">
@@ -14,7 +40,7 @@
                                 <div class="col">
                                     <span class="icono-ubicacion-morado"></span>
                                     <span>Tu tienda</span>&nbsp
-                                    <a class="dropdown-toggle" href="#"> Otras tiendas</a>
+                                    <a class="dropdown-toggle otras-tiendas" href="#"> Otras tiendas</a>
                                 </div>
                             </div>
                             <div class="row g-0">
@@ -26,12 +52,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item dropdown menu-item--especialidades-y-servicios">
-                        <a class="nav-link" href="/tienda">
-                            ESPECIALIDADES Y SERVICIOS
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown position-static menu-item--ubicaciones">
+                    <!-- <li class="nav-item dropdown position-static menu-item--ubicaciones">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             UBICACIONES
                         </a>
@@ -108,25 +129,17 @@
 
                             </div>
                         </div>
-                        <!-- <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul> -->
-                    </li>
-                    <li class="nav-item menu-item--acerca-de">
-                        <a class="nav-link" href="/">
-                            ACERCA DE
-                        </a>
-                    </li>
-                    <li class="nav-item menu-item--covid-19">
-                        <a class="nav-link" href="/">
-                            COVID-19
-                        </a>
-                    </li>
+                    </li> -->
+
                     <li class="nav-item dropdown menu-item--buscador">
-                        <span class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
+                        <form class="search-form" action="/tienda">
+                            <div class="search-box">
+                                <span class="search-input-icon"></span>
+                                <input name="s" class="search-input" type="text">
+                            </div>
+                            <!-- <button type="submit" class="search-button">Enviar</button> -->
+                        </form>
+                        <!-- <span class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
                         <div class="dropdown-menu">
                             <div class="container">
                                 <form class="search-form" action="/tienda">
@@ -137,7 +150,7 @@
                                     <button type="submit" class="search-button">Enviar</button>
                                 </form>
                             </div>
-                        </div>
+                        </div> -->
                     </li>
                     <li class="nav-item menu-item--mi-cuenta">
                         <span class="nav-link">
@@ -154,6 +167,34 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="menu-secundario-wrapper container">
+        <nav class="navbar navbar-expand-lg">
+            <div class="menu-secundario navbar-collapse collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item menu-item--servicios">
+                        <a class="nav-link" href="/">
+                            SERVICIOS
+                        </a>
+                    </li>
+                    <li class="nav-item menu-item--especialidades">
+                        <a class="nav-link" href="/">
+                            ESPECIALIDADES
+                        </a>
+                    </li>
+                    <li class="nav-item menu-item--promociones">
+                        <a class="nav-link" href="/">
+                            PROMOCIONES
+                        </a>
+                    </li>
+                    <li class="nav-item menu-item--covid-19">
+                        <a class="nav-link" href="/">
+                            COVID-19
+                        </a>
                     </li>
                 </ul>
             </div>

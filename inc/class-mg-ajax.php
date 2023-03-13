@@ -7,6 +7,9 @@ class MG_Ajax {
 
             add_action( 'wp_ajax_location_selector_save', array( $this, 'location_selector_save' ) );
             add_action( 'wp_ajax_nopriv_location_selector_save', array( $this, 'location_selector_save' ) );
+            
+            add_action( 'wp_ajax_order_nearest_locations', array( $this, 'order_nearest_locations' ) );
+            add_action( 'wp_ajax_nopriv_order_nearest_locations', array( $this, 'order_nearest_locations' ) );
         } catch (Exception $e) {
             $this->handle_errors();
         }
@@ -35,6 +38,21 @@ class MG_Ajax {
         $user->save_address( $address );
 
         wp_send_json( true );        
+        wp_die();
+    }
+
+    public function order_nearest_locations() {
+        $lat = $_POST[ 'lat' ];
+        $lng = $_POST[ 'lng' ];
+
+        $user_coords = array(
+            'lat' => (float) $lat,
+            'lng' => (float) $lng,
+        );
+
+        $ordered = mg_get_locations_in_order( MG_Location::all(), $user_coords );
+
+        wp_send_json( $ordered );
         wp_die();
     }
 

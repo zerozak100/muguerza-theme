@@ -89,9 +89,9 @@ add_action( 'wp_enqueue_scripts', 'mg_load_bootstrap', 9 );
 
 include_once 'inc/class-mg-user-location.php';
 include_once 'inc/class-mg-product-archive.php';
+include_once 'inc/class-mg-user.php';
 include_once 'inc/class-mg-location.php';
 include_once 'inc/class-mg-locations.php';
-include_once 'inc/class-mg-user.php';
 include_once 'inc/class-mg-ajax.php';
 
 include_once 'inc/shortcodes.php';

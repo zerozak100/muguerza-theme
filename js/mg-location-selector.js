@@ -17,7 +17,8 @@ jQuery( function ( $ ) {
 	 * MGLocationSelector class.
 	 */
 	var MGLocationSelector = function() {
-        this.loadModal();
+        needsLocation = DATA.needs_location;
+        this.loadModal(needsLocation);
         // this.loadGeolocationMap();
         this.loadLocationsMap();
         this.initPlaces();
@@ -26,6 +27,19 @@ jQuery( function ( $ ) {
         $( '.mg-location-item' ).click( this.onLocationSelected.bind( this ) );
         $( '.mg-location-selector__geolocate-btn' ).click( this.geolocate.bind( this ) );
         $( '.mg-location-selector__accept-btn' ).click( this.save.bind( this ) );
+        $( '.otras-tiendas' ).click( function() {
+            this.modal.open();
+        }.bind( this ) );
+        if (needsLocation) {
+            this.modal.open();
+        }
+
+        this.selectedGeolocation = DATA.selectedGeolocation;
+        this.selectedLocation = DATA.selectedLocation;
+
+        if ( this.selectedGeolocation && this.selectedGeolocation.formatted_address ) {
+            $('#' + this.searchInput).val( this.selectedGeolocation.formatted_address );
+        }
 	};
 
     MGLocationSelector.prototype.locationsMap = null;
@@ -34,6 +48,7 @@ jQuery( function ( $ ) {
     MGLocationSelector.prototype.searchInput = 'search-geolocation';
     MGLocationSelector.prototype.selectedLocation = null;
     MGLocationSelector.prototype.selectedGeolocation = null;
+    var needsLocation = false;
     // MGLocationSelector.prototype.saving = false;
 
     MGLocationSelector.prototype.toast = function( message, intent ) {
@@ -83,7 +98,9 @@ jQuery( function ( $ ) {
         })
         .done( function( response ) {
             this.toast( 'Ubicación guardada', 'success' );
+            needsLocation = false;
             this.modal.close();
+            location.reload();
         }.bind( this ) )
         .fail( function() {
             this.toast( 'Error al guardar ubicación', 'danger' );
@@ -125,6 +142,7 @@ jQuery( function ( $ ) {
                         },
                         formatted_address: location.formatted_address,
                     };
+                    this.fetchOrderedLocations( crd.latitude, crd.longitude );
                     var latLng = new google.maps.LatLng( crd.latitude, crd.longitude );
                     this.locationsMap.setCenter( latLng );
                     this.locationsMap.setZoom( 15 );
@@ -137,10 +155,6 @@ jQuery( function ( $ ) {
                 this.setLoading( false );
             }.bind( this ) );
 
-            // console.log("Your current position is:");
-            // console.log(`Latitude : ${crd.latitude}`);
-            // console.log(`Longitude: ${crd.longitude}`);
-            // console.log(`More or less ${crd.accuracy} meters.`);
         }.bind( this );
 
         var error = function( err ) {
@@ -181,39 +195,53 @@ jQuery( function ( $ ) {
     }
 
     MGLocationSelector.prototype.loadModal = function() {
-        this.modal = new tingle.modal({
+        var config = {
             footer: false,
             stickyFooter: false,
-            closeMethods: [],
-            // closeMethods: ['overlay', 'button', 'escape'],
+            // closeMethods: [],
+            closeMethods: ['overlay', 'button', 'escape'],
             // closeLabel: "Close",
             cssClass: ['mg-location-modal'],
             onOpen: function() {
-                // console.log('modal open');
             },
             onClose: function() {
-                // console.log('modal closed');
             },
             beforeClose: function() {
+                return !needsLocation;
                 // here's goes some logic
                 // e.g. save content before closing the modal
                 return true; // close the modal
                 // return false; // nothing happens
             }.bind( this )
-        });
+        };
+        if (!needsLocation) {
+            config.closeMethods = ['overlay', 'button', 'escape'];
+        }
+        this.modal = new tingle.modal(config);
         this.modal.setContent( DATA.modal_content );
-        this.modal.open();
+        // this.modal.open();
     }
 
     MGLocationSelector.prototype.loadLocationsMap = function() {
-        var lat = 23.87168642809773;
-        var long = -102.06577277533593;
+        var lat;
+        var lng;
+        var zoom;
 
-        var latLng = new google.maps.LatLng( lat, long );
+        if ( DATA.location_coords ) {
+            lat = DATA.location_coords.lat;
+            lng = DATA.location_coords.lng;
+            zoom = 15;
+        } else {
+            lat = 23.87168642809773;
+            lng = -102.06577277533593;
+            zoom = 4.5;
+        }
+
+        var latLng = new google.maps.LatLng( lat, lng );
 
         var mapOptions = {
             center: latLng,
-            zoom: 4.5,
+            zoom,
         }
 
         this.locationsMap = new google.maps.Map( document.getElementById( "locationsMap" ), mapOptions );
@@ -235,7 +263,6 @@ jQuery( function ( $ ) {
 
         google.maps.event.addListener( this.autocomplete, 'place_changed', function() {
             var near_place = this.autocomplete.getPlace();
-            // console.log(near_place);
             this.locationsMap.setCenter( near_place.geometry.location );
             this.locationsMap.setZoom( 15 );
             $( '.mg-location-selector__my-location' ).html( near_place.formatted_address );
@@ -246,6 +273,7 @@ jQuery( function ( $ ) {
                 },
                 formatted_address: near_place.formatted_address,
             };
+            this.fetchOrderedLocations( near_place.geometry.location.lat(), near_place.geometry.location.lng() );
         }.bind( this ) );
     }
 
@@ -273,6 +301,35 @@ jQuery( function ( $ ) {
     //     marker.setPosition( latLng );
     //     map.setCenter( latLng );
     // }
+
+    MGLocationSelector.prototype.fetchOrderedLocations = function( lat, lng ) {
+        var data = {
+            action: 'order_nearest_locations',
+            lat,
+            lng,
+        };
+        
+        $.post({
+            url: DATA.ajaxurl,
+            data,
+        })
+        .done( function( response ) {
+            // https://stackoverflow.com/questions/16129259/re-arranging-sorting-divs-without-re-inserting-into-dom
+            this.toast( 'Ubicaciones ordenadas', 'success' );
+            var $wrapper = $('.mg-location-selector__list');
+            var locationIds = response;
+            locationIds.forEach(function(id){
+                var item = $('.mg-location-item[data-id="'+id+'"]')
+                $wrapper.append(item);
+            });
+        }.bind( this ) )
+        .fail( function() {
+            this.toast( 'Error al ordenar ubicaciones', 'danger' );
+        }.bind( this ) )
+        .always( function() {
+            // this.setLoading( true );
+        }.bind( this ) );
+    }
 
     /**
 	 * Init MGLocationSelector.

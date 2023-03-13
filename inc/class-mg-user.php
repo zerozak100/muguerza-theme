@@ -41,10 +41,10 @@ class MG_User {
         return $this->get_prop( 'mg_address' );
     }
 
-    public function save_geolocation( $lat, $long ) {
+    public function save_geolocation( $lat, $lng ) {
         $geolocation = array(
             'lat' => $lat,
-            'long' => $long,
+            'lng' => $lng,
         );
 
         $this->save_prop( 'mg_geolocation', $geolocation );
