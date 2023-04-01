@@ -86,6 +86,7 @@ function mg_load_bootstrap() {
 }
 add_action( 'wp_enqueue_scripts', 'mg_load_bootstrap', 9 );
 
+include_once 'inc/class-mg-api-membresias.php';
 
 include_once 'inc/class-mg-user-location.php';
 include_once 'inc/class-mg-product-archive.php';
@@ -99,3 +100,29 @@ include_once 'inc/mg-helpers.php';
 include_once 'inc/mg-template-functions.php';
 include_once 'inc/mg-template-hooks.php';
 
+// TODO https://www.google.com/search?q=woocommerce+filters+combinations+not+show&oq=woocommerce+filters+combinations+not+show&aqs=chrome..69i57j33i160l4.12020j0j7&sourceid=chrome&ie=UTF-8
+// https://stackoverflow.com/questions/41721296/woocommerce-variations-not-filtering-out-invalid-combinations
+// https://stackoverflow.com/questions/71166565/how-do-i-make-these-combination-select-filters-work-when-only-one-dropdown-is-se
+// add_action('init', 'show_template');
+function show_template() {
+    // global $template;
+    // echo basename($template);
+	// $API = new MG_API_Membresias();
+	// $response = $API->consultarMembresia( 'EDGAR.MONREAL950@ICLOUD.COM' );
+	// echo "<pre>";
+	// var_dump( $response );
+	// echo "</pre>";
+}
+
+/**
+ * @param string $user_login User login
+ * @param WP_User $user Usuario
+ */
+function mg_save_membresia( $user_login, $user ) {
+	$API = new MG_API_Membresias();
+	$response = $API->consultarMembresia( $user->user_email );
+	if ( $response ) {
+		update_user_meta( $user->ID, 'mg_membresia_data', $response->data );
+	}
+}
+add_action( 'wp_login', 'mg_save_membresia', 10, 2 );

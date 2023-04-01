@@ -23,6 +23,10 @@ class MG_Locations
 
     public function load_modal_selector()
     {
+        if ( is_admin() ) {
+            return;
+        } 
+
         wp_enqueue_script( 'mg-location-selector', get_stylesheet_directory_uri() . '/js/mg-location-selector.js', false, MG_THEME_VERSION, true );
         wp_enqueue_script( 'mg-tabs', get_stylesheet_directory_uri() . '/js/mg-tabs.js', false, MG_THEME_VERSION, true );
         wp_enqueue_script( 'googlemaps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDLHEgck-NyHg9QBswGn2ayg65BiIo7kMo&callback=initMap&v=weekly&libraries=places', [], false, true );
