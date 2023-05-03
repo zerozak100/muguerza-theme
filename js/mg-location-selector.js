@@ -4,6 +4,95 @@ function initMap() {}
 window.initMap = initMap;
 
 jQuery( function ( $ ) {
+    async function geocoding( lat, lng ) {
+        const params = new URLSearchParams({
+            latlng: `${lat},${lng}`,
+            key: 'AIzaSyDLHEgck-NyHg9QBswGn2ayg65BiIo7kMo',
+        });
+        const url = 'https://maps.googleapis.com/maps/api/geocode/json?' + params;
+        const response = await fetch(url);
+        
+        if (response.status >= 200 && response.status < 400) {
+            const payload = await response.json();
+            const { results } = payload;
+            if (results && results.length) {
+                return results[0];
+            }
+        }
+
+        return false;
+    }
+
+    async function getLocationsOrderedByNearest(lat, lng) {
+        const body = {
+            action: 'order_nearest_locations',
+            lat,
+            lng,
+        };
+        const url = `${DATA.ajaxurl}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            body: new URLSearchParams(body),
+        });
+
+        if (response.status >= 200 && response.status < 400) {
+            const payload = await response.json();
+            return payload;
+        }
+
+        return false;
+    }
+
+    async function saveSelectedLocation( locationId, address, lat, lng ) {
+        const body = {
+            action: 'location_selector_save',
+            location: locationId,
+            geolocation_address: address,
+            geolocation_lat: lat,
+            geolocation_lng: lng,
+        };
+        const url = `${DATA.ajaxurl}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            // headers: { 'Content-Type': 'application/json' },
+            body: new URLSearchParams(body),
+        });
+
+        if (response.status >= 200 && response.status < 400) {
+            const payload = await response.json();
+            return payload;
+        }
+
+        return false;
+    }
+
+    async function autosaveNearestLocation() {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+        };
+    
+        const success = async function( pos ) {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+
+            const address = await geocoding( lat, lng );
+            const locationsOrdered =  await getLocationsOrderedByNearest( lat, lng );
+
+            const locationId = locationsOrdered[0];
+            const formattedAddress = address.formatted_address;
+
+            const response = await saveSelectedLocation(locationId, formattedAddress, lat, lng);
+
+            if ( response !== false ) {
+                location.reload();
+            }
+        }
+        
+        navigator.geolocation.getCurrentPosition( success, undefined, options );
+    }
+
     // var map;
     // var marker;
     // var modal;
@@ -17,8 +106,9 @@ jQuery( function ( $ ) {
 	 * MGLocationSelector class.
 	 */
 	var MGLocationSelector = function() {
+        console.log(DATA);
         needsLocation = DATA.needs_location;
-        this.loadModal(needsLocation);
+        this.loadModal();
         // this.loadGeolocationMap();
         this.loadLocationsMap();
         this.initPlaces();
@@ -32,6 +122,9 @@ jQuery( function ( $ ) {
         }.bind( this ) );
         if (needsLocation) {
             this.modal.open();
+        }
+        if (!DATA.location_id && !needsLocation) {
+            autosaveNearestLocation();
         }
 
         this.selectedGeolocation = DATA.selectedGeolocation;
@@ -330,6 +423,10 @@ jQuery( function ( $ ) {
             // this.setLoading( true );
         }.bind( this ) );
     }
+
+    MGLocationSelector.prototype.maybeGetCurrentLocation = function() {
+
+    };
 
     /**
 	 * Init MGLocationSelector.

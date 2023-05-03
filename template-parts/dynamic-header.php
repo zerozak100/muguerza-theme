@@ -1,4 +1,4 @@
-<header>
+<header class="main-header">
     <div class="header-band">
         <span class="header-band__text">RENUEVA O ADQUIERE TU MEMBRESÍA, OBTÉN BENEFICIOS PARA TU SALUD, ¡ES GRATIS! QUIERO SER SOCIO CHRISTUS</span>
     </div>
@@ -177,12 +177,12 @@
             <div class="menu-secundario navbar-collapse collapse">
                 <ul class="navbar-nav">
                     <li class="nav-item menu-item--servicios">
-                        <a class="nav-link" href="/">
+                        <a class="nav-link" href="<?php echo esc_url( get_permalink( get_page_by_path( 'servicios' ) ) ); ?>">
                             SERVICIOS
                         </a>
                     </li>
                     <li class="nav-item menu-item--especialidades">
-                        <a class="nav-link" href="/">
+                        <a class="nav-link" href="<?php echo esc_url( get_permalink( get_page_by_path( 'especialidades' ) ) ); ?>">
                             ESPECIALIDADES
                         </a>
                     </li>

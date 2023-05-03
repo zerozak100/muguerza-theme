@@ -1,15 +1,39 @@
 <?php
 
 class MG_Product_Archive {
+
     public function __construct() {
         add_filter( 'pre_get_posts', array( $this, 'filter_products' ) );
         add_filter( 'query_vars', array( $this, 'query_vars' ) );
         add_action( 'woocommerce_before_shop_loop', array( $this, 'show_no_products_found_in_unit' ) );
         add_filter( 'woocommerce_page_title', array( $this, 'page_title' ) );
+        // add_action( 'template_redirect', array( $this, '' ) );
+        // add_filter( 'body_class', array( $this, 'body_class' ) );
     }
+
+    // https://stackoverflow.com/questions/5598480/php-parse-current-url
+    public static function is_page( $page ) {
+        $parsed_url = parse_url( 'https://' . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"] );
+        return str_contains( $parsed_url[ 'path' ], "/$page/" );
+    }
+
+    // public function body_class( $classes ) {
+    //     if ( is_page( 'servicios' ) || is_page( 'especialidades' ) ) {
+    //         $classes = array_merge( $classes, array( 'woocommerce', 'archive' ) );
+    //     }
+    //     return $classes;
+    // }
 
     function page_title( $title ) {
         if ( is_shop() || is_product_taxonomy() || is_product_category() || is_product_tag() ) {
+            if ( self::is_page( 'servicios' ) ) {
+                return 'Servicios';
+            }
+            
+            if ( self::is_page( 'especialidades' ) ) {
+                return 'Especialidades';
+            }
+
             return 'Especialidades y Servicios';
         }
         return $title;
@@ -151,3 +175,17 @@ class MG_Product_Archive {
 }
 
 new MG_Product_Archive();
+
+// optimizar https://wordpress.stackexchange.com/questions/268589/how-to-override-a-query-and-display-specific-page-by-id
+function alter_the_query( $request ) {
+    $query = new WP_Query();
+    $query->parse_query( $request );
+
+    if ( $query->is_page( 'servicios' ) || $query->is_page( 'especialidades' ) ){
+        unset( $request['pagename'] );
+        $request['page_id'] = get_page_by_path( 'tienda' )->ID;
+    }
+
+    return $request;
+}
+add_filter( 'request', 'alter_the_query' );

@@ -7,7 +7,7 @@ class MG_Locations
     public function __construct()
     {
         // add_action( 'init', array( $this, 'check_location' ) );
-        add_action( 'init', array( $this, 'load_modal_selector' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'load_modal_selector' ) );
         // var_dump( MG_User::current() );
         $this->user = MG_User::current();
         // var_dump( $this->user->get_address() );
@@ -87,7 +87,7 @@ class MG_Locations
         }
 
         $user_location = $this->user->get_location();
-        if ( ! $user_location ) {
+        if ( ! $user_location && ( is_page( array( 'servicios', 'especialidades' ) ) || is_shop() ) ) {
             return true;
         }
 

@@ -278,10 +278,12 @@ input.mg-product-filter-bar__filter {
 /* tinle modal */
 .tingle-modal {
   background: rgba(0, 0, 0, .2);
+  backdrop-filter: unset;
 }
 
 .mg-location-modal .tingle-modal-box {
     width: 90%;
+    max-width: 800px;
 }
 
 /* location selector */
@@ -290,10 +292,16 @@ input.mg-product-filter-bar__filter {
     width: 100%;
     margin-top: 10px;
     flex: 1;
+    max-width: 400px;
+}
+
+.mg-location-selector #tabs-nav {
+    display: none;
 }
 
 .mg-location-selector__list {
-    width: 300px;
+    width: 100%;
+    max-width: 400px;
     text-align: center;
     max-height: 300px;
     overflow: auto;
@@ -504,7 +512,7 @@ ul#tabs-nav li.active {
     top: 6px;
 }
 
-header {
+header.main-header {
     border-bottom: 6px solid var(--primary);
 }
 
@@ -653,4 +661,9 @@ header .menu__logo {
 
 .menu-secundario {
     justify-content: center;
+}
+
+/* woocommerce */
+.woocommerce-breadcrumb {
+    display: none;
 }

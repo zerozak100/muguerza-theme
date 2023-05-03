@@ -125,4 +125,30 @@ function mg_save_membresia( $user_login, $user ) {
 		update_user_meta( $user->ID, 'mg_membresia_data', $response->data );
 	}
 }
-add_action( 'wp_login', 'mg_save_membresia', 10, 2 );
+// add_action( 'wp_login', 'mg_save_membresia', 10, 2 );
+
+function mg_footerr() {
+	dd( is_page( 'ubicaciones' ) );
+}
+// add_action( 'wp_footer', 'mg_footerr' );
+
+
+function storefront_cart_link() {
+	get_template_part('templates/part-header-carrito');
+}
+
+function storefront_cart_link_fragment( $fragments ) {
+	global $woocommerce;
+
+	ob_start();
+	storefront_cart_link();
+	$fragments['a.cart-contents'] = ob_get_clean();
+
+	// ob_start();
+	// storefront_handheld_footer_bar_cart_link();
+	// $fragments['a.footer-cart-contents'] = ob_get_clean();
+
+	return $fragments;
+}
+add_filter( 'woocommerce_add_to_cart_fragments', 'storefront_cart_link_fragment' );
+
