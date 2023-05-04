@@ -30,8 +30,33 @@ function muguerza_product_filter_bar() {
     ) );
 }
 
+function muguerza_product_footer_open() {
+    echo '<div class="mg-product-item-footer">';
+}
+
+function muguerza_product_footer_close() {
+    echo '</div>';
+}
+
 function muguerza_product_ver_mas() {
     global $product;
 
-    printf( '<a class="" href="%s">Ver más</a>', esc_url( $product->get_permalink() ) );
+    printf( '<a class="mg-product-item-ver-mas" href="%s">Ver más</a>', esc_url( $product->get_permalink() ) );
+}
+
+function muguerza_product_precio() {
+    global $product;
+
+    printf( '<span class="mg-product-item-price">%s</span>', wc_price( $product->get_price() ) );
+}
+
+function muguerza_product_unidad() {
+    global $product;
+
+    $val = MG_Product_Archive::$no_products_in_unit_found;
+
+    if ( $val ) {
+        $unidad = mg_get_product_unidad_term( $product );
+        printf( '<div class="mg-product-item-unidad">%s</div>', esc_html( $unidad->name ) );
+    }
 }

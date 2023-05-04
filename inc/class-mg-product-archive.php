@@ -2,6 +2,8 @@
 
 class MG_Product_Archive {
 
+    public static $no_products_in_unit_found = false;
+
     public function __construct() {
         add_filter( 'pre_get_posts', array( $this, 'filter_products' ) );
         add_filter( 'query_vars', array( $this, 'query_vars' ) );
@@ -155,6 +157,7 @@ class MG_Product_Archive {
     }
 
     public static function no_products_in_unit_found() {
+        self::$no_products_in_unit_found = true;
         echo "<p class='woocommerce-info woocommerce-no-products-found'>No pudimos encontrar lo que buscabas en la unidad actual pero encontramos esto en otras unidades</p>";
     }
 

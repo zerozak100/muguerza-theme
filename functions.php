@@ -64,6 +64,13 @@ function hello_elementor_child_enqueue_scripts() {
 		[],
 		'1.12.0',
 	);
+
+	wp_enqueue_style(
+		'fontawesome6',
+		'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+		[],
+		'6.4.0',
+	);
 }
 add_action( 'wp_enqueue_scripts', 'hello_elementor_child_enqueue_scripts', 20 );
 

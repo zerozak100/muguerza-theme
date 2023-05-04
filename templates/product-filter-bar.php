@@ -35,7 +35,7 @@ $service_types = $service_types;
         </select> -->
     <?php endif; ?>
     <input class="mg-product-filter-bar__filter" type="text" placeholder="Buscar..." name="s" value="<?php echo esc_attr( $s ); ?>">
-    <button type="submit">Buscar</button>
+    <button class="mg-product-filter-bar__submit icon-search" type="submit"></button>
 </form>
 
 <script>

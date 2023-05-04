@@ -16,4 +16,10 @@ remove_action( 'woocommerce_no_products_found', 'wc_no_products_found' );
  */
 remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_price', 10 );
 remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
-add_action( 'woocommerce_after_shop_loop_item', 'muguerza_product_ver_mas' );
+
+add_action( 'woocommerce_after_shop_loop_item', 'muguerza_product_footer_open', 10 );
+add_action( 'woocommerce_after_shop_loop_item', 'muguerza_product_precio', 11 );
+add_action( 'woocommerce_after_shop_loop_item', 'muguerza_product_ver_mas', 12 );
+add_action( 'woocommerce_after_shop_loop_item', 'muguerza_product_footer_close', 13 );
+
+add_action( 'woocommerce_before_shop_loop_item', 'muguerza_product_unidad' );

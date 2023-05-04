@@ -11,6 +11,28 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Tags: flexible-header, custom-colors, custom-menu, custom-logo, editor-style, featured-images, rtl-language-support, threaded-comments, translation-ready
 */
 
+/* ICONS */
+[class^=icon-]:before, [class*=" icon-"]::before, [class^=icon-] a::before, [class*=" icon-"] a::before {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 20px;
+    line-height: normal;
+    color: #fff;
+    content: "";
+    display: inline-block;
+    font-family: 'Font Awesome 6 Free';
+    vertical-align: middle;
+    font-weight: bold;
+    overflow: hidden;
+    speak: none;
+    text-align: center;
+}
+
+.icon-search::before {
+    content: '\f002';
+}
+/* ICONS END */
+
 /*
     Add your custom styles here
 */
@@ -200,7 +222,21 @@ input.mg-product-filter-bar__filter {
     /* min-width: 250px; */
 }
 
+.mg-product-filter-bar__submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mg-product-filter-bar__submit {
+    background-color: var(--primary);
+}
+
 /* ARCHIVE PRODUCTS PAGE */
+.woocommerce.archive #main {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
 .woocommerce.archive .products {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -240,8 +276,32 @@ input.mg-product-filter-bar__filter {
     border-radius: 10px;
 }
 
+.mg-product-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mg-product-item-price {
+    font-weight: bold;
+}
+
 .woocommerce-products-header__title {
     text-align: center;
+}
+
+.woocommerce.archive ul.products li.product .woocommerce-loop-product__title {
+    font-size: 14px;
+}
+
+.mg-product-item-ver-mas {
+    font-size: 14px;
+}
+
+.mg-product-item-unidad {
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 8px;
 }
 
 /* .woocommerce.archive .products .add_to_cart_button,

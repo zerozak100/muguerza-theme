@@ -70,6 +70,23 @@ function mg_get_locations_in_order( $locations, $user_coords ) {
 	return array_keys($distances);
 }
 
+function mg_get_product_unidad_term( $product ) {
+	$proudct_unidad = false;
+
+	// if ( gettype( $product ) === 'integer' ) {
+	// 	$product = wc_get_product( $product );
+	// }
+
+	if ( $product instanceof WC_Product ) {
+		$unidades = wp_get_post_terms( $product->get_id(), 'product_cat' );
+		if ( ! empty( $unidades ) ) {
+			$proudct_unidad = $unidades[0];
+		}
+	}
+
+	return $proudct_unidad;
+}
+
 function d( $var ) {
 	echo "<pre>";
 	var_dump( $var );
