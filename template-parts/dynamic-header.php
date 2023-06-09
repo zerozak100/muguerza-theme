@@ -29,7 +29,7 @@
         <nav class="navbar navbar-expand-lg">
             <div class="navbar-brand-wrapper">
                 <a href="/" class="site-logo navbar-brand">
-                    <img class="menu__logo" src="https://muguerza.local/wp-content/uploads/2020/04/logo-muguerza-tagline.png" alt="Christus Muguerza">
+                    <img class="menu__logo" src="/wp-content/uploads/2020/04/logo-muguerza-tagline.png" alt="Christus Muguerza">
                 </a>
             </div>
             <div class="menu-principal navbar-collapse collapse">
