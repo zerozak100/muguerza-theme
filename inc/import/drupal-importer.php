@@ -17,7 +17,14 @@ class Drupal_Importer {
     public function init() {
         if ( isset( $_POST['do_import'] ) && $_POST['do_import'] === '1' ) {
             // $data = $this->getData();
-            $this->import( $this->getData() );
+
+            $cat_id = '215';
+
+            if ( isset( $_POST['cat_id'] ) && $_POST['cat_id'] ) {
+                $cat_id = $_POST['cat_id'];
+            }
+
+            $this->import( $this->getData(), $cat_id );
         }
 
         if ( isset( $_GET['delete_imported_data'] ) && $_GET['delete_imported_data'] === '1' ) {
@@ -25,17 +32,15 @@ class Drupal_Importer {
         }
     }
 
-    public function import( $data ) {
+    public function import( $data, $product_cat = '215' ) { // 212
         // $data = $this->getData();
         // $data = array_slice( $data, 0, 1 );
-        // dd(count($data));
-        // dd($data[0]);
         foreach ( $data as $drupalProduct ) {
             $product = wp_insert_post( array(
                 'post_title' => $drupalProduct['title'],
                 'post_type' => 'product',
                 'tax_input' => array(
-                    'product_cat' => array( '212' ), // especialidades
+                    'product_cat' => array( $product_cat ), // especialidades
                 ),
                 'meta_input' => array(
                     'drupal_product_data' => $drupalProduct,
@@ -43,9 +48,6 @@ class Drupal_Importer {
                     // 'drupal_product_data' => $this->object_to_array($drupalProduct),
                 ),
             ) );
-
-
-
             // update_field( 'ubicacion', 212, $product->ID );
         }
     }
@@ -59,6 +61,10 @@ class Drupal_Importer {
         <form action="" method="POST" enctype="multipart/form-data">
             <input type="file" name="data">
             <input type="hidden" name="do_import" value="1">
+            <div>
+                <label for="">ID de categoria a asignar</label>
+                <input type="text" name="cat_id" placeholder="215">
+            </div>
             <button type="submit">Importar</button>
         </form>
         <form action="" method="GET">
