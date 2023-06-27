@@ -83,6 +83,7 @@ class Drupal_Importer {
     public function deleteAllData() {
         $args = array(
             'post_type' => 'product',
+            'post_status' => 'any',
             'meta_query' => array(
                 'relation' => 'AND',
                 array(
