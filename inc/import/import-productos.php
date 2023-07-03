@@ -30,6 +30,7 @@ class MG_Productos_Import {
             $this->saveHero();
             $this->saveDescripcion();
             $this->saveUnidades();
+            $this->saveProcedimientos();
             $this->saveInformacionGeneral();
             $this->saveInfoProductoRelacionado();
             // $this->saveProductosRelacionados();
