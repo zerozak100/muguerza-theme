@@ -15,40 +15,22 @@ class Drupal_Importer {
     }
 
     public function init() {
+        if ( ! isset( $_GET['import_type'] ) ) {
+            return;
+        }
+
+        if ( $_GET['import_type'] === 'news' ) {
+            $importer = new \MG_Noticias_Import();
+        } else {
+            $importer = new \MG_Productos_Import();
+        }
+        
         if ( isset( $_POST['do_import'] ) && $_POST['do_import'] === '1' ) {
-            // $data = $this->getData();
-
-            $cat_id = '215';
-
-            if ( isset( $_POST['cat_id'] ) && $_POST['cat_id'] ) {
-                $cat_id = $_POST['cat_id'];
-            }
-
-            $this->import( $this->getData(), $cat_id );
+            $importer->import( $this->getData() );
         }
 
         if ( isset( $_GET['delete_imported_data'] ) && $_GET['delete_imported_data'] === '1' ) {
-            $this->deleteAllData();
-        }
-    }
-
-    public function import( $data, $product_cat = '215' ) { // 212
-        // $data = $this->getData();
-        // $data = array_slice( $data, 0, 1 );
-        foreach ( $data as $drupalProduct ) {
-            $product = wp_insert_post( array(
-                'post_title' => $drupalProduct['title'],
-                'post_type' => 'product',
-                'tax_input' => array(
-                    'product_cat' => array( $product_cat ), // especialidades
-                ),
-                'meta_input' => array(
-                    'drupal_product_data' => $drupalProduct,
-                    'from_drupal'         => '1', 
-                    // 'drupal_product_data' => $this->object_to_array($drupalProduct),
-                ),
-            ) );
-            // update_field( 'ubicacion', 212, $product->ID );
+            $importer->deleteAllData();
         }
     }
 
@@ -78,42 +60,6 @@ class Drupal_Importer {
         $data = file_get_contents( $_FILES['data']['tmp_name'] );
         return json_decode( $data, true );
         // return json_decode( file_get_contents( __DIR__ . '/data.json' ) );
-    }
-
-    public function deleteAllData() {
-        $args = array(
-            'post_type' => 'product',
-            'post_status' => 'any',
-            'meta_query' => array(
-                'relation' => 'AND',
-                array(
-                    'key' => 'from_drupal',
-                    'value' => '1',
-                    'compare' => '=',
-                ),
-            ),
-            'posts_per_page' => -1,
-        );
-        $posts = get_posts( $args );
-        foreach ($posts as $post) {
-            wp_delete_post( $post->ID );
-        }
-    }
-
-    public function object_to_array($obj) {
-        //only process if it's an object or array being passed to the function
-        if(is_object($obj) || is_array($obj)) {
-            $ret = (array) $obj;
-            foreach($ret as &$item) {
-                //recursively process EACH element regardless of type
-                $item = $this->object_to_array($item);
-            }
-            return $ret;
-        }
-        //otherwise (i.e. for scalar values) return without modification
-        else {
-            return $obj;
-        }
     }
 }
 
