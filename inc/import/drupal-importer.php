@@ -15,11 +15,11 @@ class Drupal_Importer {
     }
 
     public function init() {
-        if ( ! isset( $_GET['import_type'] ) ) {
+        if ( ! isset( $_REQUEST['import_type'] ) ) {
             return;
         }
 
-        if ( $_GET['import_type'] === 'news' ) {
+        if ( $_REQUEST['import_type'] === 'news' ) {
             $importer = new \MG_Noticias_Import();
         } else {
             $importer = new \MG_Productos_Import();
@@ -47,6 +47,10 @@ class Drupal_Importer {
                 <label for="">ID de categoria a asignar</label>
                 <input type="text" name="cat_id" placeholder="215">
             </div>
+            <select name="import_type" id="">
+                <option value="products">Productos</option>
+                <option value="news">Noticias</option>
+            </select>
             <button type="submit">Importar</button>
         </form>
         <form action="" method="GET">
