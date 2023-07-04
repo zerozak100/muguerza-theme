@@ -10,6 +10,7 @@ class MG_Productos_Import {
         foreach ( $data as $drupalProduct ) {
             $postId = wp_insert_post( array(
                 'post_title' => $drupalProduct['title'],
+                'post_status' => 'publish',
                 'post_type' => 'product',
                 'tax_input' => array(
                     'product_cat' => array( '215' ), // especialidades
@@ -23,7 +24,6 @@ class MG_Productos_Import {
                     // 'dp_product_data' => $this->object_to_array($drupalProduct),
                 ),
             ) );
-
             $this->postId = $postId;
             $this->data = $drupalProduct;
 
@@ -54,17 +54,24 @@ class MG_Productos_Import {
         foreach ( $instrucciones as $instruccion ) {
             $instruccionesSave[] = array( 'texto' => $instruccion );
         }
-        $this->uf( 'hero_instrucciones', $instruccionesSave );
+        // $this->uf( 'hero_instrucciones', $instruccionesSave );
 
         /**
          * Texto
          */
         $text = $this->data['field_texto_sobre_el_boton'];
-        $this->uf( 'hero_texto', $text );
+        // $this->uf( 'hero_texto', $text );
+
+        $fieldKey = $this->gfk( 'hero' );
+        $data = array(
+            'instrucciones' => $instruccionesSave,
+            'texto'         => $text,
+        );
+
+        $this->uf( $fieldKey, $data );
     }
 
     public function saveDescripcion() {
-
         if ( ! isset( $this->data['field_description'] ) || empty( $this->data['field_description'] ) ) {
             return;
         }
@@ -75,20 +82,33 @@ class MG_Productos_Import {
          * Descripción texto
          */
         $text = $fieldDescription['field_descripcion'];
-        $this->uf( 'descripcion_texto', $text );
+        // $this->uf( 'descripcion_texto', $text );
 
         /**
          * Descripción imagen
          */
         $imageUrl = $fieldDescription['field_imagen'];
         $imageId = media_sideload_image( $imageUrl, 0, null, 'id' );
-        $this->uf( 'descripcion_imagen', $imageId );
+        // $this->uf( 'descripcion_imagen', $imageId );
 
         /**
          * Descripción título
          */
         $titulo = $fieldDescription['field_titulo'];
-        $this->uf( 'descripcion_titulo', $titulo );
+        // $this->uf( 'descripcion_titulo', $titulo );
+
+        // $fieldKey = $this->gfk( 'descripcion' );
+        $data = array(
+            'texto' => $text,
+            'imagen' => $imageId,
+            'titulo' => $titulo,
+        );
+
+        /**
+         * Descripción group
+         */
+        // update_field( 'field_649b72c159e15', $data, $this->postId );
+        $this->uf( 'field_649b72c159e15', $data );
     }
 
     public function saveUnidades() {
@@ -129,13 +149,25 @@ class MG_Productos_Import {
          * Procedimientos texto
          */
         $texto = $fieldProcedimientos['field_full_description'];
-        $this->uf( 'procedimientos_texto', $texto );
+        // $this->uf( 'procedimientos_texto', $texto );
 
         /**
          * Procedimientos titulo
          */
         $titulo = $fieldProcedimientos['field_titulo'];
-        $this->uf( 'procedimientos_titulo', $titulo );
+        // $this->uf( 'procedimientos_titulo', $titulo );
+
+
+        // $fieldKey = $this->gfk( 'procedimientos' );
+        $data = array(
+            'texto' => $texto,
+            'titulo' => $titulo,
+        );
+
+        /**
+         * procedimientos group
+         */
+        $this->uf( 'field_649f5ce062cf3', $data );
     }
 
     // TODO especialidad
@@ -148,14 +180,18 @@ class MG_Productos_Import {
         $fieldOnlineResults = $this->data['field_online_result'];
 
         $informacionGeneralSave = array();
-        foreach ( $fieldOnlineResults as $result ) {
+        foreach ( $fieldOnlineResults as $nid => $result ) {
             $data = array(
                 'titulo' => $result['field_titulo'],
                 'descripcion' => $result['field_descripcion'],
             );
             
-            if ( isset( $drupalUnidad['nid'] ) && $drupalUnidad['nid'] ) {
-                $unidadIdWp = $this->getUnidadIdFromWp( $drupalUnidad['nid'] );
+            if ( isset( $result['field_ubicacion'] ) && ! empty( $result['field_ubicacion'] ) ) {
+                // $field_ubicacion = $result['field_ubicacion'];
+                // reset( $field_ubicacion );
+                // $field_ubicacion = $field_ubicacion[0];
+                $ubicacion = array_shift(array_values($result['field_ubicacion']));
+                $unidadIdWp = $this->getUnidadIdFromWp( $ubicacion['nid'] );
                 $productCatId = get_field( 'ubicacion', $unidadIdWp );
                 if ( $productCatId ) {
                     $data['ubicacion'] = $productCatId;
@@ -165,7 +201,16 @@ class MG_Productos_Import {
             $informacionGeneralSave[] = $data;
         }
 
-        $this->uf( 'informacion_general_hospitales', $informacionGeneralSave );
+        // $fieldKey = $this->gfk( 'informacion_general' ); // group
+        $data = array(
+            'hospitales' => $informacionGeneralSave,
+        );
+
+        /**
+         * informacion_general group
+         */
+        $this->uf( 'field_649d9e521ffe0', $data );
+        // $this->uf( 'informacion_general_hospitales', $informacionGeneralSave );
     }
 
     public function saveInfoProductoRelacionado() {
@@ -177,14 +222,26 @@ class MG_Productos_Import {
         /**
          * Icono
          */
-        $icono = $this->data['field_icono'];
-        $this->uf( 'informacion_sobre_producto_relacionado_icono', $icono );
+        $imageUrl = $this->data['field_icono'];
+        $imageId = media_sideload_image( $imageUrl, 0, null, 'id' );
+        // $this->uf( 'informacion_sobre_producto_relacionado_icono', $imageId );
 
         /**
          * Descripción
          */
         $descripcion = $this->data['field_small_description'];
-        $this->uf( 'informacion_sobre_producto_relacionado_descripcion', $descripcion );
+        // $this->uf( 'informacion_sobre_producto_relacionado_descripcion', $descripcion );
+
+        // $fieldKey = $this->gfk( 'informacion_sobre_producto_relacionado' ); // group
+        $data = array(
+            'descripcion' => $descripcion,
+            'icono'       => $imageId,
+        );
+
+        /**
+         * informacion_sobre_producto_relacionado group
+         */
+        $this->uf( 'field_649b753ed8559', $data );
     }
 
     // TODO
@@ -220,6 +277,13 @@ class MG_Productos_Import {
 
     private function uf( $key, $value ) {
         update_field( $key, $value, $this->postId );
+    }
+
+
+    private function gfk( $key ) {
+        $field = acf_maybe_get_field( $key, $this->postId, false );
+
+        return $field['key'];
     }
 
     private function loadDrupalWpUnidadesMap() {
