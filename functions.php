@@ -106,8 +106,6 @@ include_once 'inc/shortcodes.php';
 include_once 'inc/mg-helpers.php';
 include_once 'inc/mg-template-functions.php';
 include_once 'inc/mg-template-hooks.php';
-include_once 'inc/import/import-noticias.php';
-include_once 'inc/import/import-productos.php';
 include_once 'inc/import/drupal-importer.php';
 
 include_once 'custom-functions.php';

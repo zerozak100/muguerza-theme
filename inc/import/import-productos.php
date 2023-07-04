@@ -33,8 +33,31 @@ class MG_Productos_Import {
             $this->saveProcedimientos();
             $this->saveInformacionGeneral();
             $this->saveInfoProductoRelacionado();
-            // $this->saveProductosRelacionados();
-            // update_field( 'ubicacion', 212, $product->ID );
+        }
+    }
+
+    public function importProductosRelacionados( array $data ) {
+        foreach ( $data as $drupalProduct ) {
+            $id = $drupalProduct['product_id'];
+            $posts = get_posts( array(
+                'post_type' => 'product',
+                'posts_per_page' => 1,
+                'meta_query' => array(
+                    'AND',
+                    array(
+                        'key' => 'drupal_product_id',
+                        'value' => $id,
+                    ),
+                ),
+            ) );
+
+            if ( ! empty( $posts ) ) {
+                $wpProduct = $posts[0];
+                $this->postId = $wpProduct->ID;
+                $this->data = $drupalProduct;
+
+                $this->saveProductosRelacionados();
+            }
         }
     }
 
@@ -165,12 +188,18 @@ class MG_Productos_Import {
         $data = array(
             'texto' => $texto,
             'titulo' => $titulo,
+            'mostrar' => 1,
         );
 
         /**
          * procedimientos group
          */
-        $this->uf( 'field_649f5ce062cf3', $data );
+        // $this->uf( 'field_649f5ce062cf3', $data );
+
+        /**
+         * padecimientos group
+         */
+        $this->uf( 'field_649d9cb729107', $data );
     }
 
     // TODO especialidad
@@ -204,9 +233,12 @@ class MG_Productos_Import {
             $informacionGeneralSave[] = $data;
         }
 
+        $informacionGeneralEspecialidad = $this->data['field_mensaje_productos_disponib'];
+
         // $fieldKey = $this->gfk( 'informacion_general' ); // group
         $data = array(
             'hospitales' => $informacionGeneralSave,
+            'especialidad' => $informacionGeneralEspecialidad,
         );
 
         /**
@@ -256,24 +288,33 @@ class MG_Productos_Import {
 
         $upsellsSave = array();
         foreach ( $fieldServiciosRelacionados as $drupalProducto ) {
-            get_posts( array(
+            $ids = get_posts( array(
                 'post_type' => 'product',
                 'post_status' => 'any',
-                'post_title' => $drupalProducto['title'],
+                'fields' => 'ids',
+                // 'post_title' => $drupalProducto['title'],
                 'meta_query' => array(
                     'relation' => 'AND',
                     array(
                         'key' => 'from_drupal',
                         'value' => '1',
-                        'compare' => '=', // use drupal_product_id
+                        'compare' => '=',
+                    ),
+                    array(
+                        'key' => 'drupal_product_id',
+                        'value' => $drupalProducto['product_id'],
                     ),
                 ),
-                'posts_per_page' => -1,
+                'posts_per_page' => 1,
             ) );
+
+            if ( ! empty( $ids ) ) {
+                $upsellsSave[] = $ids[0];
+            }
         }
 
         $product = new WC_Product( $this->postId );
-        $product->$product->set_upsell_ids();
+        $product->set_upsell_ids( $upsellsSave );
     }
 
     ////

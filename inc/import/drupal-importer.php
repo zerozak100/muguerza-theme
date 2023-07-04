@@ -10,26 +10,35 @@
 class Drupal_Importer {
 
     public function __construct() {
+        include_once 'import-noticias.php';
+        include_once 'import-productos.php';
+
         add_action( 'template_redirect', array( $this, 'init' ) );
         add_action( 'wp_footer', array( $this, 'import_form' ) );
     }
 
     public function init() {
-        if ( ! isset( $_REQUEST['import_type'] ) ) {
-            return;
-        }
+        $importer = new \MG_Productos_Import();
 
-        if ( $_REQUEST['import_type'] === 'news' ) {
-            $importer = new \MG_Noticias_Import();
-        } else {
-            $importer = new \MG_Productos_Import();
+        if ( isset( $_REQUEST['import_type'] ) ) {
+
+            $type = $_REQUEST['import_type'];
+
+            if ( 'news' === $type ) {
+                $importer = new \MG_Noticias_Import();
+            }
+
+            if ( 'productos_relacionados' === $type ) {
+                $importer->importProductosRelacionados( $this->getData() );
+                return;
+            }
         }
         
         if ( isset( $_POST['do_import'] ) && $_POST['do_import'] === '1' ) {
             $importer->import( $this->getData() );
         }
 
-        if ( isset( $_GET['delete_imported_data'] ) && $_GET['delete_imported_data'] === '1' ) {
+        if ( isset( $_POST['delete_imported_data'] ) && $_POST['delete_imported_data'] === '1' ) {
             $importer->deleteAllData();
         }
     }
@@ -50,10 +59,11 @@ class Drupal_Importer {
             <select name="import_type" id="">
                 <option value="products">Productos</option>
                 <option value="news">Noticias</option>
+                <option value="productos_relacionados">Productos relacionados</option>
             </select>
             <button type="submit">Importar</button>
         </form>
-        <form action="" method="GET">
+        <form action="" method="POST">
             <input type="hidden" name="delete_imported_data" value="1">
             <button type="submit">Borrar datos importados</button>
         </form>
