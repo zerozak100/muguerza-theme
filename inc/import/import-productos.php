@@ -62,13 +62,16 @@ class MG_Productos_Import {
         $text = $this->data['field_texto_sobre_el_boton'];
         // $this->uf( 'hero_texto', $text );
 
-        $fieldKey = $this->gfk( 'hero' );
+        // $fieldKey = $this->gfk( 'hero' );
         $data = array(
             'instrucciones' => $instruccionesSave,
             'texto'         => $text,
         );
 
-        $this->uf( $fieldKey, $data );
+        /**
+         * Hero group
+         */
+        $this->uf( 'field_649b4508fbabd', $data );
     }
 
     public function saveDescripcion() {
