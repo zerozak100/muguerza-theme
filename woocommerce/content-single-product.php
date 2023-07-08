@@ -87,7 +87,7 @@ foreach ($terms as $term) {
 				?>
 			</div>
 			<div class="col-sec1 formulario">
-				<?php echo do_shortcode( ' [contact-form-7 id="53120231093" title="Formulario de contacto 1"] ' ); ?>
+				<?php echo do_shortcode( ' [contact-form-7 id="53120234051" title="Formulario especialidades"] ' ); ?>
 			</div>
 		</div>
 	</div>
@@ -97,33 +97,52 @@ foreach ($terms as $term) {
 			//echo $descripcion['mostrar'];
 			if ($descripcion != null) {
 				if ($descripcion['mostrar'] == true) {
-					echo '<div class="button">
-						<a href="#descripcion">Descripcion</a>
-					</div>';
+					if ($descripcion['titulo'] == null) {
+						echo '<div class="button">
+							<a href="#descripcion">Descripcion</a>
+						</div>';
+					}else {
+						echo '<div class="button">
+							<a href="#'. sanitize_title($descripcion['titulo']) .'">' . $descripcion['titulo'] . '</a>
+						</div>';
+					}
+					
 				}
 			}
 
 			if ($padecimientos != null) {
 				if ($padecimientos['mostrar'] == true) {
-					echo '<div class="button">
-						<a href="#padecimientos">Padecimientos</a>
-					</div>';
+					if ($padecimientos['titulo'] == null) {
+						echo '<div class="button">
+							<a href="#padecimientos">Padecimientos</a>
+						</div>';
+					}else {
+						echo '<div class="button">
+							<a href="#'. sanitize_title($padecimientos['titulo']) .'">' . $padecimientos['titulo'] . '</a>
+						</div>';
+					}
 				}
 			}
 
 			if ($procedimientos != null) {
 				if ($procedimientos['mostrar'] == true) {
-					echo '<div class="button">
-						<a href="#procedimientos">Procedimientos</a>
-					</div>';
+					if ($procedimientos['titulo'] == null) {
+						echo '<div class="button">
+							<a href="#procedimientos">Procedimientos</a>
+						</div>';
+					}else {
+						echo '<div class="button">
+							<a href="#'. sanitize_title($procedimientos['titulo']) .'">' . $procedimientos['titulo'] . '</a>
+						</div>';
+					}	
 				}
 			}
 
 			if ($informacion_general != null) {
 				if ($informacion_general['mostrar'] == true) {
-					echo '<div class="button">
-						<a href="#informacion-general">Informacion general</a>
-					</div>';
+						echo '<div class="button">
+							<a href="#informacion-general">Informacion general</a>
+						</div>';
 				}
 			}
 
@@ -131,7 +150,7 @@ foreach ($terms as $term) {
 				foreach( $seccion_genericas as $seccion_generica ) {
 					if ($seccion_generica['mostrar'] == true) {
 						echo '<div class="button">
-							<a href="#' . $seccion_generica['identificador'] . '">'. $seccion_generica['titulo'] .'</a>
+							<a href="#' . sanitize_title($seccion_generica['titulo']) . '">'. $seccion_generica['titulo'] .'</a>
 						</div>';
 					}
 				}
@@ -144,10 +163,11 @@ foreach ($terms as $term) {
 	<?php
 		if ($descripcion != null) {
 			if ($descripcion['mostrar'] == true) {
+				if ($descripcion['titulo'] == null) {
 	?>
-	<div id="descripcion">
+	<div id="descripcion" class="seccion-des">
 		<div class="info-descripcion">
-			<h2><?php echo $descripcion['titulo']; ?></h2>
+			<h2>Descripcion</h2>
 			<?php echo $descripcion['texto']; ?>
 			
 		</div>
@@ -155,28 +175,69 @@ foreach ($terms as $term) {
 			<?php echo wp_get_attachment_image($descripcion['imagen'], 'full'); ?>
 		</div>
 	</div>
-	<?php }} ?>
+	<?php 
+				}else{
+	?>
+					<div id="<?php echo sanitize_title($descripcion['titulo']);?>" class="seccion-des">
+						<div class="info-descripcion">
+							<h2><?php echo $descripcion['titulo']; ?></h2>
+							<?php echo $descripcion['texto']; ?>
+							
+						</div>
+						<div class="imagen-descripcion">
+							<?php echo wp_get_attachment_image($descripcion['imagen'], 'full'); ?>
+						</div>
+					</div>
+	<?php
+				}
+			}
+		} 
+	?>
 
 	<div class="contect-seccion">
 		<?php 
 			if ($padecimientos != null) {
 				if ($padecimientos['mostrar'] == true) {
+					if ($padecimientos['titulo'] == null) {
 		?>
 		<div id="padecimientos" class="seccion">
-			<h2><?php echo $padecimientos['titulo']; ?></h2>
+			<h2>Padecimientos</h2>
 			<?php echo $padecimientos['texto']; ?>
 		</div>
-		<?php }} ?>
+		<?php 
+					}else{
+		?>
+						<div id="<?php echo sanitize_title($padecimientos['titulo']);?>" class="seccion">
+							<h2><?php echo $padecimientos['titulo']; ?></h2>
+							<?php echo $padecimientos['texto']; ?>
+						</div>
+		<?php
+					}
+				}
+			} 
+		?>
 
 		<?php 
 			if ($procedimientos != null) {
 				if ($procedimientos['mostrar'] == true) {
+					if ($procedimientos['titulo'] == null) {
 		?>
 		<div id="procedimientos" class="seccion">
-			<h2><?php echo $procedimientos['titulo']; ?></h2>
+			<h2>Procedimientos</h2>
 			<?php echo $procedimientos['texto']; ?>
 		</div>
-		<?php }} ?>
+		<?php 
+					}else{
+		?>
+						<div id="<?php echo sanitize_title($procedimientos['titulo']);?>" class="seccion">
+							<h2><?php echo $procedimientos['titulo']; ?></h2>
+							<?php echo $procedimientos['texto']; ?>
+						</div>
+		<?php
+					}
+				}
+			} 
+		?>
 
 		<?php
 			if ($informacion_general != null) {
@@ -195,12 +256,8 @@ foreach ($terms as $term) {
 						<?php
 							$rows = $informacion_general['hospitales'];
 							foreach( $rows as $row ) {
-								//echo $row['ubicacion'][0];
 								$term = get_term_by( 'id', $row['ubicacion'][0], 'product_cat' );
 								echo '<option value="' . $term->slug . '">' . $term->name . '</option>';
-								//echo '<option ' . $term->slug . '>' . $term->name .'</option';
-								//echo ($row['titulo']);
-								//echo ($row['descripcion']);
 							}
 						?>
 					</select>
@@ -211,19 +268,14 @@ foreach ($terms as $term) {
 					if ($informacion_general['especialidad'] != null) {
 						echo $informacion_general['especialidad']; 
 					}
-					
 				?>
 			</div>
 			<?php
 				$rows = $informacion_general['hospitales'];
 				if($rows != null){
 					foreach( $rows as $row ) {
-						//echo $row['ubicacion'][0];
 						$term = get_term_by( 'id', $row['ubicacion'][0], 'product_cat' );
 						echo '<div id="' . $term->slug . '" class="myDiv">' .  '<h2>' . $row['titulo'] . '</h2>' . $row['descripcion'] . '</div>';
-						//echo '<option ' . $term->slug . '>' . $term->name .'</option';
-						//echo ($row['titulo']);
-						//echo ($row['descripcion']);
 					}
 				}
 				
