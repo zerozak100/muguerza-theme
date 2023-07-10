@@ -71,6 +71,21 @@ function hello_elementor_child_enqueue_scripts() {
 		[],
 		'6.4.0',
 	);
+
+	if ( is_product() ) {
+		wp_enqueue_style(
+			'micromodal',
+			get_stylesheet_directory_uri() . '/css/micromodal.css',
+			[],
+			'1.0.0',
+		);
+		wp_enqueue_script(
+			'micromodal',
+			'https://unpkg.com/micromodal/dist/micromodal.min.js',
+			[],
+			'1.0.0'
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'hello_elementor_child_enqueue_scripts', 20 );
 
@@ -101,6 +116,7 @@ include_once 'inc/class-mg-user.php';
 include_once 'inc/class-mg-location.php';
 include_once 'inc/class-mg-locations.php';
 include_once 'inc/class-mg-ajax.php';
+include_once 'inc/class-mg-unidad.php';
 
 include_once 'inc/shortcodes.php';
 include_once 'inc/mg-helpers.php';
