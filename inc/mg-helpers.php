@@ -96,3 +96,35 @@ function d( $var ) {
 function dd( $var ) {
 	d( $var );
 }
+
+function mg_get_unidad_from_product_cat_id( $product_cat_id ) {
+	$posts = get_posts( array(
+		'post_type' => 'unidad',
+		'posts_per_page' => 1,
+		// 'fields' => 'ids',
+		'meta_query' => array(
+			'AND',
+			array(
+				'key' => 'ubicacion',
+				'value' => $product_cat_id,
+			),
+		),
+	) );
+
+	if ( ! empty( $posts ) ) {
+		$unidad = $posts[0];
+
+		return new MG_Unidad( $unidad->ID );
+	}
+
+	return false;
+}
+
+function mg_get_unindad_by( $type, $value ) {
+	if ( 'product_cat' === $type ) {
+		return mg_get_unidad_from_product_cat_id( $value );
+	}
+
+	return false;
+}
+
