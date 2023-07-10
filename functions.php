@@ -108,7 +108,7 @@ include_once 'inc/mg-template-functions.php';
 include_once 'inc/mg-template-hooks.php';
 include_once 'inc/import/drupal-importer.php';
 
-include_once 'custom-functions.php';
+include_once __DIR__ . '/custom-functions.php';
 
 // TODO https://www.google.com/search?q=woocommerce+filters+combinations+not+show&oq=woocommerce+filters+combinations+not+show&aqs=chrome..69i57j33i160l4.12020j0j7&sourceid=chrome&ie=UTF-8
 // https://stackoverflow.com/questions/41721296/woocommerce-variations-not-filtering-out-invalid-combinations
