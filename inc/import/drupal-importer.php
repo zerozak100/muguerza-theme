@@ -12,6 +12,7 @@ class Drupal_Importer {
     public function __construct() {
         include_once 'import-noticias.php';
         include_once 'import-productos.php';
+        include_once 'import-medicos.php';
 
         add_action( 'template_redirect', array( $this, 'init' ) );
         add_action( 'wp_footer', array( $this, 'import_form' ) );
@@ -26,6 +27,10 @@ class Drupal_Importer {
 
             if ( 'news' === $type ) {
                 $importer = new \MG_Noticias_Import();
+            }
+
+            if ( 'medicos' === $type ) {
+                $importer = new \MG_Medicos_Import();
             }
 
             if ( 'productos_relacionados' === $type ) {
@@ -59,6 +64,7 @@ class Drupal_Importer {
             <select name="import_type" id="">
                 <option value="products">Productos</option>
                 <option value="news">Noticias</option>
+                <option value="medicos">Médicos</option>
                 <option value="productos_relacionados">Productos relacionados</option>
             </select>
             <button type="submit">Importar</button>
