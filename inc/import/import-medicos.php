@@ -115,9 +115,6 @@ class MG_Medicos_Import {
     }
 
     public function saveProfilePic() {
-        /**
-         * Hero image
-         */
         $imageUrl = $this->data['field_image'];
         $image_id = media_sideload_image( $imageUrl, 0, null, 'id' );
         set_post_thumbnail( $this->postId, $image_id );
