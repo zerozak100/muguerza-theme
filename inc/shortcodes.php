@@ -63,6 +63,19 @@ function hospitales(){
 		if($ubicaciones[0] == ' ' || $ubicaciones == ' ' || $ubicaciones == null){
 			$ubicaciones = array(); 
 			$mypages = get_pages(array('meta_key' => 'ubicacion', 'meta_value' => '' , 'sort_order' => 'desc' ));
+			$posts = get_posts( array(
+                'post_type' => 'page',
+                'posts_per_page' => -1,
+                'meta_query' => array(
+                    'AND',
+                    array(
+                        'key' => 'ubicacion',
+                        'value' => '',
+                        'compare' => '!='
+                    ),
+                ),
+            ) );
+            $mypages = $posts;
 		}else {
 			$mypages = get_pages(array('meta_key' => 'ubicacion', 'meta_value' => $ubicaciones , 'sort_order' => 'desc' ));
 		}
