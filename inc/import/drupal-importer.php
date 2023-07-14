@@ -71,6 +71,12 @@ class Drupal_Importer {
         </form>
         <form action="" method="POST">
             <input type="hidden" name="delete_imported_data" value="1">
+            <select name="import_type" id="">
+                <option value="products">Productos</option>
+                <option value="news">Noticias</option>
+                <option value="medicos">Médicos</option>
+                <option value="productos_relacionados">Productos relacionados</option>
+            </select>
             <button type="submit">Borrar datos importados</button>
         </form>
         <?php
