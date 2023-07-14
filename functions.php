@@ -72,6 +72,8 @@ function hello_elementor_child_enqueue_scripts() {
 		'6.4.0',
 	);
 
+	wp_enqueue_script( 'wc-cart-fragments' );
+
 	if ( is_product() ) {
 		wp_enqueue_style(
 			'micromodal',
