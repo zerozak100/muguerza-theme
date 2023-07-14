@@ -101,9 +101,9 @@ class MG_Medicos_Import {
     }
 
     public function saveSubespecialidades() {
-        if ( isset( $this->data['field_subespecialidades'] ) && ! empty( $this->data['field_subespecialidades'] ) ) {
+        if ( isset( $this->data['field_subespecialidad'] ) && ! empty( $this->data['field_subespecialidad'] ) ) {
             $subespecialidadeIds = array();
-            foreach( $this->data['field_subespecialidades'] as $id => $subespecialidad ) {
+            foreach( $this->data['field_subespecialidad'] as $id => $subespecialidad ) {
                 $name = $subespecialidad['name'];
                 $term_id = $this->getSubespecialidadTermIdFromWp( $name );
                 if ( $term_id ) {
@@ -136,7 +136,7 @@ class MG_Medicos_Import {
     }
 
     private function getEspecialidadTermIdFromWp( $name ) {
-        $term = get_term_by( 'name', $name, 'especialidad' );
+        $term = get_term_by( 'name', $name, 'especialidades' );
         if ( $term ) {
             return $term->term_id;
         }
@@ -145,7 +145,7 @@ class MG_Medicos_Import {
     }
 
     private function getSubespecialidadTermIdFromWp( $name ) {
-        $term = get_term_by( 'name', $name, 'subespecialidad' );
+        $term = get_term_by( 'name', $name, 'subespecialidades' );
         if ( $term ) {
             return $term->term_id;
         }
