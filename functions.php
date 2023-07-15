@@ -180,3 +180,19 @@ function storefront_cart_link_fragment( $fragments ) {
 }
 add_filter( 'woocommerce_add_to_cart_fragments', 'storefront_cart_link_fragment' );
 
+
+
+function mg_custom_override_checkout_fields( $fields ) {
+	unset( $fields['billing']['billing_acuityscheduling_title'] );
+    unset( $fields['billing']['billing_acuityscheduling_date'] );
+    unset( $fields['billing']['billing_acuityscheduling_time'] );
+    unset( $fields['billing']['acuityscheduling_date_aux'] );
+    unset( $fields['billing']['acuityscheduling_date_select'] );
+    unset( $fields['billing']['acuityscheduling_time_aux'] );
+    unset( $fields['billing']['acuityscheduling_time_select'] );
+    unset( $fields['billing']['acuityscheduling_calendar_aux'] );
+    unset( $fields['billing']['acuityscheduling_appointment_aux'] );
+
+	return $fields;
+}
+add_filter( 'woocommerce_checkout_fields' , 'mg_custom_override_checkout_fields' );
