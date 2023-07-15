@@ -2,11 +2,16 @@
 
 class MG_Medicos_Import {
 
+    use MG_Import_Helpers;
+
     public $postId;
     public $data;
     private $unidadesMap;
 
     public function import( array $data ) {
+
+        $data = $this->getChunk( $data, $_POST['chunk'] ?: 1 );
+
         foreach ( $data as $dMedico ) {
             $postId = wp_insert_post( array(
                 'post_title' => $dMedico['title'],

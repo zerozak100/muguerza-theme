@@ -10,6 +10,7 @@
 class Drupal_Importer {
 
     public function __construct() {
+        include_once 'import-helpers.php';
         include_once 'import-noticias.php';
         include_once 'import-productos.php';
         include_once 'import-medicos.php';
@@ -67,8 +68,12 @@ class Drupal_Importer {
                 <option value="medicos">Médicos</option>
                 <option value="productos_relacionados">Productos relacionados</option>
             </select>
+            <input type="number" name="chunk" placeholder="chunk">
             <button type="submit">Importar</button>
         </form>
+        <br>
+        <hr>
+        <br>
         <form action="" method="POST">
             <input type="hidden" name="delete_imported_data" value="1">
             <select name="import_type" id="">
