@@ -15,7 +15,7 @@ class MG_Productos_Import {
                 'post_type' => 'product',
                 'tax_input' => array(
                     // 'product_cat' => array( '215' ), // especialidades
-                    'producto_tipo' => array( '561' ), // especialidad
+                    // 'producto_tipo' => array( '561' ), // especialidad
                 ),
                 'meta_input' => array(
                     'dp_product_data'   => $drupalProduct,
@@ -32,6 +32,7 @@ class MG_Productos_Import {
 
             // $this->uf( 'vendible', false );
             // $this->uf( 'agendable', false );
+            $this->uf( 'producto_tipo', 561 ); // especialidad producto_tipo tax term
 
             $this->saveHero();
             $this->saveDescripcion();
