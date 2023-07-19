@@ -5,7 +5,7 @@ trait MG_Import_Helpers {
     public function getChunk( array $data, $chunk = 1 ) {
 
         $offset = 0;
-        $length = 200;
+        $length = 150;
 
         if ( $chunk > 1 ) {
             $offset = $length * ( $chunk - 1 ) ;
