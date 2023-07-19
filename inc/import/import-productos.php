@@ -1,5 +1,6 @@
 <?php
 
+// Importar unicamente especialidades
 class MG_Productos_Import {
 
     public $postId;
@@ -13,19 +14,24 @@ class MG_Productos_Import {
                 'post_status' => 'publish',
                 'post_type' => 'product',
                 'tax_input' => array(
-                    'product_cat' => array( '215' ), // especialidades
+                    // 'product_cat' => array( '215' ), // especialidades
+                    'producto_tipo' => array( '561' ), // especialidad
                 ),
                 'meta_input' => array(
                     'dp_product_data'   => $drupalProduct,
                     'from_drupal'       => '1', 
-                    'can_be_sold'       => '0',
-                    'is_especialidad'   => '1',
+                    // 'can_be_sold'       => '0',
+                    // 'is_especialidad'   => '1',
                     'drupal_product_id' => $drupalProduct['product_id'],
                     // 'dp_product_data' => $this->object_to_array($drupalProduct),
                 ),
             ) );
+
             $this->postId = $postId;
             $this->data = $drupalProduct;
+
+            // $this->uf( 'vendible', false );
+            // $this->uf( 'agendable', false );
 
             $this->saveHero();
             $this->saveDescripcion();
