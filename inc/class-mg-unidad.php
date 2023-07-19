@@ -22,16 +22,18 @@ class MG_Unidad {
     public function set_destinatarios() {
         if ( isset( $this->acf_fields['destinatarios_formularios'] ) ) {
             foreach ( $this->acf_fields['destinatarios_formularios'] as $form_type => $destinatarios ) {
-                $this->destinatarios_by_form[$form_type] = array_column( $destinatarios, 'email' );
+                if ( ! empty( $destinatarios ) ) {
+                    $this->destinatarios_by_form[ $form_type ] = array_column( $destinatarios, 'email' );
+                }
             }
         }
     }
 
     public function has_destinatarios( $form_type ) {
         if (
-            isset( $this->destinatarios_by_form[$form_type] ) 
-            && is_array( $this->destinatarios_by_form[$form_type] )
-            && ! empty( $this->destinatarios_by_form[$form_type] )
+            isset( $this->destinatarios_by_form[ $form_type ] ) 
+            && is_array( $this->destinatarios_by_form[ $form_type ] )
+            && ! empty( $this->destinatarios_by_form[ $form_type ] )
         ) {
             return true;
         }
@@ -40,8 +42,8 @@ class MG_Unidad {
     }
 
     public function get_destinatarios( $form_type ) {
-        if ( isset( $this->destinatarios_by_form[$form_type] ) ) {
-            return $this->destinatarios_by_form[$form_type];
+        if ( isset( $this->destinatarios_by_form[ $form_type ] ) ) {
+            return $this->destinatarios_by_form[ $form_type ];
         }
 
         return array();
