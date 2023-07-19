@@ -19,6 +19,8 @@ defined( 'ABSPATH' ) || exit;
 
 global $product;
 
+$mg_product = new MG_Product( $product );
+
 /**
  * Hook: woocommerce_before_single_product.
  *
@@ -31,22 +33,13 @@ if ( post_password_required() ) {
 	return;
 }
 
-$terms = get_the_terms( $product->ID, 'product_cat' );
-foreach ($terms as $term) {
-	//echo var_dump($term);
-    $product_cat_id = $term->slug;
-	if ($product_cat_id == 'especialidades' ) {
-		break;
-	}
-    //
-}
+$hero 				 = get_field( 'hero' );
+$descripcion 		 = get_field( 'descripcion' );
+$padecimientos 		 = get_field( 'padecimientos' );
+$procedimientos 	 = get_field( 'procedimientos' );
+$informacion_general = get_field( 'informacion_general' );
+$seccion_genericas 	 = get_field( 'seccion_generica' );
 
-	$hero = get_field('hero');
-	$descripcion = get_field('descripcion');
-	$padecimientos = get_field('padecimientos');
-	$procedimientos = get_field('procedimientos');
-	$informacion_general = get_field('informacion_general');
-	$seccion_genericas = get_field('seccion_generica');
 ?>
 <div id="product-<?php the_ID(); ?>" <?php wc_product_class( '', $product ); ?>>
 	<?php $image = wp_get_attachment_image_src( get_post_thumbnail_id( $product->ID ), 'single-post-thumbnail' );?>
@@ -56,7 +49,7 @@ foreach ($terms as $term) {
 			<div class="col-sec1 info-producto">
 				<h1><?php echo $product->name; ?></h1>
 				<?php 
-					if ($product_cat_id != 'especialidades') {
+					if ( $mg_product->is_vendible() ) {
 						echo '<p class="price">' . $product->get_price_html() . '</p>';
 					}
 				?>
@@ -80,7 +73,7 @@ foreach ($terms as $term) {
 					} 
 				?></p>
 				<?php 
-					if ($product_cat_id != 'especialidades') {
+					if ( $mg_product->is_vendible() ) {
 						echo '<p>Cantidad</p>';
 						do_action('woocommerce_simple_add_to_cart');
 					}
