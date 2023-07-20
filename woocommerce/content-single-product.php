@@ -70,6 +70,10 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
 
 				<p><?php the_field( 'hero_texto' ) ?></p>
 
+				<?php if ( $mg_product->is_agendable() ) : ?>
+					<?php MG_Booking_Form::getInstance()->showOpenButton(); ?>
+				<?php endif; ?>
+
 				<?php 
 					if ( $mg_product->is_vendible_without_agenda() ) {
 						// echo '<p>Cantidad</p>';
