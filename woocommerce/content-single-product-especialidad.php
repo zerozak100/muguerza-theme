@@ -107,7 +107,7 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
 
             <?php ?>
             <div class="imagen-descripcion">
-                <?php echo wp_get_attachment_image(the_sub_field('imagen'), 'full'); ?>
+                <?php echo wp_get_attachment_image( get_sub_field( 'imagen' ), 'full' ); ?>
             </div>
         </div>
     <?php endwhile; ?>
@@ -175,7 +175,8 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
                             <?php
                             $rows = $informacion_general['hospitales'];
                             foreach ($rows as $row) {
-                                $term = get_term_by('id', $row['ubicacion'][0], 'product_cat');
+                                $term = get_term_by('id', $row['ubicacion'], 'product_cat');
+                                //echo '<option value="' . $term->slug . '">' . $row['ubicacion'] . '</option>';
                                 echo '<option value="' . $term->slug . '">' . $term->name . '</option>';
                             }
                             ?>
@@ -193,7 +194,7 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
                 $rows = $informacion_general['hospitales'];
                 if ($rows != null) {
                     foreach ($rows as $row) {
-                        $term = get_term_by('id', $row['ubicacion'][0], 'product_cat');
+                        $term = get_term_by('id', $row['ubicacion'], 'product_cat');
                         echo '<div id="' . $term->slug . '" class="myDiv">' .  '<h2>' . $row['titulo'] . '</h2>' . $row['descripcion'] . '</div>';
                     }
                 }
