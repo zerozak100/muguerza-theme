@@ -10,7 +10,7 @@ class MG_Medicos_Import {
 
     public function import( array $data ) {
 
-        $data = $this->getChunk( $data, $_POST['chunk'] ?: 1 );
+        // $data = $this->getChunk( $data, $_POST['chunk'] ?: 1 );
 
         foreach ( $data as $dMedico ) {
             $postId = wp_insert_post( array(
