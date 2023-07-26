@@ -161,7 +161,7 @@ class MG_Productos_Import {
             // var_dump( $productCatId );
             // echo "/<pre>";
             if ( $productCatId ) {
-                $unidadesSave[] = $productCatId;
+                $unidadesSave[] = ( string ) $productCatId; // Importante guardar como string para poder hacer query con REGEXP
             }
         }
 

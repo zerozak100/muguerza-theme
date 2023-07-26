@@ -98,7 +98,7 @@ class MG_Medicos_Import {
                 $name = $especialidad['name'];
                 $term_id = $this->getEspecialidadTermIdFromWp( $name );
                 if ( $term_id ) {
-                    $especialidadeIds[] = $term_id;
+                    $especialidadeIds[] = ( string ) $term_id; // Importante guardar como string para poder hacer query con REGEXP
                 }
             }
             $this->uf( 'especialidades', $especialidadeIds );
@@ -112,7 +112,7 @@ class MG_Medicos_Import {
                 $name = $subespecialidad['name'];
                 $term_id = $this->getSubespecialidadTermIdFromWp( $name );
                 if ( $term_id ) {
-                    $subespecialidadeIds[] = $term_id;
+                    $subespecialidadeIds[] = ( string ) $term_id; // Importante guardar como string para poder hacer query con REGEXP
                 }
             }
             $this->uf( 'subespecialidades', $subespecialidadeIds );

@@ -67,7 +67,7 @@ class MG_Noticias_Import {
         $ids = array();
         foreach ( $images as $url ) {
             $image_id = media_sideload_image( $url, 0, null, 'id' );
-            $ids[] = $image_id;
+            $ids[] = ( string ) $image_id; // Importante guardar como string para poder hacer query con REGEXP
         }
 
         update_post_meta( $postId, 'field_noticias_imagenes', $ids );
