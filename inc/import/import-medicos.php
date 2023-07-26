@@ -86,7 +86,7 @@ class MG_Medicos_Import {
             $name = $this->data['field_ubicacion_ciudad']['name'];
             $term_id = $this->getUbiacionTermIdFromWp( $name );
             if ( $term_id ) {
-                $this->uf( 'ubicacion', $term_id );
+                $this->uf( 'field_64adaac5947b9', $term_id ); // ubicación field
             }
         }
     }
