@@ -25,8 +25,8 @@ function muguerza_product_filter_bar() {
 
     mg_get_template( 'product-filter-bar.php', array(
         'service_types' => $service_types,
-        'cities' => $cities,
-        'locations' => $locations,
+        // 'cities' => $cities,
+        // 'locations' => $locations,
     ) );
 }
 
@@ -47,16 +47,34 @@ function muguerza_product_ver_mas() {
 function muguerza_product_precio() {
     global $product;
 
-    printf( '<span class="mg-product-item-price">%s</span>', wc_price( $product->get_price() ) );
+    $mg_product = new MG_Product( $product );
+
+    if ( $mg_product->is_vendible() ) {
+        printf( '<span class="mg-product-item-price">%s</span>', wc_price( $product->get_price() ) );
+    }
 }
 
+
+/**
+ * TODO usar abreviaturas de los hospitales
+ */
 function muguerza_product_unidad() {
     global $product;
 
     $val = MG_Product_Archive::$no_products_in_unit_found;
 
     if ( $val ) {
-        $unidad = mg_get_product_unidad_term( $product );
-        printf( '<div class="mg-product-item-unidad">%s</div>', esc_html( $unidad->name ) );
+        $mg_product = new MG_Product( $product );
+
+        if ( $mg_product->is_especialidad() ) {
+            $unidades = get_field( 'disponibilidad_en_hospitales' );
+            if ( ! empty( $unidades ) ) {
+                $unidad = get_term_by( 'term_id', $unidades[0], 'product_cat' );
+                printf( '<div class="mg-product-item-unidad">%s ...</div>', esc_html( $unidad->name ) );
+            }
+        } else {
+            $unidad = mg_get_product_unidad_term( $product );
+            printf( '<div class="mg-product-item-unidad">%s</div>', esc_html( $unidad->name ) );
+        }
     }
 }

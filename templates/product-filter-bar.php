@@ -14,12 +14,14 @@ $service_types = $service_types;
 ?>
 
 <form class="mg-product-filter-bar">
-    <select class="mg-product-filter-bar__filter" name="service_type_id" id="service_type_id">
-        <option selected disabled value="">Tipo de Servicio</option>
-        <?php foreach ( $service_types as $service_type ): ?>
-            <option <?php echo $service_type_id == $service_type->term_id ? 'selected' : ''; ?> value="<?php echo esc_attr( $service_type->term_id ); ?>"><?php echo esc_html( $service_type->name ); ?></option>
-        <?php endforeach; ?>
-    </select>
+    <?php if ( MG_Product_Archive::is_page( 'servicios' ) ) : ?>
+        <select class="mg-product-filter-bar__filter" name="service_type_id" id="service_type_id">
+            <option selected disabled value="">Tipo de Servicio</option>
+            <?php foreach ( $service_types as $service_type ): ?>
+                <option <?php echo $service_type_id == $service_type->term_id ? 'selected' : ''; ?> value="<?php echo esc_attr( $service_type->term_id ); ?>"><?php echo esc_html( $service_type->name ); ?></option>
+            <?php endforeach; ?>
+        </select>
+    <?php endif; ?>
     <!-- <select class="mg-product-filter-bar__filter" name="city_id" id="city_id">
         <option selected disabled value="">Ciudad</option>
         <?php foreach ( $cities as $city ): ?>

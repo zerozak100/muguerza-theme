@@ -1,109 +1,50 @@
 <?php
 
-class MG_Product_Archive {
+abstract class MG_Product_Archive {
 
     public static $no_products_in_unit_found = false;
 
-    public function __construct() {
-        add_filter( 'pre_get_posts', array( $this, 'filter_products' ) );
-        add_filter( 'query_vars', array( $this, 'query_vars' ) );
-        add_action( 'woocommerce_before_shop_loop', array( $this, 'show_no_products_found_in_unit' ) );
-        add_filter( 'woocommerce_page_title', array( $this, 'page_title' ) );
-        // add_action( 'template_redirect', array( $this, '' ) );
-        // add_filter( 'body_class', array( $this, 'body_class' ) );
+
+    protected $is_recommending;
+    /**
+     * @var int
+     */
+    protected $location_id;
+    /**
+     * @var MG_Location
+     */
+    protected $location;
+    /**
+     * @var int
+     */
+    protected $unidad_id;
+    /**
+     * @var string
+     */
+    protected $s;
+
+    public static function init() {
+        include_once __DIR__ . '/class-mg-product-archive-especialidades.php';
+        include_once __DIR__ . '/class-mg-product-archive-servicios.php';
+        include_once __DIR__ . '/class-mg-product-archive-shop.php';
+
+        if ( self::is_page( 'especialidades' ) ) {
+            new MG_Product_Archive_Especialidades();
+        }
+
+        if ( self::is_page( 'servicios' ) ) {
+            new MG_Product_Archive_Servicios();
+        }
+
+        if ( self::is_page( 'tienda' ) ) {
+            new MG_Product_Archive_Shop();
+        }
     }
 
     // https://stackoverflow.com/questions/5598480/php-parse-current-url
     public static function is_page( $page ) {
         $parsed_url = parse_url( 'https://' . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"] );
-        return str_contains( $parsed_url[ 'path' ], "/$page/" );
-    }
-
-    // public function body_class( $classes ) {
-    //     if ( is_page( 'servicios' ) || is_page( 'especialidades' ) ) {
-    //         $classes = array_merge( $classes, array( 'woocommerce', 'archive' ) );
-    //     }
-    //     return $classes;
-    // }
-
-    function page_title( $title ) {
-        if ( is_shop() || is_product_taxonomy() || is_product_category() || is_product_tag() ) {
-            if ( self::is_page( 'servicios' ) ) {
-                return 'Servicios';
-            }
-            
-            if ( self::is_page( 'especialidades' ) ) {
-                return 'Especialidades';
-            }
-
-            return 'Especialidades y Servicios';
-        }
-        return $title;
-    }
-
-    public function query_vars( $vars ) {
-        $vars[] = 'is_recommending';
-        $vars[] = 'service_type_id';
-        return $vars;
-    }
-
-    public function show_no_products_found_in_unit() {
-        $is_recommending = $this->get_filter( 'is_recommending' );
-        if ( $is_recommending ) {
-            self::no_products_in_unit_found();
-        }
-    }
-
-    public function filter_products( $query ) {
-        $is_recommending = $this->get_filter( 'is_recommending' );
-
-        if ( ! is_admin() && is_post_type_archive( 'product' ) && $query->is_main_query() || $is_recommending ) {
-            
-            $service_type_id = $this->get_filter( 'service_type_id' );
-            $s               = $this->get_filter( 's' );
-
-            $mg_location_id = MG_User_Location::get();
-            $mg_location    = MG_Location::find( $mg_location_id );
-    
-            $tax_query = $query->get( 'tax_query', array() );
-    
-            if ( $mg_location && ! $is_recommending ) {
-                $tax_query[] = array(
-                    'taxonomy' => 'product_cat',
-                    'field'    => 'term_id',
-                    'terms'    => $mg_location->get_unit_id(),
-                );
-            } else if ( ! empty ( $location_id ) ) {
-                $tax_query[] = array(
-                    'taxonomy' => 'product_cat',
-                    'field'    => 'term_id',
-                    'terms'    => $location_id,
-                );
-            } else if ( ! empty ( $city_id ) ) {
-                $locations = get_terms( array(
-                    'taxonomy' => 'product_cat',
-                    'parent' => $city_id,
-                    'hide_empty' => false,
-                    'fields' => 'ids',
-                ) );
-                $tax_query[] = array(
-                    'taxonomy' => 'product_cat',
-                    'field'    => 'term_id',
-                    'terms'    => $locations,
-                );
-            }
-    
-            if ( $service_type_id ) {
-                $tax_query[] = array(
-                    'taxonomy' => 'tipos_servicios',
-                    'field'    => 'term_id',
-                    'terms'    => $service_type_id,
-                );
-            }
-            
-            $query->set( 'tax_query', $tax_query );
-            $query->set( 's', $s );
-        }
+        return str_contains( $parsed_url[ 'path' ], "/$page" );
     }
 
     /**
@@ -175,9 +116,90 @@ class MG_Product_Archive {
 
         return '';
     }
+
+    //
+
+    public function __construct() {
+        add_filter( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
+        add_filter( 'query_vars', array( $this, 'query_vars' ) );
+        add_action( 'woocommerce_before_shop_loop', array( $this, 'show_no_products_found_in_unit' ) );
+        add_filter( 'woocommerce_page_title', array( $this, 'page_title' ) );
+        // add_action( 'template_redirect', array( $this, '' ) );
+        // add_filter( 'body_class', array( $this, 'body_class' ) );
+    }
+
+    /**
+     * @param WP_Query $query
+     */
+    public function pre_get_posts( $query ) {
+        $this->setup_data();
+
+        if ( ! $this->unidad_id ) {
+            // mensaje de error seleccione una unidad
+            wp_safe_redirect( home_url( '/' ) );
+            exit();
+        }
+
+        if ( ! is_admin() && is_post_type_archive( 'product' ) && $query->is_main_query() || $this->is_recommending ) {
+            $this->filter_products( $query );
+        }
+    }
+
+    public function page_title( $title ) {
+        if ( is_shop() || is_product_taxonomy() || is_product_category() || is_product_tag() ) {
+            if ( self::is_page( 'servicios' ) ) {
+                return 'Servicios';
+            }
+            
+            if ( self::is_page( 'especialidades' ) ) {
+                return 'Especialidades';
+            }
+
+            return 'Especialidades y Servicios';
+        }
+        return $title;
+    }
+
+    public function query_vars( $vars ) {
+        $vars[] = 'is_recommending';
+        $vars[] = 'service_type_id';
+        return $vars;
+    }
+
+    public function show_no_products_found_in_unit() {
+        $is_recommending = $this->get_filter( 'is_recommending' );
+        if ( $is_recommending ) {
+            self::no_products_in_unit_found();
+        }
+    }
+
+    private function setup_data() {
+        $this->s           = $this->get_filter( 's' );
+        $this->location_id = MG_User_Location::get();
+        $this->location    = MG_Location::find( $this->location_id );
+
+        if ( $this->location ) {
+            $this->unidad_id   = $this->location->get_unit_id();
+        }
+
+        $this->is_recommending = $this->get_filter( 'is_recommending' );
+    }
+
+    /**
+     * @param WP_Query $query
+     */
+    abstract public function filter_products( $query );
+
+    // public function body_class( $classes ) {
+    //     if ( is_page( 'servicios' ) || is_page( 'especialidades' ) ) {
+    //         $classes = array_merge( $classes, array( 'woocommerce', 'archive' ) );
+    //     }
+    //     return $classes;
+    // }
 }
 
-new MG_Product_Archive();
+MG_Product_Archive::init();
+
 
 // optimizar https://wordpress.stackexchange.com/questions/268589/how-to-override-a-query-and-display-specific-page-by-id
 function alter_the_query( $request ) {
