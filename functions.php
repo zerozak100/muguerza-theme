@@ -110,13 +110,14 @@ function mg_load_bootstrap() {
 }
 add_action( 'wp_enqueue_scripts', 'mg_load_bootstrap', 9 );
 
+include_once __DIR__ . '/inc/class-mg-coords.php';
+include_once __DIR__ . '/inc/class-mg-order-unidades.php';
 include_once 'inc/class-mg-api-membresias.php';
-
-include_once 'inc/class-mg-user-location.php';
 include_once 'inc/class-mg-product-archive.php';
 include_once 'inc/class-mg-user.php';
 include_once 'inc/class-mg-location.php';
-include_once 'inc/class-mg-locations.php';
+// include_once 'inc/class-mg-locations.php';
+include_once __DIR__ . '/inc/class-mg-unidad-selector.php';
 include_once 'inc/class-mg-ajax.php';
 include_once 'inc/class-mg-unidad.php';
 
@@ -126,7 +127,7 @@ include_once 'inc/mg-template-functions.php';
 include_once 'inc/mg-template-hooks.php';
 include_once 'inc/import/drupal-importer.php';
 
-include_once 'inc/class-mg-product.php';
+// include_once 'inc/class-mg-product.php';
 
 include_once __DIR__ . '/custom-functions.php';
 
@@ -198,3 +199,46 @@ function mg_custom_override_checkout_fields( $fields ) {
 	return $fields;
 }
 add_filter( 'woocommerce_checkout_fields' , 'mg_custom_override_checkout_fields' );
+
+
+function my_acf_google_map_api( $api ){
+    $api['key'] = 'AIzaSyDLHEgck-NyHg9QBswGn2ayg65BiIo7kMo';
+    return $api;
+}
+add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
+
+
+function shutdown() {
+    $e = error_get_last();
+    if ($e['type'] === E_ERROR) {
+
+        // = format
+            $msg = isset($e['message']) ? $e['message'] : '';
+            $msg = str_replace(array('Uncaught Exception:','Stack trace:')
+                          ,array('<b>Uncaught Exception:</b><br />',
+                                    '<b>Stack trace:</b>'),$msg);
+            $msg = preg_replace('/[a-z0-9_\-]*\.php/i','$1<u>$0</u>',$msg);
+            $msg = preg_replace('/[0-9]/i','$1<em>$0</em>',$msg);
+            $msg = preg_replace('/[\(\)#\[\]\':]/i','$1<ss>$0</ss>',$msg);
+
+        // = render
+        echo "<style>u{color:#ed6;text-decoration:none;}"
+            ."b{color:#ddd;letter-spacing:1px;}"
+            ."body{font-family:monospace;}"
+            ."em{color:#cfc;font-style:normal;}ss{color:white;}"
+            ."h2{letter-spacing:1px;font-size:1.5rem;color:#b8b;margin-top:0;}"
+            ."br{margin-bottom:1.8rem;}"
+            ."div{margin:3rem auto;line-height:1.4em;padding:2rem;"
+            ."background-color:rgba(255,255,255,0.1);font-size:1.1rem;"
+            ."border-radius:0.5rem;max-width:1000px;}"
+            ."</style>"
+            ."\n<body style='background-color:#101;color:#bab;'>"
+            ."\n<div>"
+            ."\n    <h2>Fatal PHP error</h2>"
+            ."\n    <div>".nl2br($msg)."</div>"
+            ."\n</div></body>";
+    }
+}
+
+register_shutdown_function('shutdown');
+

@@ -6,14 +6,7 @@ abstract class MG_Product_Archive {
 
 
     protected $is_recommending;
-    /**
-     * @var int
-     */
-    protected $location_id;
-    /**
-     * @var MG_Location
-     */
-    protected $location;
+
     /**
      * @var int
      */
@@ -174,13 +167,13 @@ abstract class MG_Product_Archive {
     }
 
     private function setup_data() {
-        $this->s           = $this->get_filter( 's' );
-        $this->location_id = MG_User_Location::get();
-        $this->location    = MG_Location::find( $this->location_id );
+        $user = MG_User::current();
 
-        if ( $this->location ) {
-            $this->unidad_id   = $this->location->get_unit_id();
-        }
+        $this->s           = $this->get_filter( 's' );
+
+        // if ( $this->location ) {
+        //     $this->unidad_id   = $this->location->get_unit_id();
+        // }
 
         $this->is_recommending = $this->get_filter( 'is_recommending' );
     }

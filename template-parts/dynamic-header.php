@@ -1,3 +1,11 @@
+<?php
+
+$user = MG_User::current();
+
+$unidad = $user->get_unidad();
+
+?>
+
 <header class="main-header">
     <div class="header-band">
         <span class="header-band__text">RENUEVA O ADQUIERE TU MEMBRESÍA, OBTÉN BENEFICIOS PARA TU SALUD, ¡ES GRATIS! QUIERO SER SOCIO CHRISTUS</span>
@@ -46,7 +54,7 @@
                             <div class="row g-0">
                                 <div class="col">
                                     <span class="ubicacion-seleccionada">
-                                        <?php echo mg_get_saved_location_name(); ?>
+                                        <?php echo $unidad->get_name(); ?>
                                     </span>
                                 </div>
                             </div>

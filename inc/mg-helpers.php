@@ -4,70 +4,34 @@ function mg_get_template( $template_name, $args = array() ) {
 	wc_get_template( $template_name, $args, '', MG_TEMPLATES_PATH );
 }
 
-function mg_get_saved_location_name() {
-	$user = MG_User::current();
+/**
+ * Distancia entre dos coordenadas
+ * 
+ * https://stackoverflow.com/questions/9589130/find-closest-longitude-and-latitude-in-array
+ */
+function mg_distance( MG_Coords $a, MG_Coords $b) {
+    $theta = $a->get_longitude() - $b->get_longitude();
 
-	$location_id = $user->get_location();
+    $dist = sin( $a->get_latitude_rad() ) * sin( $b->get_latitude_rad() ) + cos( $a->get_latitude_rad() ) * cos( $b->get_latitude_rad() ) * cos( deg2rad( $theta ) );
+    $dist = acos( $dist );
+    $dist = rad2deg( $dist );
 
-	$location = MG_Location::get_location( $location_id );
-
-	$name = '';
-
-	if ( $location ) {
-		$name = $location[ 'name' ];
-	}
-
-	return $name;
-}
-
-function mg_get_saved_address() {
-	$user = MG_User::current();
-	$address = $user->get_address();
-	return $address;
-}
-
-function mg_get_location_coords( $location_id ) {
-	$location = MG_Location::get_location( $location_id );
-
-	if ( $location ) {
-		return $location['coords'];
-	}
-
-	return false;
-}
-
-function mg_get_saved_geolocation_coords() {
-	$user = MG_User::current();
-	$coords = $user->get_geolocation();
-	if ( ! $coords ) {
-		false;
-	}
-	return $coords;
-}
-
-// https://stackoverflow.com/questions/9589130/find-closest-longitude-and-latitude-in-array
-function distance($a, $b)
-{
-    list($lat1, $lon1) = $a;
-    list($lat2, $lon2) = $b;
-
-    $theta = $lon1 - $lon2;
-    $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-    $dist = acos($dist);
-    $dist = rad2deg($dist);
     $miles = $dist * 60 * 1.1515;
+
     return $miles;
 }
 
 /**
- * Return key of ordered locations
+ * @param MG_Unidad[] $unidades
+ * @param MG_Coords $user_coords
+ * 
+ * @return MG_Unidad[]
  */
-function mg_get_locations_in_order( $locations, $user_coords ) {
-	$distances = array_map(function($item) use($user_coords) {
-        return distance(array($item['coords']['lat'], $item['coords']['lng']), array($user_coords['lat'], $user_coords['lng']));
-    }, $locations);
-    asort($distances);
-	return array_keys($distances);
+function mg_order_unidades_by_distance( array $unidades, MG_Coords $user_coords ) {
+	$order_unidades = new MG_Order_Unidades( $unidades, $user_coords );
+	$order_unidades->order();
+
+	return $order_unidades->get_result();
 }
 
 function mg_get_product_unidad_term( $product ) {
@@ -87,25 +51,15 @@ function mg_get_product_unidad_term( $product ) {
 	return $proudct_unidad;
 }
 
-function d( $var ) {
-	echo "<pre>";
-	var_dump( $var );
-	echo "</pre>";
-}
-
-function dd( $var ) {
-	d( $var );
-}
-
 function mg_get_unidad_from_product_cat_id( $product_cat_id ) {
 	$posts = get_posts( array(
-		'post_type' => 'unidad',
-		'posts_per_page' => 1,
 		// 'fields' => 'ids',
-		'meta_query' => array(
+		'post_type' 	 => 'unidad',
+		'posts_per_page' => 1,
+		'meta_query' 	 => array(
 			'AND',
 			array(
-				'key' => 'ubicacion',
+				'key'   => 'ubicacion',
 				'value' => $product_cat_id,
 			),
 		),
@@ -138,4 +92,8 @@ function uniqidReal($lenght = 13) {
         throw new Exception("no cryptographically secure random function available");
     }
     return substr(bin2hex($bytes), 0, $lenght);
+}
+
+function snakeToCamel( $input ) {
+	return lcfirst( str_replace( ' ', '', ucwords( str_replace( '_', ' ', $input ) ) ) );
 }

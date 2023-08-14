@@ -1,6 +1,6 @@
 <?php
 
-class MG_User {
+class MG_User implements JsonSerializable {
 
     /**
      * @property WP_User $user;
@@ -12,56 +12,85 @@ class MG_User {
 
     protected $is_guest = true; // si es guest podemos manejar una clase separada a la de mg user
 
+    /**
+     * @var array $data
+     */
+    protected $data = array(
+        'id'        => '',
+        'name'      => '',
+        'last_name' => '',
+        'fullname'  => '',
+        'unidad'    => '',
+        'location'  => '',
+        'is_guest'  => '',
+    );
+
     public static function current() {
         $user_id = get_current_user_id();
         return new self( $user_id );
     }
 
-    public function __construct( $user_id ) {
-        $user = get_user_by( 'ID', $user_id );
-        if ( $user ) {
+    public function __construct( $user = false ) {
+        if ( $user instanceof WP_User ) {
             $this->user = $user;
-            $this->is_guest = false;
-            $this->geolocation = $this->get_geolocation();
-            $this->location = $this->get_location();
+        } else {
+            $this->user = get_user_by( 'ID', $user );
         }
 
-        // $this->reset();
+        $this->load_data();
     }
 
-    public function get_geolocation() {
-        return $this->get_prop( 'mg_geolocation' );
-    }
+    public function load_data() {
+        $this->is_guest = ! boolval( $this->user );
 
-    public function get_location() {
-        return $this->get_prop( 'mg_location' );
-    }
+        if ( $this->is_guest ) {
+            $unidad_id      = WC()->session->get( 'mg_unidad' );
+            $location_data  = WC()->session->get( 'mg_location', array() );
+        } else {
+            $unidad_id      = get_user_meta( $this->user->ID, 'mg_unidad', true ) ?: 0;
+            $location_data  = get_user_meta( $this->user->ID, 'mg_location', true ) ?: array();
+        }
 
-    public function get_address() {
-        return $this->get_prop( 'mg_address' );
-    }
+        $unidad   = new MG_Unidad( $unidad_id );
+        $location = new MG_Location( $location_data );
 
-    public function save_geolocation( $lat, $lng ) {
-        $geolocation = array(
-            'lat' => $lat,
-            'lng' => $lng,
+        $this->data = array(
+            'id'        => $this->user ? $this->user->ID : '',
+            'name'      => $this->user ? $this->user->first_name : '',
+            'last_name' => $this->user ? $this->user->last_name : '',
+            'fullname'  => $this->user ? sprintf( '%s %s', $this->user->first_name, $this->user->last_name ) : '',
+            'unidad'    => $unidad,
+            'location'  => $location,
+            'is_guest'  => $this->is_guest,
         );
-
-        $this->save_prop( 'mg_geolocation', $geolocation );
     }
 
-    public function save_location( $location_id ) {
-        $this->save_prop( 'mg_location', $location_id );
+    /**
+     * @return MG_Location
+     */
+    public function get_location() {
+        return $this->get_prop( 'location' );
     }
 
-    public function save_address( $address ) {
-        $this->save_prop( 'mg_address', $address );
+    /**
+     * @return MG_Unidad
+     */
+    public function get_unidad() {
+        return $this->get_prop( 'unidad' );
     }
 
-    public function reset() {
-        $this->save_prop( 'mg_location', '' );
-        $this->save_prop( 'mg_geolocation', '' );
-        $this->save_prop( 'mg_address', '' );
+    /**
+     * @param MG_Location $location
+     */
+    public function save_location( MG_Location $location ) {
+        $this->save_prop( 'mg_location', $location->get_data() );
+        $this->data['location'] = new MG_Location( $location->get_data() );
+    }
+
+    public function save_unidad( $unidad_id ) {
+        $this->save_prop( 'mg_unidad', $unidad_id );
+        $this->data['unidad'] = new MG_Unidad( $unidad_id );
+
     }
 
     private function save_prop( $name, $value ) {
@@ -73,14 +102,10 @@ class MG_User {
     }
 
     private function get_prop( $name ) {
-        $prop = false;
+        return $this->data[ $name ];
+    }
 
-        if ( $this->is_guest ) {
-            $prop = WC()->session->get( $name );
-        } else {
-            $prop = get_user_meta( $this->user->ID, $name, true );
-        }
-
-        return $prop;
+    public function jsonSerialize() {
+        return $this->data;
     }
 }
