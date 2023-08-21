@@ -74,10 +74,10 @@ class MG_Unidad implements JsonSerializable {
         return $mg_unidades;
     }
 
-    public function __construct( $post ) {
+    public function __construct( $post = 0 ) {
         if ( $post instanceof WP_Post ) {
             $this->post = $post;
-        } else if ( is_string( $post ) || is_numeric( $post ) ) {
+        } else if ( is_numeric( $post ) && $post > 0 ) {
             $this->post = get_post( $post );
         }
 

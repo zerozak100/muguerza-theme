@@ -111,6 +111,12 @@ class MG_Api {
         return false;
     }
 
+    /**
+     * 
+     * @param {String} lat Latitutde
+     * @param {String} lng Longitude
+     * @returns {(Array|boolean)}
+     */
     async getUnidadesOrderedByNearest(lat, lng) {
         const body = {
             action: 'order_unidades_by_distance',
@@ -158,41 +164,11 @@ class MG_Api {
 
         return false;
     }
-
-    async autosaveNearestUnidad() {
-        const options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0,
-        };
-    
-        /**
-         * 
-         * @this MG_Api
-         */
-        const success = async function( pos ) {
-            const lat = pos.coords.latitude;
-            const lng = pos.coords.longitude;
-
-            const result = await this.geocodeInverse( lat, lng );
-            const unidadesOrdered = await getUnidadesOrderedByNearest( lat, lng );
-
-            const location = MG_Location.fromGeocode( result );
-            const nearestUnidad = new MG_Unidad( unidadesOrdered[0] );
-
-            const response = await this.unidadSelectorSave( nearestUnidad.id, location );
-
-            if ( response !== false ) {
-                window.location.reload();
-            }
-        }
-        
-        navigator.geolocation.getCurrentPosition( success.bind( this ), undefined, options );
-    }
 }
 
 class MG_Location {
     constructor( data ) {
+        console.log('mg location constrcutor: ', data);
         this.address = data.address;
         this.lat = parseFloat( data.lat );
         this.lng = parseFloat( data.lng );
@@ -344,8 +320,6 @@ jQuery( function ( $ ) {
 	 * MGLocationSelector class.
 	 */
 	var MGLocationSelector = function() {
-        console.log( DATA );
-
         this.API = new MG_Api( DATA.ajaxurl );
 
         needsUnidad = DATA.needs_unidad;
@@ -367,12 +341,8 @@ jQuery( function ( $ ) {
         }
 
         if ( ! DATA.unidad && ! needsUnidad ) {
-            this.API.autosaveNearestUnidad();
+            this.autosaveNearestUnidad();
         }
-
-        // if ( DATA.unidad ) {
-        //     this.unidad = new MG_Unidad( DATA.unidad );
-        // }
         
         this.user = new MG_User( DATA.user );
 
@@ -536,11 +506,12 @@ jQuery( function ( $ ) {
 
     MGLocationSelector.prototype.setMarkers = function() {
         /**
-         * @type {MG_Location[]}
+         * @type {MG_Unidad[]}
          */
-        const unidades = DATA.unidades_ids.map( id => new MG_Location( DATA.unidades_by_id[ id ] ) );
+        const unidades = DATA.unidades_ids.map( id => new MG_Unidad( DATA.unidades_by_id[ id ] ) );
 
-        var markers = unidades.map(({ lat, lng, name }) => {
+        var markers = unidades.map(({ location }) => {
+            const { lat, lng } = location;
             const myLatLng = { lat, lng };
             return new google.maps.Marker({
                 position: myLatLng,
@@ -645,22 +616,56 @@ jQuery( function ( $ ) {
     MGLocationSelector.prototype.orderUnidades = async function( lat, lng ) {
         try {
             this.setLoading( true );
-
-            const orderedUnidadesIds = await this.API.getUnidadesOrderedByNearest( lat, lng );
-
-            const $wrapper = $('.mg-location-selector__list');
-    
-            orderedUnidadesIds.forEach(( id ) => {
-                const item = $('.mg-location-item[data-id="'+id+'"]')
-                $wrapper.append(item);
-            });
-
+            const orderedUnidades = await this.API.getUnidadesOrderedByNearest( lat, lng );
+            if ( ! orderedUnidades ) {
+                throw "Error al ordenar ubicaciones";
+            }
+            this.orderUnidadesInDom( orderedUnidades );
             this.toast( 'Ubicaciones ordenadas', 'success' );
         } catch (e) {
             this.toast( 'Error al ordenar ubicaciones', 'danger' );
         } finally {
             this.setLoading( false );
         }
+    }
+
+    MGLocationSelector.prototype.autosaveNearestUnidad = async function() {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+        };
+    
+        /**
+         * @this MGLocationSelector
+         */
+        const success = async function( pos ) {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+
+            const result = await this.API.geocodeInverse( lat, lng );
+            const orderedUnidades = await this.API.getUnidadesOrderedByNearest( lat, lng );
+            this.orderUnidadesInDom( orderedUnidades );
+
+            const location = MG_Location.fromGeocode( result );
+            const nearestUnidad = new MG_Unidad( orderedUnidades[0] );
+
+            const response = await this.API.unidadSelectorSave( nearestUnidad.id, location );
+
+            if ( response !== false ) {
+                window.location.reload();
+            }
+        }
+        
+        navigator.geolocation.getCurrentPosition( success.bind( this ), undefined, options );   
+    }
+
+    MGLocationSelector.prototype.orderUnidadesInDom = async function( orderedUnidades ) {
+        const $wrapper = $('.mg-location-selector__list');
+        orderedUnidades.forEach(( unidad ) => {
+            const item = $('.mg-location-item[data-id="'+unidad.id+'"]')
+            $wrapper.append(item);
+        });
     }
 
     /**

@@ -79,7 +79,9 @@ class MG_Unidad_Selector {
     }
 
     public function display_unidades() {
-        $unidades = MG_Unidad::withLocation();
+        $user     = MG_User::current();
+        $location = $user->get_location();
+        $unidades = mg_order_unidades_by_distance( MG_Unidad::withLocation(), $location->get_coords() );
 
         foreach ( $unidades as $unidad ) {
             mg_get_template( 'unidad-selector/list-item.php', array( 'unidad' => $unidad ) );
