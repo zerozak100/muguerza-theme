@@ -30,11 +30,17 @@ if ( post_password_required() ) {
 	echo get_the_password_form(); // WPCS: XSS ok.
 	return;
 }
+ 
+$mg_product = new MG_Product( $product );
 
 ?>
 
 <div id="product-<?php the_ID(); ?>" <?php wc_product_class( '', $product ); ?>>
-	<?php include_once __DIR__ . '/content-single-product-especialidad.php'; ?>
+	<?php if ( $mg_product->is_especialidad() ) : ?>
+		<?php include_once __DIR__ . '/content-single-product-especialidad.php'; ?>
+	<?php else : ?>
+		<?php include_once __DIR__ . '/content-single-product-servicio.php'; ?>
+	<?php endif; ?>
 </div>
 
 <?php do_action( 'woocommerce_after_single_product' ); ?>
