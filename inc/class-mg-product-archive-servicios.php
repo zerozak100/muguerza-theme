@@ -12,7 +12,7 @@ class MG_Product_Archive_Servicios extends MG_Product_Archive {
             $tax_query[] = array(
                 'taxonomy' => 'product_cat',
                 'field'    => 'term_id',
-                'terms'    => $this->unidad_id,
+                'terms'    => $this->unidad->get_product_cat_unit_id(),
             );
         }
 

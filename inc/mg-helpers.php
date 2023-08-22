@@ -74,6 +74,33 @@ function mg_get_unidad_from_product_cat_id( $product_cat_id ) {
 	return false;
 }
 
+function mg_product_cat_id_get_unidad_id() {
+
+}
+
+function mg_get_product_cat_unidad_id( $product_cat_id ) {
+	$unidad_id = false;
+
+	$unidades_ids = get_posts( array(
+		'fields' 		 => 'ids',
+		'post_type' 	 => 'unidad',
+		'posts_per_page' => 1,
+		'meta_query' 	 => array(
+			'AND',
+			array(
+				'key'   => 'ubicacion',
+				'value' => $product_cat_id,
+			),
+		),
+	) );
+
+	if ( $unidades_ids ) {
+		$unidad_id = $unidades_ids[0];
+	}
+
+	return $unidad_id;
+}
+
 function mg_get_unindad_by( $type, $value ) {
 	if ( 'product_cat' === $type ) {
 		return mg_get_unidad_from_product_cat_id( $value );

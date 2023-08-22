@@ -16,6 +16,16 @@ abstract class MG_Product_Archive {
      */
     protected $s;
 
+    /**
+     * @var MG_User
+     */
+    protected $user;
+
+    /**
+     * @var MG_Unidad
+     */
+    protected $unidad;
+
     public static function init() {
         include_once __DIR__ . '/class-mg-product-archive-especialidades.php';
         include_once __DIR__ . '/class-mg-product-archive-servicios.php';
@@ -113,6 +123,7 @@ abstract class MG_Product_Archive {
     //
 
     public function __construct() {
+        add_filter( 'init', array( $this, 'load' ) );
         add_filter( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
         add_filter( 'query_vars', array( $this, 'query_vars' ) );
         add_action( 'woocommerce_before_shop_loop', array( $this, 'show_no_products_found_in_unit' ) );
@@ -121,19 +132,24 @@ abstract class MG_Product_Archive {
         // add_filter( 'body_class', array( $this, 'body_class' ) );
     }
 
+    public function load() {
+        $this->user   = MG_User::current();
+        $this->unidad = $this->user->get_unidad();
+    }
+
     /**
      * @param WP_Query $query
      */
     public function pre_get_posts( $query ) {
-        $this->setup_data();
+        if ( ! is_admin() && is_post_type_archive( 'product' ) && $query->is_main_query() || $this->is_recommending || '1' === get_query_var( 'is_recommending' ) ) {
 
-        if ( ! $this->unidad_id ) {
-            // mensaje de error seleccione una unidad
-            wp_safe_redirect( home_url( '/' ) );
-            exit();
-        }
+            if ( ! $this->unidad->get_id() ) {
+                // mensaje de error seleccione una unidad
+                wp_safe_redirect( home_url( '/' ) );
+                exit();
+            }
 
-        if ( ! is_admin() && is_post_type_archive( 'product' ) && $query->is_main_query() || $this->is_recommending ) {
+            $this->setup_data();
             $this->filter_products( $query );
         }
     }
@@ -167,14 +183,7 @@ abstract class MG_Product_Archive {
     }
 
     private function setup_data() {
-        $user = MG_User::current();
-
-        $this->s           = $this->get_filter( 's' );
-
-        // if ( $this->location ) {
-        //     $this->unidad_id   = $this->location->get_unit_id();
-        // }
-
+        $this->s               = $this->get_filter( 's' );
         $this->is_recommending = $this->get_filter( 'is_recommending' );
     }
 
