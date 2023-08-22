@@ -72,6 +72,8 @@ class MG_Ajax {
         $user->save_location( $location );
         $user->save_unidad( $unidad_id );
 
+        WC()->cart->empty_cart();
+
         wp_send_json( true );
         wp_die();
     }
