@@ -110,6 +110,8 @@ function mg_load_bootstrap() {
 }
 add_action( 'wp_enqueue_scripts', 'mg_load_bootstrap', 9 );
 
+include_once __DIR__ . '/inc/mg-scripts.php';
+include_once __DIR__ . '/inc/class-mg-cart.php';
 include_once __DIR__ . '/inc/class-mg-coords.php';
 include_once __DIR__ . '/inc/class-mg-order-unidades.php';
 include_once 'inc/class-mg-api-membresias.php';
