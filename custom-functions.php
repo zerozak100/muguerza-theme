@@ -100,7 +100,7 @@ function mg_cf7_unidades_tag() {
 /**
  * @param WPCF7_ContactForm $contact_form
  */
-function muguerza_cf7_handle_before_send_mail( $contact_form ) {
+function muguerza_cf7_handle_destinatarios( $contact_form ) {
   /**
    * @var WPCF7_Submission $submission
    * 
@@ -108,30 +108,47 @@ function muguerza_cf7_handle_before_send_mail( $contact_form ) {
    */
   $submission = WPCF7_Submission::get_instance();
 
-  $formulario_especialidades_id = 53120234051; // TIPO 1
-
-  if ( $submission && $formulario_especialidades_id == $contact_form->id() ) {
-    $posted_data = $submission->get_posted_data();
-
-    if ( empty( $posted_data ) ) {
-      return;
-    }
-
-    $unidad_id = $posted_data['unidad_id'];
-    $unidad    = new MG_Unidad( $unidad_id );
-
-    $destinatarios = $unidad->get_destinatarios( 'servicios_y_cotizaciones' );
-
-    $mail = $contact_form->prop( 'mail' );
-    $mail['recipient'] = implode( ',', $destinatarios );
-
-    $contact_form->set_properties( array( 'mail' => $mail ) );
+  if ( ! $submission ) {
+    return;
   }
 
-  // TIPO 2
+  $posted_data = $submission->get_posted_data();
 
-  if ( true ) {
+  if ( empty( $posted_data ) ) {
+    return;
+  }
 
-  } 
+  $unidad_id = $posted_data['unidad_id'];
+
+  if ( ! $unidad_id ) {
+    return;
+  }
+
+  $tipo_1 = 53120234051;
+  $tipo_2 = array( 53120248515, 53120248514 );
+
+  $destinatarios = array();
+
+  $form_id    = $contact_form->id();
+  $unidad = new MG_Unidad( $unidad_id );
+
+  if ( $tipo_1 == $form_id ) {
+    // TODO cambiar cuando sea un producto de maternidad
+    $destinatarios = $unidad->get_destinatarios( 'servicios_y_cotizaciones' );
+  }
+
+  if ( in_array( $form_id, $tipo_2 ) ) {
+    $asunto = $posted_data['asunto'];
+    if ( "Tengo una queja, comentario o felicitación" === $asunto ){
+      $destinatarios = $unidad->get_destinatarios( 'quejas_sugerencias_y_felicitaciones' );
+    }else{
+      $destinatarios = $unidad->get_destinatarios( 'informacion_general' );
+    }
+  }
+
+  $mail = $contact_form->prop( 'mail' );
+  $mail['recipient'] = implode( ',', $destinatarios );
+
+  $contact_form->set_properties( array( 'mail' => $mail ) );
 }
-add_action('wpcf7_before_send_mail', 'muguerza_cf7_handle_before_send_mail', 90, 1);
+add_action('wpcf7_before_send_mail', 'muguerza_cf7_handle_destinatarios', 90, 1);
