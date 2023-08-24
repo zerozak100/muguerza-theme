@@ -138,7 +138,8 @@ function muguerza_cf7_handle_destinatarios( $contact_form ) {
   }
 
   if ( in_array( $form_id, $tipo_2 ) ) {
-    $asunto = $posted_data['asunto'];
+    $asunto = $posted_data['asunto'][0];
+
     if ( "Tengo una queja, comentario o felicitación" === $asunto ){
       $destinatarios = $unidad->get_destinatarios( 'quejas_sugerencias_y_felicitaciones' );
     }else{
