@@ -5,8 +5,10 @@ class MG_Unidad implements JsonSerializable {
     public $post;
     public $destinatarios_by_form = array();
     public $acf_fields;
-    public $form_types = array(
+    const FORM_TYPES = array(
         'servicios_y_cotizaciones',
+        'informacion_general',
+        'quejas_sugerencias_y_felicitaciones',
     );
 
     /**
@@ -46,6 +48,9 @@ class MG_Unidad implements JsonSerializable {
         return $mg_unidades;
     }
 
+    /**
+     * @return MG_Unidad[]
+     */
     public static function withLocation() {
         $args = array(
             'post_type'      => 'unidad',
@@ -74,6 +79,29 @@ class MG_Unidad implements JsonSerializable {
         return $mg_unidades;
     }
 
+    public static function from_product_cat( $product_cat_id ) {
+        $unidad_id = false;
+
+        $unidades_ids = get_posts( array(
+            'fields' 		 => 'ids',
+            'post_type' 	 => 'unidad',
+            'posts_per_page' => 1,
+            'meta_query' 	 => array(
+                'AND',
+                array(
+                    'key'   => 'ubicacion',
+                    'value' => $product_cat_id,
+                ),
+            ),
+        ) );
+
+        if ( $unidades_ids ) {
+            $unidad_id = $unidades_ids[0];
+        }
+
+        return new self( $unidad_id );
+    }
+
     public function __construct( $post = 0 ) {
         if ( $post instanceof WP_Post ) {
             $this->post = $post;
@@ -97,6 +125,7 @@ class MG_Unidad implements JsonSerializable {
             'location'            => $this->acf_fields['ubicacion_mapa'] ? MG_Location::from_acf( $this->acf_fields['ubicacion_mapa'] ) : '',
             'product_cat_city_id' => $this->product_cat_city ? $this->product_cat_city->term_id : '',
             'product_cat_unit_id' => $this->product_cat_unit ? $this->product_cat_unit->term_id : '',
+            'destinatarios'       => $this->destinatarios_by_form,
         );
     }
 

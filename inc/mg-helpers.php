@@ -109,6 +109,12 @@ function mg_get_unindad_by( $type, $value ) {
 	return false;
 }
 
+function mg_get_current_unidad_id() {
+	$user 	= MG_User::current();
+    $unidad = $user->get_unidad();
+	return $unidad->get_id();
+}
+
 function uniqidReal($lenght = 13) {
     // uniqid gives 13 chars, but you could adjust it to your needs.
     if (function_exists("random_bytes")) {
