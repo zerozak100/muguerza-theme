@@ -14,7 +14,7 @@ function mg_cf7_page_unidad_id_hidden_tag() {
   global $post;
 
   if ( 'page' === $post->post_type ) {
-    $product_cat_id = get_field( 'ubicacion', $post->ID );
+    $product_cat_id = get_field( 'unidad', $post->ID );
     $unidad         = MG_Unidad::from_product_cat( $product_cat_id );
     $unidad_id      = $unidad->get_id();
   }
