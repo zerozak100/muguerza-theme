@@ -15,8 +15,10 @@ function mg_cf7_page_unidad_id_hidden_tag() {
 
   if ( 'page' === $post->post_type ) {
     $product_cat_id = get_field( 'unidad', $post->ID );
-    $unidad         = MG_Unidad::from_product_cat( $product_cat_id );
-    $unidad_id      = $unidad->get_id();
+    if ( $product_cat_id ) {
+      $unidad         = MG_Unidad::from_product_cat( $product_cat_id );
+      $unidad_id      = $unidad->get_id();
+    }
   }
 
   if ( ! $unidad_id ) {
