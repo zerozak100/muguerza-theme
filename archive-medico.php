@@ -1,26 +1,32 @@
 <?php 
-$args = array('post_type' => 'medico', 'posts_per_page' => 10, 'paged' => 10);
+
+$especialidades = MG_Medico_Archive::get_especialidades();
+$ubicaciones    = MG_Medico_Archive::get_ubicaciones();
+
+$current_especialidad = get_query_var( 'mg_especialidad' );
+$current_ubicacion    = get_query_var( 'mg_ubicacion' );
 
 get_header();
+
 ?>
+
 <div id="banner">
     <div class="container">
         <h1 class="titulo-banner">Directorio médico</h1>
         <form>
-            <select id="unidad-telefono">
-                <option>Perzonalizar ubicacion  </option>
-                <?php
-                    $posts = new WP_Query($args);
-                    if ( $posts->have_posts() ) {
-                        while ( $posts->have_posts() ) {
-                            $posts->the_post();
-                            echo '<option>' .  $posts->post->post_title . '</option>';
-                        }
-                        
-                    }
-                    wp_reset_postdata();
-                ?>
+            <select name="mg_ubicacion" id="unidad-telefono">
+                <option value="">Ubicacion</option>
+                <?php foreach ( $ubicaciones as $ubicacion ) : ?>
+                    <option <?php echo $current_ubicacion == $ubicacion->term_id ? 'selected' : '' ?> value="<?php echo $ubicacion->term_id; ?>"><?php echo $ubicacion->name; ?></option>
+                <?php endforeach; ?>
             </select>
+            <select name="mg_especialidad" id="unidad-telefono2">
+                <option value="">Especialidad</option>
+                <?php foreach ( $especialidades as $especialidad ) : ?>
+                    <option <?php echo $current_especialidad == $especialidad->term_id ? 'selected' : '' ?> value="<?php echo $especialidad->term_id; ?>"><?php echo $especialidad->name; ?></option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit">Buscar</button>
         </form>
     </div>
 </div>
@@ -33,53 +39,18 @@ get_header();
                 <div class="tableCell">Especialidad</div>
                 <div class="tableCell">Ubicacion</div>
             </div>
-            <?php
-                $posts = new WP_Query($args);
-                //var_dump($posts);
-                set_query_var( 'is_recommending', false );
-                wc_set_loop_prop( 'is_search', $posts->is_search() );
-                wc_set_loop_prop( 'total', $posts->found_posts );
-                wc_set_loop_prop( 'is_filtered', is_filtered() );
-                wc_set_loop_prop( 'total_pages', $posts->max_num_pages );
-                wc_set_loop_prop( 'per_page', $posts->get( 'posts_per_page' ) );
-                wc_set_loop_prop( 'current_page', max( 1, $posts->get( 'paged', 1 ) ) );
-                
-                if ( $posts->have_posts() ) {
-                    while ( $posts->have_posts() ) {
-                        $posts->the_post();
-                        echo '<a class="tableRow" href="'. get_permalink($posts->post->ID) .'">';
-
-                        echo '<div class="tableCell">'.  $posts->post->post_title . '</div>';
-                        echo '<div class="tableCell">';
-                            $especialidad_ids = get_field('especialidades', $posts->post->ID);
-                            //echo var_dump($especialidad_ids) .'<br>';
-                            $lista = "";
-                            if($especialidad_ids) {
-                                foreach($especialidad_ids as $especialidad_id) {
-                                    $especialidad = get_term($especialidad_id);
-                                    //echo var_dump($especialidad);
-                                    //$especialidad->name;
-                                    $lista .= $especialidad->name . ', ';
-                                }
-                                $lista = rtrim ($lista, ", ");
-                                echo $lista;
-                            }
-                        echo '</div>';
-                        echo '<div class="tableCell">';
-                            $ubicacion_id = get_field('ubicacion', $posts->post->ID);
-                            $ubicacion = get_term($ubicacion_id);
-                            echo $ubicacion->name; 
-                        echo '</div>';
-                        //echo var_dump(get_field('especialidades',$post->ID)) . '<br>';
-                            
-                        echo'</a>';
-                    }
-                        
-                }
-                wp_reset_postdata();
-            ?>
+            <?php if ( have_posts() ) : ?>
+                <?php while ( have_posts() ) : the_post(); ?>
+                    <a class="tableRow" href="<?php the_permalink() ?>">
+                        <div class="tableCell"><?php the_title(); ?></div>
+                        <div class="tableCell"><?php echo MG_Medico_Archive::get_medico_especialidades_formatted( $post ); ?></div>
+                        <div class="tableCell"><?php echo MG_Medico_Archive::get_medico_ubicacion_name( $post ); ?></div>
+                    </a>
+                <?php endwhile; the_posts_pagination(); ?>
+            <?php else : ?>
+                <p>No se encontraron médicos</p>
+            <?php endif; ?>
         </div>
-        <?php woocommerce_pagination(); ?>
     </div>
 </div>
 <?php
