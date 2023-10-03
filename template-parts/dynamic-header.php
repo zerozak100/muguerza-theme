@@ -15,7 +15,7 @@ $unidad = $user->get_unidad();
             <div class="menu-terciario navbar-collapse collapse">
                 <ul class="navbar-nav">
                     <li class="nav-item menu-item--casa-cuna-conchita">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="https://www.casacunaconchita.com/">
                             Casa Cuna Conchita
                         </a>
                     </li>
@@ -23,6 +23,29 @@ $unidad = $user->get_unidad();
                         <a class="nav-link" href="#">
                             Servicios en Línea
                         </a>
+						<ul class="submenu">
+							<li class="nav-item">
+								<a href="/resultados-de-laboratorio/">Resultados de laboratorio</a>
+							</li>
+							<li class="nav-item">
+								<a href="/resultados-de-imagenologia/">Resultados de Imagenología</a>
+							</li>
+							<li class="nav-item">
+								<a href="#">Directorio medico</a>
+							</li>
+							<li class="nav-item">
+								<a href="https://facturacion.christusmuguerza.com.mx:8443/ords/finanzas/r/facturacion/15">Facturación electrónica</a>
+							</li>
+							<li class="nav-item">
+								<a href="/directorio-telefonico/">Directorio telefónico</a>
+							</li>
+							<li class="nav-item">
+								<a href="#">Espacio saludable</a>
+							</li>
+							<li class="nav-item">
+								<a href="https://www.office.com/">Portal de colaboradores</a>
+							</li>
+						</ul>
                     </li>
                     <li class="nav-item menu-item--membresias">
                         <a class="nav-link" href="#">
@@ -198,6 +221,36 @@ $unidad = $user->get_unidad();
                         <a class="nav-link" href="/">
                             PROMOCIONES
                         </a>
+                    </li>
+					<li class="nav-item">
+                        <a class="nav-link" href="/hospitales">
+                            UBICACIONES
+                        </a>
+                    </li>
+					<li class="nav-item menu-item--proposito-social">
+					    <a class="nav-link" href="#">
+                            PROPOSITO SOCIAL
+                        </a>
+						<ul class="submenu">
+							<li class="nav-item">
+								<a href="">Responsabilidad social</a>
+							</li>
+							<li class="nav-item">
+								<a href="https://www.fundacionlafon.org.mx/">Funcación Adelaida Lafón</a>
+							</li>
+							<li class="nav-item">
+								<a href="https://www.casacunaconchita.com/">Casa Cuna Conchita</a>
+							</li>
+							<li class="nav-item">
+								<a href="/escuela-de-enfermeria/">Escuela de enfermeria</a>
+							</li>
+							<li class="nav-item">
+								<a href="/educacion-e-investigacion/">Educacion e Investigacion en Salud</a>
+							</li>
+                            <li class="nav-item">
+                                <a href="/7-24-asistencia-medica/">Asistencia Médica Inmediata 7/24</a>
+                            </li>
+						</ul>
                     </li>
                     <li class="nav-item menu-item--covid-19">
                         <a class="nav-link" href="/">
