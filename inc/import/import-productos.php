@@ -137,11 +137,28 @@ class MG_Productos_Import {
             'titulo' => $titulo,
         );
 
+        if ( is_wp_error( $imageId ) ) {
+                echo "<pre>";
+                var_dump( $imageUrl );
+                var_dump( $imageId );
+                var_dump( $this->data['product_id'] );
+                var_dump( $this->data['title'] );
+                echo "</pre>";
+        }
+
+        // if ( $this->data['product_id'] == '96' ) {
+        //     echo "<pre>";
+        //     var_dump( $imageUrl );
+        //     var_dump( $imageId );
+        //     echo "</pre>";
+        // }
+
         /**
          * Descripción group
          */
         // update_field( 'field_649b72c159e15', $data, $this->postId );
         $this->uf( 'field_649b72c159e15', $data );
+        // $this->uf( 'descripcion_imagen', $imageId );
     }
 
     public function saveUnidades() {

@@ -4,8 +4,8 @@
 function muguerza_add_cf7_form_tags() {
   wpcf7_add_form_tag( 'mg_unidades', 'mg_cf7_unidades_tag' );
 
-  wpcf7_add_form_tag( 'mg_page_unidad_id_hidden', 'mg_cf7_page_unidad_id_hidden_tag' );
-  wpcf7_add_form_tag( 'mg_current_unidad_id_hidden', 'mg_cf7_current_unidad_id_hidden_tag' );
+  wpcf7_add_form_tag( 'mg_page_unidad_id_hidden', 'mg_cf7_page_unidad_id_hidden_tag' ); // para páginas de las unidades
+  wpcf7_add_form_tag( 'mg_current_unidad_id_hidden', 'mg_cf7_current_unidad_id_hidden_tag' ); // para cualquier página
   wpcf7_add_form_tag( 'mg_current_unidad_name_hidden', 'mg_cf7_current_unidad_name_hidden_tag' );
 }
 add_action('wpcf7_init', 'muguerza_add_cf7_form_tags');
