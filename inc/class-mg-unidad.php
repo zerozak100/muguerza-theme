@@ -1,5 +1,12 @@
 <?php
 
+
+/**
+ * @property array $data
+ * @property WP_Term $product_cat_city
+ * @property WP_Term $product_cat_unit
+ * @property WP_Term $mg_unidad
+ */
 class MG_Unidad implements JsonSerializable {
 
     public $post;
@@ -11,22 +18,17 @@ class MG_Unidad implements JsonSerializable {
         'quejas_sugerencias_y_felicitaciones',
     );
 
-    /**
-     * @var WP_Term
-     */
     public $product_cat_city;
-
-    /**
-     * @var WP_Term
-     */
     public $product_cat_unit;
+    public $mg_unidad;
 
     public $data = array(
         'id'                  => '',
         'name'                => '',
         'location'            => '',
-        'product_cat_city_id' => '',
-        'product_cat_unit_id' => '',
+        'product_cat_city_id' => '', // descontinuar
+        'product_cat_unit_id' => '', // descontinuar
+        'mg_unidad_term_id'   => '',
     );
 
     /**
@@ -102,6 +104,29 @@ class MG_Unidad implements JsonSerializable {
         return new self( $unidad_id );
     }
 
+    public static function from_abreviatura( $abreviatura ) {
+        $unidad_id = false;
+
+        $unidades_ids = get_posts( array(
+            'fields' 		  => 'ids',
+            'post_type' 	 => 'unidad',
+            'posts_per_page' => 1,
+            'meta_query' 	 => array(
+                'AND',
+                array(
+                    'key'   => 'abreviatura',
+                    'value' => $abreviatura,
+                ),
+            ),
+        ) );
+
+        if ( $unidades_ids ) {
+            $unidad_id = $unidades_ids[0];
+        }
+
+        return new self( $unidad_id );
+    }
+
     public function __construct( $post = 0 ) {
         if ( $post instanceof WP_Post ) {
             $this->post = $post;
@@ -127,6 +152,13 @@ class MG_Unidad implements JsonSerializable {
             'product_cat_unit_id' => $this->product_cat_unit ? $this->product_cat_unit->term_id : '',
             'destinatarios'       => $this->destinatarios_by_form,
         );
+
+        $mg_unidad = get_the_terms( $this->post, 'mg_unidad' );
+
+        if ( $mg_unidad && ! $mg_unidad instanceof WP_Error ) {
+            $this->mg_unidad = $mg_unidad[0];
+            $this->data['mg_unidad_term_id'] = $this->mg_unidad->term_id;
+        }
     }
 
     private function set_product_cat_terms() {

@@ -9,24 +9,30 @@ class MG_Product_Archive_Servicios extends MG_Product_Archive {
         $meta_query = $query->get( 'meta_query', array( 'AND' ) );
 
         if ( ! $this->is_recommending ) {
+            // $tax_query[] = array(
+            //     'taxonomy' => 'product_cat',
+            //     'field'     => 'term_id',
+            //     'terms'    => $this->unidad->get_product_cat_unit_id(),
+            // );
+
             $tax_query[] = array(
-                'taxonomy' => 'product_cat',
-                'field'    => 'term_id',
-                'terms'    => $this->unidad->get_product_cat_unit_id(),
+                'taxonomy' => 'mg_unidad',
+                'field'     => 'term_id',
+                'terms'    => $this->unidad->mg_unidad->term_id,
             );
         }
 
         if ( $service_type_id ) {
             $tax_query[] = array(
                 'taxonomy' => 'tipos_servicios',
-                'field'    => 'term_id',
+                'field'     => 'term_id',
                 'terms'    => $service_type_id,
             );
         }
 
         $tax_query[] = array(
             'taxonomy' => 'producto_tipo',
-            'field'    => 'slug',
+            'field'     => 'slug',
             'terms'    => 'servicio',
         );
 
