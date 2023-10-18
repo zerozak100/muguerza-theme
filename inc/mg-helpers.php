@@ -135,3 +135,36 @@ function mg_log( $log ) {
 	$log = json_encode( $log );
 	error_log( 'MG_LOG: ' . $log );
 }
+
+/**
+ * @param int $product_id
+ */
+function mg_get_product_default_image_id( $product_id ) {
+		$terms 		   = get_the_terms( $product_id, 'tipos_servicios' );
+		$parent 	   = null;
+		$child 		   = null;
+		$attachment_id = null;
+
+		if ( is_array( $terms ) && count( $terms ) > 0 ) {
+
+			foreach ( $terms as $term ) {
+				if ( $term->parent ) {
+					$child = $term;
+				} else {
+					$parent = $term;
+				}
+			}
+		}
+
+		if ( $child ) {
+			$attachment_id = get_field( 'product_default_image', "tipos_servicios_{$child->term_id}" );
+
+			if ( ! $attachment_id && $parent ) {
+				$attachment_id = get_field( 'product_default_image', "tipos_servicios_{$parent->term_id}" );
+			}
+		} else if ( $parent ) {
+			$attachment_id = get_field( 'product_default_image', "tipos_servicios_{$parent->term_id}" );
+		}
+
+		return $attachment_id;
+}

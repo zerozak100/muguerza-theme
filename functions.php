@@ -162,9 +162,56 @@ function mg_save_membresia( $user_login, $user ) {
 // add_action( 'wp_login', 'mg_save_membresia', 10, 2 );
 
 function mg_footerr() {
-	dd( is_page( 'ubicaciones' ) );
+	echo "<pre>";
+	// $order = wc_get_order( 53120235842 );
+	// // var_dump( $order->get_meta( 'mgb_booking_data', true ) );
+	// foreach( $order->get_items() as $item ) {
+	// 	// new WC_Order_Item_Meta();
+	// 	// var_dump( $item->get_id );
+	// 	$bookable_item = new MG_Bookable_Order_Item( $item );
+
+	// 	// $data = array(
+	// 	// 	'name' => 'h',
+	// 	// 	'first_last_name' => 'h',
+	// 	// 	'second_last_name' => 'h',
+	// 	// 	'datetime' => 'dt',
+	// 	// );
+	// 	// $bookable_item->saveBookings( array( $data ) );
+	// 	// $bookable_item->update_meta_data( 'agenda', 'aa'  );
+	// 	// $bookable_item->update_meta_data( , 'aa'  );
+	// 	// $bookable_item->save();
+
+	// 	var_dump( $bookable_item->getBookings() );
+	// 	$bookings = $bookable_item->getBookings();
+
+	// 	foreach( $bookings as $booking_id => $booking_item ) {
+	// 		var_dump( $booking_item->getKey() );
+	// 		var_dump( $booking_item->getLabel() );
+	// 		// $bookable_item->update_meta_data( $booking_item->getKey(), $booking_item->getLabel()  );
+	// 		// $bookable_item->save();
+	// 	}
+
+	// 	// $mgb_unique_id = wc_get_order_item_meta( $item->get_id(), 'mgb_unique_id', true );
+	// 	// var_dump( $mgb_unique_id );
+	// }
+
+	// $data = array(
+	// 	'name' => 'hola',
+	// 	'name2' => 'hola2',
+	// );
+	// MG_Booking_Item_Session::create( 100, $data );
+
+	// MG_Booking_Session::clean();
+	// var_dump( MG_Booking_Session::getData() );
+
+	// var_dump( get_term_by( 'name', 'Hospital Altagracia (León)', 'ubicacion' ) );
+
+	echo "</pre>";
+	
+	// delete_post_meta_by_key( 'mg_location' );
+
 }
-// add_action( 'wp_footer', 'mg_footerr' );
+add_action( 'wp_footer', 'mg_footerr' );
 
 
 function storefront_cart_link() {
@@ -252,3 +299,42 @@ function mg_load_oda_chatbot() {
 	<?php
 }
 add_action( 'wp_head', 'mg_load_oda_chatbot' );
+
+/**
+ * @param string $image Image
+ * @param WC_Product $product Product
+ * @param string $size Size
+ * @param array $attr Attr
+ * @param bool $placeholder Placeholder
+ */
+function mg_set_product_default_img_by_tipo_de_servicio( $image, $product, $size, $attr, $placeholder ) {
+	if ( ! $product->get_image_id() ) {
+		$attachment_id = mg_get_product_default_image_id( $product->get_id() );
+		if ( $attachment_id ) {
+			return wp_get_attachment_image( $attachment_id, $size, false, $attr );
+		}
+	}
+
+	return $image;
+}
+add_filter( 'woocommerce_product_get_image', 'mg_set_product_default_img_by_tipo_de_servicio', 10, 5 );
+// add_filter( 'woocommerce_placeholder_img', 'mg_set_default_img_by_tipo_de_servicio' );
+
+/**
+ * @param int $thumbnail_id
+ * @param WP_Post $post
+ */
+function mg_product_thumbnail_id_set_default_image( $thumbnail_id, $post ) {
+	if ( 'product' !== $post->post_type ) {
+		return $thumbnail_id;
+	}
+
+	$attachment_id = mg_get_product_default_image_id( $post->ID );
+
+	if ( $attachment_id ) {
+		return $attachment_id;
+	}
+
+	return $thumbnail_id;
+}
+add_filter( 'post_thumbnail_id', 'mg_product_thumbnail_id_set_default_image', 10, 2 );
