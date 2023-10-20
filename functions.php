@@ -148,72 +148,6 @@ function show_template() {
 	// echo "</pre>";
 }
 
-/**
- * @param string $user_login User login
- * @param WP_User $user Usuario
- */
-function mg_save_membresia( $user_login, $user ) {
-	$API = new MG_API_Membresias();
-	$response = $API->consultarMembresia( $user->user_email );
-	if ( $response ) {
-		update_user_meta( $user->ID, 'mg_membresia_data', $response->data );
-	}
-}
-// add_action( 'wp_login', 'mg_save_membresia', 10, 2 );
-
-function mg_footerr() {
-	echo "<pre>";
-	// $order = wc_get_order( 53120235842 );
-	// // var_dump( $order->get_meta( 'mgb_booking_data', true ) );
-	// foreach( $order->get_items() as $item ) {
-	// 	// new WC_Order_Item_Meta();
-	// 	// var_dump( $item->get_id );
-	// 	$bookable_item = new MG_Bookable_Order_Item( $item );
-
-	// 	// $data = array(
-	// 	// 	'name' => 'h',
-	// 	// 	'first_last_name' => 'h',
-	// 	// 	'second_last_name' => 'h',
-	// 	// 	'datetime' => 'dt',
-	// 	// );
-	// 	// $bookable_item->saveBookings( array( $data ) );
-	// 	// $bookable_item->update_meta_data( 'agenda', 'aa'  );
-	// 	// $bookable_item->update_meta_data( , 'aa'  );
-	// 	// $bookable_item->save();
-
-	// 	var_dump( $bookable_item->getBookings() );
-	// 	$bookings = $bookable_item->getBookings();
-
-	// 	foreach( $bookings as $booking_id => $booking_item ) {
-	// 		var_dump( $booking_item->getKey() );
-	// 		var_dump( $booking_item->getLabel() );
-	// 		// $bookable_item->update_meta_data( $booking_item->getKey(), $booking_item->getLabel()  );
-	// 		// $bookable_item->save();
-	// 	}
-
-	// 	// $mgb_unique_id = wc_get_order_item_meta( $item->get_id(), 'mgb_unique_id', true );
-	// 	// var_dump( $mgb_unique_id );
-	// }
-
-	// $data = array(
-	// 	'name' => 'hola',
-	// 	'name2' => 'hola2',
-	// );
-	// MG_Booking_Item_Session::create( 100, $data );
-
-	// MG_Booking_Session::clean();
-	// var_dump( MG_Booking_Session::getData() );
-
-	// var_dump( get_term_by( 'name', 'Hospital Altagracia (León)', 'ubicacion' ) );
-
-	echo "</pre>";
-	
-	// delete_post_meta_by_key( 'mg_location' );
-
-}
-add_action( 'wp_footer', 'mg_footerr' );
-
-
 function storefront_cart_link() {
 	get_template_part('templates/part-header-carrito');
 }
@@ -232,8 +166,6 @@ function storefront_cart_link_fragment( $fragments ) {
 	return $fragments;
 }
 add_filter( 'woocommerce_add_to_cart_fragments', 'storefront_cart_link_fragment' );
-
-
 
 function mg_custom_override_checkout_fields( $fields ) {
 	unset( $fields['billing']['billing_acuityscheduling_title'] );

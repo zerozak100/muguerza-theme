@@ -168,7 +168,7 @@ class MG_Api {
 
 class MG_Location {
     constructor( data ) {
-        console.log('mg location constrcutor: ', data);
+        // console.log('mg location constrcutor: ', data);
         this.address = data.address;
         this.lat = parseFloat( data.lat );
         this.lng = parseFloat( data.lng );
