@@ -30,24 +30,32 @@ class MG_Cart {
     }
 
     /**
-     * Todos los productos deben tener la misma sucursal
+     * Todos los productos deben tener la misma unidad
      */
     public function validate_cart_items_same_unit( $passed, $product_id, $quantity, $variation_id = '', $variations= '' ) {
-        // Get the list of cities for the item to be added
-        $product_cities = get_the_terms( $product_id, 'product_cat' );
-        $categorias_array = array_map( function( $categoria ) { return $categoria->slug; }, $product_cities );
-        // Get the cart items
-        $item_in_cart = WC()->cart->get_cart();
-        // Check for each item if the city is different
-        foreach ($item_in_cart as $item){
-          $categorias = get_the_terms( $item['product_id'], 'product_cat' );
-          foreach ($categorias as $categoria){
-            if(!in_array($categoria->slug, $categorias_array)){
-              $passed = false;
-              wc_add_notice( __( 'Lo sentimos, solo puedes agregar productos de la misma unidad.', 'categoria' ), 'error' );
-            }
+        $product = new MG_Product( $product_id );
+
+        if ( ! $product->is_servicio() ) {
+          return $passed;
+        }
+
+        $unidad_id = $product->get_unidad_id();
+
+        if ( ! $unidad_id ) {
+          wc_add_notice( __( 'El producto no cuenta con unidad asignada.', 'categoria' ), 'error' );
+          return false;
+        }
+
+        foreach ( WC()->cart->get_cart() as $item) {
+          $cart_item_product    = new MG_Product( $item['data'] );
+          $cart_item_unidad_id  = $cart_item_product->get_unidad_id();
+
+          if ( $unidad_id !== $cart_item_unidad_id ) {
+            $passed = false;
+            wc_add_notice( __( 'Lo sentimos, solo puedes agregar productos de la misma unidad.', 'categoria' ), 'error' );
           }
         }
+
         return $passed;
       }
 }
