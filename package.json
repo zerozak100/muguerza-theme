@@ -1,7 +1,7 @@
 {
     "name": "muguerza-theme",
     "private": true,
-    "version": "0.0.1",
+    "version": "1.0.0",
     "scripts": {
         "dist": "wp dist-archive . ./releases --create-target-dir"
     }
