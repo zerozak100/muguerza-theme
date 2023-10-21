@@ -14,14 +14,13 @@ class MG_Cart {
      * Validar que el producto a agregar coincida con la unidad seleccionada
      */
     public function validate_product_in_unit( $passed, $product_id, $quantity, $variation_id = '', $variations= '' ) {
-      $user   = MG_User::current();
-      $unidad = $user->get_unidad();
+      $user        = MG_User::current();
+      $user_unidad = $user->get_unidad();
 
-      $mg_product = new MG_Product( $product_id );
+      $product        = new MG_Product( $product_id );
+      $product_unidad = $product->get_unidad();
 
-      // dd( $unidad->get_id(), $mg_product->get_unidad_id() );
-
-      if ( $unidad->get_id() !== $mg_product->get_unidad_id() ) {
+      if ( $user_unidad->get_id() !== $product_unidad->get_id() ) {
         $passed = false;
         wc_add_notice( __( 'Lo sentimos, el producto no pertenece a la unidad actual seleccionada.', 'categoria' ), 'error' );
       }
@@ -33,27 +32,29 @@ class MG_Cart {
      * Todos los productos deben tener la misma unidad
      */
     public function validate_cart_items_same_unit( $passed, $product_id, $quantity, $variation_id = '', $variations= '' ) {
-        $product = new MG_Product( $product_id );
+        $product_to_add = new MG_Product( $product_id );
 
-        if ( ! $product->is_servicio() ) {
+        if ( ! $product_to_add->is_servicio() ) {
           return $passed;
         }
 
-        $unidad_id = $product->get_unidad_id();
+        $product_to_add_unidad = $product_to_add->get_unidad();
 
-        if ( ! $unidad_id ) {
+        if ( ! $product_to_add_unidad->get_id() ) {
           wc_add_notice( __( 'El producto no cuenta con unidad asignada.', 'categoria' ), 'error' );
           return false;
         }
 
         foreach ( WC()->cart->get_cart() as $item) {
-          $cart_item_product    = new MG_Product( $item['data'] );
-          $cart_item_unidad_id  = $cart_item_product->get_unidad_id();
+          $product_in_cart         = new MG_Product( $item['data'] );
+          $product_in_cart_unidad  = $product_in_cart->get_unidad();
 
-          if ( $unidad_id !== $cart_item_unidad_id ) {
+          if ( $product_to_add_unidad->get_id() !== $product_in_cart_unidad->get_id() ) {
             $passed = false;
             wc_add_notice( __( 'Lo sentimos, solo puedes agregar productos de la misma unidad.', 'categoria' ), 'error' );
           }
+
+          break;
         }
 
         return $passed;

@@ -81,18 +81,22 @@ class MG_Unidad implements JsonSerializable {
         return $mg_unidades;
     }
 
-    public static function from_product_cat( $product_cat_id ) {
+    /**
+     * @param int|string $mg_unidad_id Term id from mg_unidad taxonomy
+     */
+    public static function from_mg_unidad_id( $mg_unidad_id ) {
         $unidad_id = false;
 
         $unidades_ids = get_posts( array(
-            'fields' 		 => 'ids',
+            'fields' 		  => 'ids',
             'post_type' 	 => 'unidad',
             'posts_per_page' => 1,
-            'meta_query' 	 => array(
+            'tax_query'      => array(
                 'AND',
                 array(
-                    'key'   => 'ubicacion',
-                    'value' => $product_cat_id,
+                    'taxonomy' => 'mg_unidad',
+                    'terms'    => $mg_unidad_id,
+                    'field'     => 'term_id',
                 ),
             ),
         ) );
