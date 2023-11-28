@@ -19,36 +19,36 @@ $unidad = $user->get_unidad();
                             Casa Cuna Conchita
                         </a>
                     </li>
-                    <li class="nav-item menu-item--serviciones-en-linea">
-                        <a class="nav-link" href="#">
+                    <li class="nav-item menu-item--serviciones-en-linea dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Servicios en Línea
                         </a>
-						<ul class="submenu">
-							<li class="nav-item">
+						<ul class="dropdown-menu">
+							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-laboratorio') == true ? 'current' : ''; ?>">
 								<a href="/resultados-de-laboratorio/">Resultados de laboratorio</a>
 							</li>
-							<li class="nav-item">
+							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-imagenologia') == true ? 'current' : ''; ?>">
 								<a href="/resultados-de-imagenologia/">Resultados de Imagenología</a>
 							</li>
-							<li class="nav-item">
-								<a href="#">Directorio medico</a>
+							<li class="dropdown-item nav-item <?php echo is_page('directorio-medico') == true ? 'current' : ''; ?>">
+								<a href="/medico/">Directorio medico</a>
 							</li>
-							<li class="nav-item">
+							<li class="dropdown-item nav-item">
 								<a href="https://facturacion.christusmuguerza.com.mx:8443/ords/finanzas/r/facturacion/15">Facturación electrónica</a>
 							</li>
-							<li class="nav-item">
+							<li class="dropdown-item nav-item <?php echo is_page('directorio-telefonico') == true ? 'current' : ''; ?>">
 								<a href="/directorio-telefonico/">Directorio telefónico</a>
 							</li>
-							<li class="nav-item">
-								<a href="#">Espacio saludable</a>
+							<li class="dropdown-item nav-item <?php echo is_page('espacio-saludable') == true ? 'current' : ''; ?>">
+								<a href="/espacio-saludable/">Espacio saludable</a>
 							</li>
-							<li class="nav-item">
+							<li class="dropdown-item nav-item">
 								<a href="https://www.office.com/">Portal de colaboradores</a>
 							</li>
 						</ul>
                     </li>
                     <li class="nav-item menu-item--membresias">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link <?php echo is_page('membresias') == true ? 'current' : ''; ?>" href="/membresias/">
                             Membresías
                         </a>
                     </li>
@@ -201,18 +201,23 @@ $unidad = $user->get_unidad();
                     </li>
                 </ul>
             </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fa fa-bars"></span>
+            </button>
         </nav>
+        
     </div>
+    <!-- MENU ESCRITORIO -->
     <div class="menu-secundario-wrapper container">
         <nav class="navbar navbar-expand-lg">
-            <div class="menu-secundario navbar-collapse collapse">
-                <ul class="navbar-nav">
-                    <li class="nav-item menu-item--servicios">
+            <div class="menu-secundario navbar-collapse collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item menu-item--servicios <?php echo is_page('servicios') == true ? 'current' : ''; ?>">
                         <a class="nav-link" href="<?php echo esc_url( get_permalink( get_page_by_path( 'servicios' ) ) ); ?>">
                             SERVICIOS
                         </a>
                     </li>
-                    <li class="nav-item menu-item--especialidades">
+                    <li class="nav-item menu-item--especialidades <?php echo is_page('especialidades') == true ? 'current' : ''; ?>">
                         <a class="nav-link" href="<?php echo esc_url( get_permalink( get_page_by_path( 'especialidades' ) ) ); ?>">
                             ESPECIALIDADES
                         </a>
@@ -222,38 +227,38 @@ $unidad = $user->get_unidad();
                             PROMOCIONES
                         </a>
                     </li>
-					<li class="nav-item">
+					<li class="nav-item <?php echo is_page('hospitales') == true ? 'current' : ''; ?>">
                         <a class="nav-link" href="/hospitales">
                             UBICACIONES
                         </a>
                     </li>
-					<li class="nav-item menu-item--proposito-social">
-					    <a class="nav-link" href="#">
+					<li class="nav-item menu-item--proposito-social dropdown">
+					    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             PROPOSITO SOCIAL
                         </a>
-						<ul class="submenu">
-							<li class="nav-item">
-								<a href="">Responsabilidad social</a>
+						<ul class="dropdown-menu">
+							<li class="dropdown-item nav-item <?php echo is_page('responsabilidad-social') == true ? 'current' : ''; ?>">
+								<a href="/responsabilidad-social/">Responsabilidad social</a>
 							</li>
-							<li class="nav-item">
+							<li class="dropdown-item nav-item">
 								<a href="https://www.fundacionlafon.org.mx/">Funcación Adelaida Lafón</a>
 							</li>
-							<li class="nav-item">
+							<li class="dropdown-item nav-item">
 								<a href="https://www.casacunaconchita.com/">Casa Cuna Conchita</a>
 							</li>
-							<li class="nav-item">
+							<li class="dropdown-item nav-item <?php echo is_page('escuela-de-enfermeria') == true ? 'current' : ''; ?>">
 								<a href="/escuela-de-enfermeria/">Escuela de enfermeria</a>
 							</li>
-							<li class="nav-item">
+							<li class="dropdown-item nav-item <?php echo is_page('educacion-e-investigacion') == true ? 'current' : ''; ?>">
 								<a href="/educacion-e-investigacion/">Educacion e Investigacion en Salud</a>
 							</li>
-                            <li class="nav-item">
+                            <li class="dropdown-item nav-item <?php echo is_page('7-24-asistencia-medica') == true ? 'current' : ''; ?>">
                                 <a href="/7-24-asistencia-medica/">Asistencia Médica Inmediata 7/24</a>
                             </li>
 						</ul>
                     </li>
                     <li class="nav-item menu-item--covid-19">
-                        <a class="nav-link" href="/">
+                        <a class="nav-link" href="https://info.christus.mx/covid19">
                             COVID-19
                         </a>
                     </li>
