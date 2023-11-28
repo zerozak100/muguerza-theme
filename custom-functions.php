@@ -21,9 +21,9 @@ function mg_cf7_page_unidad_id_hidden_tag() {
     }
   }
 
-  if ( ! $unidad_id ) {
-    throw new Exception( 'No se encontró unidad_id' );
-  }
+  // if ( ! $unidad_id ) {
+  //   throw new Exception( 'No se encontró unidad_id' );
+  // }
 
   return sprintf( '<input type="hidden" name="unidad_id" value="%s" />', $unidad_id );
 }
