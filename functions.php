@@ -270,3 +270,8 @@ function mg_product_thumbnail_id_set_default_image( $thumbnail_id, $post ) {
 	return $thumbnail_id;
 }
 add_filter( 'post_thumbnail_id', 'mg_product_thumbnail_id_set_default_image', 10, 2 );
+
+function petfud_get_related_product_by_tipos_servicios_terms( $terms, $product_id ) {
+    return wc_get_product_term_ids( $product_id, 'tipos_servicios' );
+}
+add_filter('woocommerce_get_related_product_cat_terms', 'petfud_get_related_product_by_tipos_servicios_terms', 10, 2);
