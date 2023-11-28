@@ -36,7 +36,7 @@ $mg_product = new MG_Product( $product );
 
         </div>
         <div class="col-sec1 formulario">
-            <?php echo do_shortcode(' [contact-form-7 id="53120234051" title="Formulario especialidades"] '); ?>
+            <?php // echo do_shortcode(' [contact-form-7 id="53120234051" title="Formulario especialidades"] '); ?>
         </div>
     </div>
 </div>
