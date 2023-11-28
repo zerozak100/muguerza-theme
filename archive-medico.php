@@ -33,24 +33,25 @@ get_header();
 
 <div class="content-medicos">
     <div class="container">
-        <div class="table">
-            <div class="tableRow">
-                <div class="tableCell">Medico</div>
-                <div class="tableCell">Especialidad</div>
-                <div class="tableCell">Ubicacion</div>
-            </div>
-            <?php if ( have_posts() ) : ?>
+        <?php if ( have_posts() ) : ?>
+            <table class="default directorio-medicos">
+                <tr class="tableRow">
+                    <th class="tableCell">Medico</th>
+                    <th class="tableCell">Especialidad</th>
+                    <th class="tableCell">Ubicacion</th>
+                </tr>
                 <?php while ( have_posts() ) : the_post(); ?>
-                    <a class="tableRow" href="<?php the_permalink() ?>">
-                        <div class="tableCell"><?php the_title(); ?></div>
-                        <div class="tableCell"><?php echo MG_Medico_Archive::get_medico_especialidades_formatted( $post ); ?></div>
-                        <div class="tableCell"><?php echo MG_Medico_Archive::get_medico_ubicacion_name( $post ); ?></div>
-                    </a>
-                <?php endwhile; the_posts_pagination(); ?>
-            <?php else : ?>
-                <p>No se encontraron médicos</p>
-            <?php endif; ?>
-        </div>
+                    <tr>
+                        <td class="tableCell"><a class="tableRow" href="<?php the_permalink() ?>"><?php the_title(); ?></a></td>
+                        <td class="tableCell"><?php echo MG_Medico_Archive::get_medico_especialidades_formatted( $post ); ?></td>
+                        <td class="tableCell"><?php echo MG_Medico_Archive::get_medico_ubicacion_name( $post ); ?></td>
+                    </tr>
+                <?php endwhile; ?>
+            </table>
+            <?php the_posts_pagination(); ?>
+        <?php else : ?>
+            <p>No se encontraron médicos</p>
+        <?php endif; ?>
     </div>
 </div>
 <?php
