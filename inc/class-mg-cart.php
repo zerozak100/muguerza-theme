@@ -14,13 +14,7 @@ class MG_Cart {
      * Validar que el producto a agregar coincida con la unidad seleccionada
      */
     public function validate_product_in_unit( $passed, $product_id, $quantity, $variation_id = '', $variations= '' ) {
-      $user        = MG_User::current();
-      $user_unidad = $user->get_unidad();
-
-      $product        = new MG_Product( $product_id );
-      $product_unidad = $product->get_unidad();
-
-      if ( $user_unidad->get_id() !== $product_unidad->get_id() ) {
+      if ( ! mg_product_in_unidad( $product_id ) ) {
         $passed = false;
         wc_add_notice( __( 'Lo sentimos, el producto no pertenece a la unidad actual seleccionada.', 'categoria' ), 'error' );
       }
