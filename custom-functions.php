@@ -14,9 +14,9 @@ function mg_cf7_page_unidad_id_hidden_tag() {
   global $post;
 
   if ( 'page' === $post->post_type ) {
-    $product_cat_id = get_field( 'unidad', $post->ID );
-    if ( $product_cat_id ) {
-      $unidad         = MG_Unidad::from_product_cat( $product_cat_id );
+    $mg_unidad_id = get_field( 'unidad', $post->ID );
+    if ( $mg_unidad_id ) {
+      $unidad         = MG_Unidad::from_mg_unidad_id( $mg_unidad_id );
       $unidad_id      = $unidad->get_id();
     }
   }
@@ -58,14 +58,14 @@ function mg_cf7_unidades_tag() {
   $tag = '';
 
   if ( $mg_product->is_especialidad() ) {
-    $disponibilidad_en_hospitales = get_field( 'disponibilidad_en_hospitales' );
+    $unidades = get_field( 'unidad' ); // taxonomy mg_unidad
 
-    if ( is_array( $disponibilidad_en_hospitales ) ) {
+    if ( is_array( $unidades ) ) {
       
       $tag = '<select name="unidad">';
 
-      foreach ( $disponibilidad_en_hospitales as $product_cat_id ) {
-        $unidad = MG_Unidad::from_product_cat( $product_cat_id );
+      foreach ( $unidades as $mg_unidad_id ) {
+        $unidad = MG_Unidad::from_mg_unidad_id( $mg_unidad_id );
 
         if ( ! $unidad->has_destinatarios( 'servicios_y_cotizaciones' ) ) {
           continue;
@@ -78,23 +78,25 @@ function mg_cf7_unidades_tag() {
 
       $tag .= '</select>';
     }
-  } else {
-    $product_cat_id = get_field( 'ubicacion' );
-
-    if( $product_cat_id ) {
-      
-      $unidad = MG_Unidad::from_product_cat( $product_cat_id );
-
-      /**
-      * Si no tiene configurado destinatarios entonces no mostrar
-      */
-      if ( ! $unidad->has_destinatarios('servicios_y_cotizaciones' ) ) {
-        return '<p style="color:#ffffff;">No tiene destinatarios</p>';
-      }
-
-      $tag = sprintf( '<input style="background-color: #fff;" disabled type="text" value="%s" />', $unidad->get_name() );
-    }
   }
+  
+  // else {
+  //   $product_cat_id = get_field( 'ubicacion' );
+
+  //   if( $product_cat_id ) {
+      
+  //     $unidad = MG_Unidad::from_product_cat( $product_cat_id );
+
+  //     /**
+  //     * Si no tiene configurado destinatarios entonces no mostrar
+  //     */
+  //     if ( ! $unidad->has_destinatarios('servicios_y_cotizaciones' ) ) {
+  //       return '<p style="color:#ffffff;">No tiene destinatarios</p>';
+  //     }
+
+  //     $tag = sprintf( '<input style="background-color: #fff;" disabled type="text" value="%s" />', $unidad->get_name() );
+  //   }
+  // }
 
   return $tag;
 }
