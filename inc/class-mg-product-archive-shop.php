@@ -46,21 +46,27 @@ class MG_Product_Archive_Shop extends MG_Product_Archive {
 
         if ( ! $this->is_recommending ) {
             $tax_query[] = array(
-                'taxonomy' => 'product_cat',
-                'field'    => 'term_id',
-                'terms'    => $this->unidad_id,
-            );
-    
-            $field_value = sprintf( '^%1$s$|s:%2$u:"%1$s";',  $this->unidad_id, strlen(  $this->unidad_id ) );
-            $meta_query[] = array(
-                'key'     => 'disponibilidad_en_hospitales',
-                // 'value'   => 'a:2:{i:0;i:48;i:1;i:47;}',
-                'value'   => $field_value,
-                'compare' => 'REGEXP',
+                'taxonomy' => 'mg_unidad',
+                'field'     => 'term_id',
+                'terms'    => $this->unidad->mg_unidad->term_id,
             );
 
-            add_filter( 'posts_where', array( $this, 'f1_egpaf_meta_or_tax' ), PHP_INT_MAX, 2 );
-            $query->set( '_meta_or_tax', true );
+            // $tax_query[] = array(
+            //     'taxonomy' => 'product_cat',
+            //     'field'    => 'term_id',
+            //     'terms'    => $this->unidad_id,
+            // );
+    
+            // $field_value = sprintf( '^%1$s$|s:%2$u:"%1$s";',  $this->unidad_id, strlen(  $this->unidad_id ) );
+            // $meta_query[] = array(
+            //     'key'     => 'disponibilidad_en_hospitales',
+            //     // 'value'   => 'a:2:{i:0;i:48;i:1;i:47;}',
+            //     'value'   => $field_value,
+            //     'compare' => 'REGEXP',
+            // );
+
+            // add_filter( 'posts_where', array( $this, 'f1_egpaf_meta_or_tax' ), PHP_INT_MAX, 2 );
+            // $query->set( '_meta_or_tax', true );
         }
 
         $query->set( 'meta_query', $meta_query );
