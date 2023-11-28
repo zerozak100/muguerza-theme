@@ -131,9 +131,9 @@ function snakeToCamel( $input ) {
 	return lcfirst( str_replace( ' ', '', ucwords( str_replace( '_', ' ', $input ) ) ) );
 }
 
-function mg_log( $log ) {
-	$log = json_encode( $log );
-	error_log( 'MG_LOG: ' . $log );
+function mgl( $log ) {
+	// $log = json_encode( $log );
+	error_log( 'MG_LOG: ' . wc_print_r( $log, true ) );
 }
 
 /**
