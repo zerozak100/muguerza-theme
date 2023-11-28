@@ -3,40 +3,42 @@
 function mg_home_sala_prensa_shortcode() {
     $args = array(
         'posts_per_page' => 7,
+        'category' => 622,
+		'category__not_in' => 650,
     );
 
     $items = array();
 
     $posts = get_posts( $args );
     if ( is_array( $posts ) && ! empty( $posts ) ) {
-        $primary = $posts[0];
+        $primary = $posts;
         $items = array(
             'primary' => array(
-                'post' => $primary,
+                'post' => $primary[0],
                 'classes' => array( 'home-sala-prensa-item--primary' ),
             ),
             'secondary' => array(
-                'post' => $primary,
+                'post' => $primary[1],
                 'classes' => array( 'home-sala-prensa-item--secondary' ),
             ),
             'tertiary' => array(
-                'post' => $primary,
+                'post' => $primary[2],
                 'classes' => array( 'home-sala-prensa-item--tertiary' ),
             ),
             'four' => array(
-                'post' => $primary,
+                'post' => $primary[3],
                 'classes' => array( 'home-sala-prensa-item--four', 'home-sala-prensa-item--vertical' ),
             ),
             'five' => array(
-                'post' => $primary,
+                'post' => $primary[4],
                 'classes' => array( 'home-sala-prensa-item--five', 'home-sala-prensa-item--vertical' ),
             ),
             'six' => array(
-                'post' => $primary,
+                'post' => $primary[5],
                 'classes' => array( 'home-sala-prensa-item--six', 'home-sala-prensa-item--vertical' ),
             ),
             'seven' => array(
-                'post' => $primary,
+                'post' => $primary[6],
                 'classes' => array( 'home-sala-prensa-item--seven', 'home-sala-prensa-item--vertical' ),
             ),
         );
