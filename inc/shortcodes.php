@@ -88,7 +88,12 @@ function hospitales(){
 		echo '<div class="filtro">';
 			
 			//$field = get_field_object('ubicacion');
-			$ciudades = get_terms(array('taxonomy' => 'product_cat', 'parent' => 0));
+			$tax = array(
+                'taxonomy' => 'product_cat',
+                'parent' => 0,
+                'hide_empty' => 0,
+            );
+            $ciudades = get_categories($tax);
 			//$colors = $field['choices'];
 	
 			//print_r( $ciudades );
