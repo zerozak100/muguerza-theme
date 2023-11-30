@@ -39,7 +39,12 @@ $mg_product = new MG_Product( $product );
 	<?php if ( $mg_product->is_especialidad() ) : ?>
 		<?php include_once __DIR__ . '/content-single-product-especialidad.php'; ?>
 	<?php else : ?>
-		<?php include_once __DIR__ . '/content-single-product-servicio.php'; ?>
+		<?php $taxonomy = get_term_by( 'term_taxonomy_id', get_field('tipo_servicio', $product->ID), 'tipos_servicios'); ?>
+		<?php if ( $taxonomy->slug == 'maternidad' ) : ?>
+			<?php include_once __DIR__ . '/content-single-product-maternidad.php'; ?>
+		<?php else : ?>
+			<?php include_once __DIR__ . '/content-single-product-servicio.php'; ?>
+		<?php endif; ?>
 	<?php endif; ?>
 </div>
 
