@@ -273,10 +273,11 @@ function mg_product_thumbnail_id_set_default_image( $thumbnail_id, $post ) {
 }
 add_filter( 'post_thumbnail_id', 'mg_product_thumbnail_id_set_default_image', 10, 2 );
 
-function petfud_get_related_product_by_tipos_servicios_terms( $terms, $product_id ) {
+function muguerza_get_related_product_by_tipos_servicios_terms( $terms, $product_id ) {
     return wc_get_product_term_ids( $product_id, 'tipos_servicios' );
 }
-add_filter('woocommerce_get_related_product_cat_terms', 'petfud_get_related_product_by_tipos_servicios_terms', 10, 2);
+add_filter('woocommerce_get_related_product_cat_terms', 'muguerza_get_related_product_by_tipos_servicios_terms', 10, 2);
+
 remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
 add_action( 'muguerza_checkout_after_form_fields', 'woocommerce_checkout_payment', 20 );
 
