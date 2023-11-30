@@ -18,7 +18,7 @@ $excerpt = wp_trim_words( get_the_excerpt( $post->ID ), 15 );
             <div class="home-sala-prensa-item__content-box">
                 <h6 class="home-sala-prensa-item__title"><?php echo esc_html( $title ); ?></h6>
                 <p class="home-sala-prensa-item__excerpt"><?php echo esc_html( $excerpt ); ?></p>
-                <a href="<?php echo get_permalink($post->ID); ?>">Ver más</a>
+                <!-- <a href="<?php echo get_permalink($post->ID); ?>">Ver más</a> -->
             </div>
         </div>
     </a>
