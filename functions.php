@@ -134,6 +134,8 @@ include_once 'inc/import/drupal-importer.php';
 
 include_once __DIR__ . '/custom-functions.php';
 
+include_once __DIR__ . '/inc/class-mg-checkout.php';
+
 // TODO https://www.google.com/search?q=woocommerce+filters+combinations+not+show&oq=woocommerce+filters+combinations+not+show&aqs=chrome..69i57j33i160l4.12020j0j7&sourceid=chrome&ie=UTF-8
 // https://stackoverflow.com/questions/41721296/woocommerce-variations-not-filtering-out-invalid-combinations
 // https://stackoverflow.com/questions/71166565/how-do-i-make-these-combination-select-filters-work-when-only-one-dropdown-is-se
@@ -275,3 +277,6 @@ function petfud_get_related_product_by_tipos_servicios_terms( $terms, $product_i
     return wc_get_product_term_ids( $product_id, 'tipos_servicios' );
 }
 add_filter('woocommerce_get_related_product_cat_terms', 'petfud_get_related_product_by_tipos_servicios_terms', 10, 2);
+remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
+add_action( 'muguerza_checkout_after_form_fields', 'woocommerce_checkout_payment', 20 );
+
