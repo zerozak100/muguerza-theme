@@ -281,3 +281,24 @@ add_filter('woocommerce_get_related_product_cat_terms', 'muguerza_get_related_pr
 remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
 add_action( 'muguerza_checkout_after_form_fields', 'woocommerce_checkout_payment', 20 );
 
+/**
+ * WooCommerce Post Class filter.
+ *
+ * @since 3.6.2
+ * @param array      $classes Array of CSS classes.
+ * @param WC_Product $product Product object.
+ */
+function muguerza_set_product_loop_item_classes( $classes, $product ) {
+	$mg_product = new MG_Product( $product );
+
+	if ( $mg_product->is_especialidad() ) {
+		$classes[] = 'mg-especialidad';
+	}
+
+	if ( $mg_product->is_servicio() ) {
+		$classes[] = 'mg-servicio';
+	}
+
+	return $classes;
+}
+add_action( 'woocommerce_post_class', 'muguerza_set_product_loop_item_classes', 10, 2 );
