@@ -25,15 +25,21 @@ $mg_product = new MG_Product( $product );
             }
         </style>
         <div class="cont-price-count">
-            <?php if ($mg_product->is_vendible()) : ?>
-                <p class="price"><?php echo $product->get_price_html() ?></p>
+
+            <?php if ( $mg_product->is_vendible() ) : ?>
+                <p class="price"><?php echo $product->get_price_html(); ?></p>
             <?php endif; ?>
+
+            <?php if ( $mg_product->is_agendable() ) : ?>
+                <?php MG_Booking_Form::getInstance()->showOpenButton(); ?>
+            <?php endif; ?>
+
             <?php
-                if ($mg_product->is_vendible_without_agenda()) {
-                    // echo '<p>Cantidad</p>';
+                if ( $mg_product->is_vendible_without_agenda() ) {
                     do_action('woocommerce_simple_add_to_cart');
                 }
             ?>
+
         </div>
 
         <ul class="tabs">
