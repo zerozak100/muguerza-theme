@@ -21,6 +21,11 @@ class MG_Checkout {
         // woocommerce_billing_fields
 
         add_filter( 'woocommerce_checkout_get_value', array( $this, 'set_billing_requires_default_value' ), 10, 2 );
+        add_filter( 'woocommerce_form_field_heading', array( $this, 'handle_form_field_heading' ), 10, 4 );
+    }
+
+    public function handle_form_field_heading( $field, $key, $args, $value ) {
+        return '<p class="form-row form-row-first hidden mg_billing"><b>Detalles de facturación</b></p>';
     }
 
     public function set_billing_requires_default_value( $value, $input ) {
@@ -61,6 +66,10 @@ class MG_Checkout {
             'type'     => 'checkbox',
             'label'    => '¿Deseas facturar esta compra?',
             'class'    => array( 'form-row-wide' ),
+        );
+
+        $fields['billing']['billing_heading'] = array(
+            'type' => 'heading',
         );
 
         return $fields;
@@ -135,16 +144,16 @@ class MG_Checkout {
         $fields['billing']['billing_last_name']['priority']  = 2;
         $fields['billing']['billing_email']['priority']      = 3;
         $fields['billing']['billing_phone']['priority']      = 4;
-        $fields['billing']['billing_phone']['priority']      = 4;
         $fields['billing']['billing_requires']['priority']   = 5;
-        $fields['billing']['billing_rfc']['priority']        = 6;
-        $fields['billing']['billing_company']['priority']    = 7;
-        $fields['billing']['billing_address_1']['priority']  = 7;
-        $fields['billing']['billing_address_2']['priority']  = 8;
-        $fields['billing']['billing_country']['priority']    = 9;
-        $fields['billing']['billing_state']['priority']      = 10;
-        $fields['billing']['billing_city']['priority']       = 11;
-        $fields['billing']['billing_postcode']['priority']   = 12;
+        $fields['billing']['billing_heading']['priority']    = 6;
+        $fields['billing']['billing_rfc']['priority']        = 7;
+        $fields['billing']['billing_company']['priority']    = 8;
+        $fields['billing']['billing_address_1']['priority']  = 9;
+        $fields['billing']['billing_address_2']['priority']  = 10;
+        $fields['billing']['billing_country']['priority']    = 11;
+        $fields['billing']['billing_state']['priority']      = 12;
+        $fields['billing']['billing_city']['priority']       = 13;
+        $fields['billing']['billing_postcode']['priority']   = 14;
 
         return $fields;
     }
