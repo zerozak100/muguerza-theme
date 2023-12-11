@@ -7,8 +7,17 @@ function muguerza_add_cf7_form_tags() {
   wpcf7_add_form_tag( 'mg_page_unidad_id_hidden', 'mg_cf7_page_unidad_id_hidden_tag' ); // para páginas de las unidades
   wpcf7_add_form_tag( 'mg_current_unidad_id_hidden', 'mg_cf7_current_unidad_id_hidden_tag' ); // para cualquier página
   wpcf7_add_form_tag( 'mg_current_unidad_name_hidden', 'mg_cf7_current_unidad_name_hidden_tag' );
+  wpcf7_add_form_tag( 'mg_current_product_id_hidden', 'mg_cf7_current_product_id_hidden_tag' );
 }
 add_action('wpcf7_init', 'muguerza_add_cf7_form_tags');
+
+function mg_cf7_current_product_id_hidden_tag() {
+  global $post;
+
+  if ( $post->post_type === 'product' ) {
+    return sprintf( '<input type="hidden" name="product_id" value="%s" />', esc_attr( $post->ID ) );
+  }
+}
 
 function mg_cf7_page_unidad_id_hidden_tag() {
   global $post;
@@ -57,7 +66,7 @@ function mg_cf7_unidades_tag() {
 
   $tag = '';
 
-  if ( $mg_product->is_especialidad() ) {
+  if ( $mg_product->is_especialidad() || $mg_product->is_maternidad() ) {
     $unidades = get_field( 'unidad' ); // taxonomy mg_unidad
 
     if ( is_array( $unidades ) ) {
@@ -137,8 +146,16 @@ function muguerza_cf7_handle_destinatarios( $contact_form ) {
   $unidad = new MG_Unidad( $unidad_id );
 
   if ( $tipo_1 == $form_id ) {
-    // TODO cambiar cuando sea un producto de maternidad
+    $product_id = $posted_data['product_id'];
     $destinatarios = $unidad->get_destinatarios( 'servicios_y_cotizaciones' );
+
+    if ( $product_id ) {
+      $mg_product = new MG_Product( $product_id );
+
+      if ( $mg_product->is_maternidad() ) {
+        $destinatarios = $unidad->get_destinatarios( 'maternidad' );
+      }
+    }
   }
 
   if ( in_array( $form_id, $tipo_2 ) ) {
