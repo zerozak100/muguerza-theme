@@ -69,22 +69,23 @@ function mg_cf7_unidades_tag() {
   if ( $mg_product->is_especialidad() || $mg_product->is_maternidad() ) {
     $unidades = get_field( 'unidad' ); // taxonomy mg_unidad
 
-    if ( is_array( $unidades ) ) {
-      
-      $tag = '<select name="unidad">';
+    if ( $unidades ) {
+      $unidades = is_array( $unidades ) ? $unidades : array( $unidades );
 
+      $tag = '<select name="unidad">';
+  
       foreach ( $unidades as $mg_unidad_id ) {
         $unidad = MG_Unidad::from_mg_unidad_id( $mg_unidad_id );
-
+  
         if ( ! $unidad->has_destinatarios( 'servicios_y_cotizaciones' ) ) {
           continue;
         }
-
+  
         $option = sprintf( '<option value="%s">%s</option>', $unidad->get_id(), $unidad->get_name() );
-
+  
         $tag .= $option;
       }
-
+  
       $tag .= '</select>';
     }
   }
