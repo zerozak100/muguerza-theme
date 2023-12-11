@@ -143,3 +143,67 @@ function hospitales(){
 	return ob_get_clean();
 }
 add_shortcode('hospitales', 'hospitales');
+
+function productos_sh( $atts ) {
+    $a = shortcode_atts( 
+        array(
+            'tipo_producto' => 'Servicio',
+            'tipo_unidad' => 'Asistencia Médica Inmediata 7-24'
+        ), 
+        $atts 
+    );
+
+    $args = array(
+        'post_type'             => 'product',
+        'post_status'           => 'publish',
+        'posts_per_page'        => -1, // Limit: two products
+        'tax_query'             => array( 
+            array(
+                'taxonomy'      => 'producto_tipo',
+                'field'         => 'name', // can be 'term_id', 'slug' or 'name'
+                'terms'         => $a['tipo_producto'],
+            ), 
+            array(
+                'taxonomy'      => 'mg_unidad',
+                'field'         => 'name', // can be 'term_id', 'slug' or 'name'
+                'terms'         => $a['tipo_unidad'],
+            ),
+        )
+    );
+
+    $query = new WP_Query($args);
+    //var_dump($query);
+    ob_start();
+    ?>
+    <div class="carrusel-productos">
+    <ul class="products">
+    
+    <?php
+    if ( $query->have_posts() ):        
+        while( $query->have_posts() ): 
+            $query->the_post();
+            //var_dump($query->post);
+    ?>
+            <li class="product">
+                <img src="<?php echo wp_get_attachment_url( get_post_thumbnail_id( $query->post->id) ); ?>" />
+                <?php echo $query->post->post_title; ?>
+                <div class="mg-product-item-footer">
+                    <?php
+                        $product = wc_get_product( $query->post->ID ); 
+                        
+                        echo $product->get_price_html();
+                    ?>
+                    <a href="<?php echo esc_url( get_permalink( $query->post->id ) ); ?>">Ver más</a>
+                </div>
+            </li>
+    <?php
+        //
+        endwhile;
+        
+    endif;
+    echo '</ul>';
+    echo '</div>';
+    wp_reset_postdata();
+    return ob_get_clean();
+}
+add_shortcode('productos', 'productos_sh');
