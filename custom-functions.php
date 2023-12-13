@@ -8,8 +8,33 @@ function muguerza_add_cf7_form_tags() {
   wpcf7_add_form_tag( 'mg_current_unidad_id_hidden', 'mg_cf7_current_unidad_id_hidden_tag' ); // para cualquier página
   wpcf7_add_form_tag( 'mg_current_unidad_name_hidden', 'mg_cf7_current_unidad_name_hidden_tag' );
   wpcf7_add_form_tag( 'mg_current_product_id_hidden', 'mg_cf7_current_product_id_hidden_tag' );
+
+  // names
+  wpcf7_add_form_tag( 'mg_user_unidad_hidden', 'mg_cf7_user_unidad_hidden_tag' );
+  wpcf7_add_form_tag( 'mg_page_unidad_hidden', 'mg_cf7_page_unidad_hidden_tag' );
 }
 add_action('wpcf7_init', 'muguerza_add_cf7_form_tags');
+
+function mg_cf7_user_unidad_hidden_tag() {
+  $unidad_id = mg_get_current_unidad_id();
+  if ( ! $unidad_id ) {
+    throw new Exception( 'No se encontró unidad_id' );
+  }
+  $unidad = new MG_Unidad( $unidad_id );
+  return sprintf( '<input type="hidden" name="user_unidad" value="%s" />', $unidad->get_name() );
+}
+
+function mg_cf7_page_unidad_hidden_tag() {
+  global $post;
+  if ( 'page' === $post->post_type ) {
+    $mg_unidad_id = get_field( 'unidad', $post->ID );
+    if ( $mg_unidad_id ) {
+      $unidad         = MG_Unidad::from_mg_unidad_id( $mg_unidad_id );
+      $unidad_name    = $unidad->get_name();
+    }
+  }
+  return sprintf( '<input type="hidden" name="page_unidad" value="%s" />', esc_attr( $unidad_name ) );
+}
 
 function mg_cf7_current_product_id_hidden_tag() {
   global $post;
@@ -72,7 +97,7 @@ function mg_cf7_unidades_tag() {
     if ( $unidades ) {
       $unidades = is_array( $unidades ) ? $unidades : array( $unidades );
 
-      $tag = '<select name="unidad">';
+      $tag = '<select name="unidad_id">';
   
       foreach ( $unidades as $mg_unidad_id ) {
         $unidad = MG_Unidad::from_mg_unidad_id( $mg_unidad_id );
@@ -175,3 +200,28 @@ function muguerza_cf7_handle_destinatarios( $contact_form ) {
   $contact_form->set_properties( array( 'mail' => $mail ) );
 }
 add_action('wpcf7_before_send_mail', 'muguerza_cf7_handle_destinatarios', 90, 1);
+
+function muguerza_cf7_special_mail_tags( $output, $name, $html ) {
+  $name = preg_replace( '/^wpcf7\./', '_', $name ); // for back-compat
+
+  $submission = WPCF7_Submission::get_instance();
+
+  if ( ! $submission ) {
+    return $output;
+  }
+
+  if ( 'unidad' == $name ) {
+    $unidad_id = $submission->get_posted_data( 'unidad_id' );
+    $unidad = new MG_Unidad( $unidad_id );
+    return $unidad->get_name();
+  }
+
+  if ( 'producto' == $name ) {
+    $product_id = $submission->get_posted_data( 'product_id' );
+    $product = new MG_Product( $product_id );
+    return $product->get_name();
+  }
+
+  return $output;
+}
+add_filter( 'wpcf7_special_mail_tags', 'muguerza_cf7_special_mail_tags', 10, 3 );
