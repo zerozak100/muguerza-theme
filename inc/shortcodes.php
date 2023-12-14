@@ -156,7 +156,7 @@ function productos_sh( $atts ) {
     $args = array(
         'post_type'             => 'product',
         'post_status'           => 'publish',
-        'posts_per_page'        => -1, // Limit: two products
+        'posts_per_page'        => 20,
         'tax_query'             => array( 
             array(
                 'taxonomy'      => 'producto_tipo',
@@ -172,7 +172,7 @@ function productos_sh( $atts ) {
     );
 
     $query = new WP_Query($args);
-    //var_dump($query);
+
     ob_start();
     ?>
     <div class="carrusel-productos">
