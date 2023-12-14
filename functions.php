@@ -6,7 +6,7 @@
  */
 
  define( 'MG_TEMPLATES_PATH', get_stylesheet_directory() . '/templates//' );
- define( 'MG_THEME_VERSION', '1.0.11' );
+ define( 'MG_THEME_VERSION', '1.0.12' );
 
 /**
  * Load child theme css and optional scripts
