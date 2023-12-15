@@ -22,6 +22,12 @@ class MG_Checkout {
 
         add_filter( 'woocommerce_checkout_get_value', array( $this, 'set_billing_requires_default_value' ), 10, 2 );
         add_filter( 'woocommerce_form_field_heading', array( $this, 'handle_form_field_heading' ), 10, 4 );
+
+        add_filter( 'woocommerce_form_field', array( $this, 'remove_blank_space' ), 10, 4 );
+    }
+
+    public function remove_blank_space( $field, $key, $args, $value ) {
+        return str_replace( '&nbsp;', '', $field );
     }
 
     public function handle_form_field_heading( $field, $key, $args, $value ) {
