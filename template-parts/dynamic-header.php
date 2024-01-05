@@ -186,7 +186,9 @@ $unidad = $user->get_unidad();
                     <li class="nav-item menu-item--mi-cuenta">
                         <span class="nav-link">
                             <span>
-                                <a href="#">Iniciar sesión</a> o <a href="#">regístrarse</a>
+                                <a href="<?php echo wc_get_page_permalink( 'myaccount' ); ?>">
+                                    <?php echo is_user_logged_in() ? 'Mi cuenta' : 'Iniciar sesión'; ?>
+                                </a>
                             </span>
                         </span>
                     </li>
