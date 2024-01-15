@@ -1,4 +1,4 @@
-<?php 
+<?php
 /* Template Name: Directorio telefonico */
 $args = array('post_type' => 'unidad', 'numberposts' => -1);
 $posts = get_posts($args);
@@ -11,7 +11,7 @@ get_header();
         <p class="descripcion-banner">Selecciona una ubicación para consultar el directorio.</p>
         <form>
             <select id="unidad-telefono">
-                <option>Perzonalizar ubicacion  </option>
+                <option>Perzonalizar ubicación</option>
                 <?php
                     foreach($posts as $post) {
                         echo '<option value="' . $post->post_name . '">' . $post->post_title . '</option>';
@@ -21,9 +21,7 @@ get_header();
         </form>
     </div>
 </div>
-
 <?php
-
     foreach($posts as $post) {
         $rows = get_field('directorio_telefonico', $post->ID);
         echo '<div id="' . $post->post_name . '" class="telefonos">';
@@ -48,7 +46,5 @@ get_header();
         echo '</div>';
     }
 ?>
-
-
 <?php
 get_footer();

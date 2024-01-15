@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $especialidades = MG_Medico_Archive::get_especialidades();
 $ubicaciones    = MG_Medico_Archive::get_ubicaciones();
@@ -30,15 +30,14 @@ get_header();
         </form>
     </div>
 </div>
-
 <div class="content-medicos">
     <div class="container">
         <?php if ( have_posts() ) : ?>
             <table class="default directorio-medicos">
                 <tr class="tableRow">
-                    <th class="tableCell">Medico</th>
+                    <th class="tableCell">Médico</th>
                     <th class="tableCell">Especialidad</th>
-                    <th class="tableCell">Ubicacion</th>
+                    <th class="tableCell">Ubicación</th>
                 </tr>
                 <?php while ( have_posts() ) : the_post(); ?>
                     <tr>
