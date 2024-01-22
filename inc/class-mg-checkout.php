@@ -133,7 +133,18 @@ class MG_Checkout {
         $fields['email']['required']      = true;
         $fields['phone']['required']      = true;
 
-        $fields['rfc']['required']        = true;
+        $fields['rfc'] = array(
+            'required' => true,
+            'type'     => 'text',
+            'label'    => 'RFC',
+            'class'    => array(
+                'form-row-wide',
+                'wc-rfc-restriction',
+                'thwcfd-field-wrapper',
+                'thwcfd-field-text',
+            ),
+        );
+
         $fields['company']['required']    = true;
         $fields['address_1']['required']  = true;
         $fields['address_2']['required']  = true;
