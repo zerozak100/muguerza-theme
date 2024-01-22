@@ -148,28 +148,40 @@ function productos_sh( $atts ) {
     $a = shortcode_atts( 
         array(
             'tipo_producto' => 'Servicio',
-            'tipo_unidad' => 'Asistencia Médica Inmediata 7-24'
+            'tipo_unidad'   => 'Asistencia Médica Inmediata 7-24',
+            'include'       => '',
         ), 
         $atts 
     );
 
-    $args = array(
+
+    $base_args = array(
         'post_type'             => 'product',
         'post_status'           => 'publish',
-        'posts_per_page'        => 20,
-        'tax_query'             => array( 
-            array(
-                'taxonomy'      => 'producto_tipo',
-                'field'         => 'name', // can be 'term_id', 'slug' or 'name'
-                'terms'         => $a['tipo_producto'],
-            ), 
-            array(
-                'taxonomy'      => 'mg_unidad',
-                'field'         => 'name', // can be 'term_id', 'slug' or 'name'
-                'terms'         => $a['tipo_unidad'],
-            ),
-        )
+        'posts_per_page'        => 8,
     );
+
+    if ( $a['include'] ) {
+        $posts__in = array_map( fn( $id ) => ( int ) $id, explode( ',', $a['include'] ) );
+        $args = array_merge( $base_args, array(
+            'post__in' => $posts__in,
+        ) );
+    } else {
+        $args = array_merge( $base_args, array(
+            'tax_query'        => array( 
+                array(
+                    'taxonomy' => 'producto_tipo',
+                    'field'    => 'name', // can be 'term_id', 'slug' or 'name'
+                    'terms'    => $a['tipo_producto'],
+                ), 
+                array(
+                    'taxonomy' => 'mg_unidad',
+                    'field'    => 'name', // can be 'term_id', 'slug' or 'name'
+                    'terms'    => $a['tipo_unidad'],
+                ),
+            )
+        ) );
+    }
 
     $query = new WP_Query($args);
 
