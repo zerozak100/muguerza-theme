@@ -164,13 +164,13 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
     ?>
             <div id="informacion-general" class="seccion">
                 <div class="content-option-hospital">
-                    <div class="info" style="padding: 9px 15px 7px;background-color: #F2F2F2;margin-bottom: 1rem;">
+                    <!-- <div class="info" style="padding: 9px 15px 7px;background-color: #F2F2F2;margin-bottom: 1rem;">
                         Selecciona el hospital de tu preferencia para conocer información relacionada.
-                    </div>
+                    </div> -->
                     <div class="opciones-hospitales">
                         <p>Estás viendo: Información General.</p>
 
-                        <select id="select-hospital">
+                        <!-- <select id="select-hospital">
                             <option value="principal">Todas las unidades</option>
                             <?php
                             $rows = $informacion_general['hospitales'];
@@ -180,25 +180,42 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
                                 echo '<option value="' . $term->slug . '">' . $term->name . '</option>';
                             }
                             ?>
-                        </select>
+                        </select> -->
                     </div>
                 </div>
-                <div id="principal">
+                <!-- <div id="principal">
                     <?php
                     if ($informacion_general['especialidad'] != null) {
-                        echo $informacion_general['especialidad'];
+                        // echo $informacion_general['especialidad'];
                     }
                     ?>
-                </div>
-                <?php
-                $rows = $informacion_general['hospitales'];
-                if ($rows != null) {
-                    foreach ($rows as $row) {
-                        $term = get_term_by('id', $row['ubicacion'], 'product_cat');
-                        echo '<div id="' . $term->slug . '" class="myDiv">' .  '<h2>' . $row['titulo'] . '</h2>' . $row['descripcion'] . '</div>';
+                </div> -->
+                <?
+
+                $current_unidad = mg_get_current_unidad_id();
+                $found_unidad = null;
+
+                if ( ! empty( $informacion_general['hospitales'] ) && is_array( $informacion_general['hospitales'] ) ) {
+                    foreach ( $informacion_general['hospitales'] as $hospital ) {
+                        if ( $hospital['unidad'] == $current_unidad ) {
+                            $found_unidad = $hospital;
+                            break;
+                        }
                     }
                 }
 
+                if ( $found_unidad ) {
+                    // $term = get_term_by( 'id', $found_unidad['ubicacion'], 'product_cat' );
+                    echo '<div id="' . $current_unidad . '">' .  '<h2>' . $found_unidad['titulo'] . '</h2>' . $found_unidad['descripcion'] . '</div>';
+                }
+
+                // $rows = $informacion_general['hospitales'];
+                // if ($rows != null) {
+                //     foreach ($rows as $row) {
+                //         $term = get_term_by('id', $row['ubicacion'], 'product_cat');
+                //         echo '<div id="' . $term->slug . '" class="myDiv">' .  '<h2>' . $row['titulo'] . '</h2>' . $row['descripcion'] . '</div>';
+                //     }
+                // }
                 ?>
 
             </div>
