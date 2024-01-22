@@ -154,20 +154,28 @@ function productos_sh( $atts ) {
         $atts 
     );
 
-
-    $base_args = array(
+    $args = array(
         'post_type'             => 'product',
         'post_status'           => 'publish',
         'posts_per_page'        => 8,
     );
 
-    if ( $a['include'] ) {
-        $posts__in = array_map( fn( $id ) => ( int ) $id, explode( ',', $a['include'] ) );
-        $args = array_merge( $base_args, array(
-            'post__in' => $posts__in,
-        ) );
+    global $post;
+    $mg_unidad_id = get_post_meta( $post->ID, 'unidad', true );
+    $unidad       = MG_Unidad::from_mg_unidad_id( $mg_unidad_id );
+    $f            = $unidad->acf_fields;
+    
+    if ( isset( $f['productos'] ) ) {
+        $p = $f['productos'];
+        if ( $a['tipo_producto'] === 'Servicio' && isset( $p['servicios'] ) && is_array( $p['servicios'] ) ) {
+            $args['post__in'] = $p['servicios'];
+        } else if ( $a['tipo_producto'] === 'Especialidad' && isset( $p['especialidades'] ) && is_array( $p['especialidades'] ) ) {
+            $args['post__in'] = $p['especialidades'];
+        }
+    } else if ( $a['include'] ) {
+        $args['post__in'] = array_map( fn( $id ) => ( int ) $id, explode( ',', $a['include'] ) );
     } else {
-        $args = array_merge( $base_args, array(
+        $args = array_merge( $args, array(
             'tax_query'        => array( 
                 array(
                     'taxonomy' => 'producto_tipo',
