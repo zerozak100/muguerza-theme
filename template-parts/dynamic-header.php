@@ -166,7 +166,7 @@ $unidad = $user->get_unidad();
                         <form class="search-form" action="/tienda">
                             <div class="search-box">
                                 <span class="search-input-icon"></span>
-                                <input name="s" class="search-input" type="text">
+                                <input id="buscador" name="s" class="search-input" type="text">
                             </div>
                             <!-- <button type="submit" class="search-button">Enviar</button> -->
                         </form>
