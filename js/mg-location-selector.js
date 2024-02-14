@@ -406,10 +406,11 @@ jQuery( function ( $ ) {
             this.toast( 'Es necesario seleccionar una unidad', 'danger' );
             return;
         }
-        if ( ! this.user.hasLocation() ) {
-            this.toast( 'Es necesario seleccionar ubicación actual', 'danger' );
-            return;
-        }
+
+        // if ( ! this.user.hasLocation() ) {
+        //     this.toast( 'Es necesario seleccionar ubicación actual', 'danger' );
+        //     return;
+        // }
 
         try {
             this.setLoading( true );
