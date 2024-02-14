@@ -168,7 +168,6 @@ class MG_Api {
 
 class MG_Location {
     constructor( data ) {
-        // console.log('mg location constrcutor: ', data);
         this.address = data.address;
         this.lat = parseFloat( data.lat );
         this.lng = parseFloat( data.lng );
@@ -451,15 +450,15 @@ jQuery( function ( $ ) {
 
                 const location = this.user.getLocation();
 
-                console.log( 'getCurrentPosition: ', location );
-                console.log( location );
-
                 $( '#' + this.searchInput ).val( location.address );
                 $( '.mg-location-selector__my-location' ).html( location.address );
 
                 const latLng = new google.maps.LatLng( location.lat, location.lng );
                 this.locationsMap.setCenter( latLng );
                 this.locationsMap.setZoom( 15 );
+
+                this.orderUnidades( location.lat, location.lng );
+
             } catch (e) {
                 console.log(e);
                 this.toast( 'Error al obtener dirección de la ubicación actual', 'danger' );
