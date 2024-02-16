@@ -41,6 +41,21 @@ $mg_product = new MG_Product( $product );
             ?>
 
         </div>
+		
+		<div class="categorias">
+			<?php 
+				//var_dump ( get_field('tipo_servicio', $product->ID) ); 
+				echo 'Categorias: ';
+				$category_ids = get_field('tipo_servicio', $product->ID);
+				foreach($category_ids as $index => $category_id) {
+					$term = get_term( $category_id );
+					echo $term->name;
+					if($index != count($category_ids) - 1) {
+						echo ", ";
+					}
+				}
+			?>
+		</div>
 
         <ul class="tabs">
             <li class="tab-link current" data-tab="tab-1">Descripción</li>

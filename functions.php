@@ -302,3 +302,28 @@ function muguerza_set_product_loop_item_classes( $classes, $product ) {
 	return $classes;
 }
 add_action( 'woocommerce_post_class', 'muguerza_set_product_loop_item_classes', 10, 2 );
+
+function registration_errors_validation($reg_errors, $sanitized_user_login, $user_email) {
+    global $woocommerce;
+    extract( $_POST );
+    if ( strcmp( $password, $password_confirm ) !== 0 ) {
+        return new WP_Error( 'registration-error', __( 'Passwords do not match.', 'woocommerce' ) );
+    }
+
+    return $reg_errors;
+}
+add_filter('woocommerce_registration_errors', 'registration_errors_validation', 10,3);
+
+function my_woocommerce_add_error( $error ) {
+    return str_replace('An account is already registered with your email address. Please log in','sdfhasd il address. Please log in.',$error);    
+}
+add_filter( 'woocommerce_add_error', 'my_woocommerce_add_error', 99, 1 );
+
+function override_default_address_fields( $address_fields ) {
+
+    // @ for first_name
+    $address_fields['first_name']['label'] = __('Nombre(s)', 'woocommerce');
+
+    return $address_fields;
+}
+add_filter( 'woocommerce_default_address_fields' , 'override_default_address_fields' );

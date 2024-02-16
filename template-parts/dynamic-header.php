@@ -14,11 +14,11 @@ $unidad = $user->get_unidad();
         <nav class="navbar navbar-expand-lg">
             <div class="menu-terciario navbar-collapse collapse">
                 <ul class="navbar-nav">
-                    <li class="nav-item menu-item--casa-cuna-conchita">
+                    <!--li class="nav-item menu-item--casa-cuna-conchita">
                         <a class="nav-link" href="https://www.casacunaconchita.com/">
                             Casa Cuna Conchita
                         </a>
-                    </li>
+                    </li-->
                     <li class="nav-item menu-item--serviciones-en-linea dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Servicios en Línea
@@ -48,7 +48,7 @@ $unidad = $user->get_unidad();
 						</ul>
                     </li>
                     <li class="nav-item menu-item--membresias">
-                        <a class="nav-link <?php echo is_page('membresias') == true ? 'current' : ''; ?>" href="/membresias/">
+                        <a class="nav-link <?php echo is_page('membresias') == true ? 'current' : ''; ?>" href="https://www.christusmuguerza.com.mx/socio-christus/ ">
                             Membresías
                         </a>
                     </li>
@@ -203,6 +203,36 @@ $unidad = $user->get_unidad();
                     </li>
                 </ul>
             </div>
+			
+                    <div class="opciones-movil nav-item menu-item--ubicacion">
+                        <div class="container-fluid g-0">
+                            <div class="row g-0">
+                                <div class="col">
+                                    <span class="icono-ubicacion-morado"></span>
+                                    <span>Tu tienda</span>&nbsp
+                                    <a class="dropdown-toggle otras-tiendas" href="#"> Otras tiendas</a>
+                                </div>
+                            </div>
+                            <div class="row g-0">
+                                <div class="col">
+                                    <span class="ubicacion-seleccionada">
+                                        <?php echo $unidad->get_name(); ?>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="opciones-movil nav-item menu-item--mi-cuenta">
+                        <span class="nav-link">
+                            <span>
+                                <a href="<?php echo wc_get_page_permalink( 'myaccount' ); ?>">
+                                    <?php echo is_user_logged_in() ? 'Mi cuenta' : 'Iniciar sesión'; ?>
+                                </a>
+                            </span>
+                        </span>
+                    </div>
+			
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="fa fa-bars"></span>
             </button>
