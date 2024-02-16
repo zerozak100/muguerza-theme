@@ -10,6 +10,9 @@ class MG_Checkout {
         add_filter( 'woocommerce_checkout_fields', array( $this, 'setup_required_fields' ), 99 );
         add_filter( 'woocommerce_default_address_fields', array( $this, 'setup_required_fields_2' ), 99 );
 
+        add_filter( 'woocommerce_checkout_fields', array( $this, 'limit_billing_field' ), 99  );
+        add_filter( 'woocommerce_default_address_fields', array( $this, 'limit_billing_field2' ), 99  );
+
         add_action( 'wp_footer', array( $this, 'scripts' ) );
         add_action( 'wp_head', array( $this, 'styles' ) );
 
@@ -118,7 +121,7 @@ class MG_Checkout {
         $fields['billing']['billing_rfc']['required']        = true;
         $fields['billing']['billing_company']['required']    = true;
         $fields['billing']['billing_address_1']['required']  = true;
-        $fields['billing']['billing_address_2']['required']  = true;
+        $fields['billing']['billing_address_2']['required']  = false;
         $fields['billing']['billing_country']['required']    = true;
         $fields['billing']['billing_state']['required']      = true;
         $fields['billing']['billing_city']['required']       = true;
@@ -147,7 +150,7 @@ class MG_Checkout {
 
         $fields['company']['required']    = true;
         $fields['address_1']['required']  = true;
-        $fields['address_2']['required']  = true;
+        $fields['address_2']['required']  = false;
         $fields['country']['required']    = true;
         $fields['state']['required']      = true;
         $fields['city']['required']       = true;
@@ -237,6 +240,22 @@ class MG_Checkout {
         return $fields;
     }
 
+    public function limit_billing_field( array $fields ) {
+        $fields['billing']['billing_phone']['maxlength']      = 10;
+        $fields['billing']['billing_rfc']['maxlength']        = 12;
+        $fields['billing']['billing_postcode']['maxlength']   = 5;
+
+        return $fields;
+    }
+
+    public function limit_billing_field2( $fields ) {
+        $fields['phone']['maxlength']      = 10;
+        $fields['rfc']['maxlength']        = 12;
+        $fields['postcode']['maxlength']   = 5;
+
+        return $fields;
+    }
+
     public function styles() {
         if ( ! is_checkout() ) {
             return;
@@ -283,6 +302,8 @@ class MG_Checkout {
                         $( '.mg_billing' ).addClass( 'hidden' );
                     }
                 } );
+
+                
             });
         </script>
         <?php

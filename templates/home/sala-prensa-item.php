@@ -4,7 +4,8 @@ $_classes = array_merge( array( 'home-sala-prensa-item' ), $classes );
 $_classes = implode( " ", $_classes );
 
 $image = wp_get_attachment_image( get_post_thumbnail_id( $post->ID ), 'full' );
-$title = substr( $post->post_title, 0, 72 );
+$title = substr( $post->post_title, 0, 64 );
+//$title = $post->post_title;
 $excerpt = wp_trim_words( get_the_excerpt( $post->ID ), 15 );
 
 ?>

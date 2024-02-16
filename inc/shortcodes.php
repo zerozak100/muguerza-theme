@@ -110,12 +110,15 @@ function hospitales(){
 					//echo '<li> <input type="checkbox" class="checkbox'.$i.'" name="ubicaciones[]" value="'. $color .'"/> ' . $color . '</li>';
 					//in_array( ID, UBICACIONES[] ) ? CHECKED : '';
 					// echo '<li> <input type="checkbox" class="checkbox'.$i.'" name="ubicaciones[]" value="'. $color .'" '. in_array($color, $ubicaciones) ? "checked" : "" .'/> ' . $color . '</li>';
-					printf(
-						'<li><input type="radio" class="checkbox" name="uid[]" value="%s" %s />%s</li>',
-						$ciudad->term_id,
-						in_array($ciudad->term_id, $ubicaciones) ? "checked" : "",
-						$ciudad->name,
-					);
+					if($ciudad->name != 'Laboratorio' && $ciudad->name != 'Especialidades'){
+						printf(
+							'<li><input type="radio" class="checkbox" name="uid[]" value="%s" %s />%s</li>',
+							$ciudad->term_id,
+							in_array($ciudad->term_id, $ubicaciones) ? "checked" : "",
+							$ciudad->name,
+						);
+					}
+					
 					$i++;
 				}
 			echo '</ul>';
