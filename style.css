@@ -728,3 +728,18 @@ header .menu__logo {
 .woocommerce-breadcrumb {
     display: none;
 }
+
+.woocommerce span.onsale {
+    background-color: #E88D21;
+}
+
+.woocommerce span.onsale.onsale--membresia {
+    background-color: #671d75;
+}
+
+.membresia-price-label {
+    font-size: 11px;
+    font-weight: bold;
+    font-style: italic;
+    color: #671d75;
+}

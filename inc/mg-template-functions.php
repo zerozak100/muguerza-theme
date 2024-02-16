@@ -50,7 +50,11 @@ function muguerza_product_precio() {
     $mg_product = new MG_Product( $product );
 
     if ( $mg_product->is_vendible() ) {
-        printf( '<span class="mg-product-item-price">%s</span>', wc_price( $product->get_price() ) );
+        printf(
+            '<span class="mg-product-item-price">%s %s</span>',
+            wc_price( $product->get_price() ),
+            mgb_membresia_price_icon_html( $product->get_id(), true ),
+        );
     }
 }
 
