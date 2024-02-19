@@ -204,7 +204,7 @@ $unidad = $user->get_unidad();
                 </ul>
             </div>
 			
-                    <div class="opciones-movil nav-item menu-item--ubicacion">
+                    <div class="opciones-movil opciones-movil-ubicacion nav-item menu-item--ubicacion">
                         <div class="container-fluid g-0">
                             <div class="row g-0">
                                 <div class="col">
@@ -222,8 +222,30 @@ $unidad = $user->get_unidad();
                             </div>
                         </div>
                     </div>
+			
+					<div class="opciones-movil opciones-movil-buscador nav-item dropdown menu-item--buscador">
+                        <form class="search-form" action="/tienda">
+                            <div class="search-box">
+                                <span class="search-input-icon"></span>
+                                <input id="buscador" name="s" class="search-input" type="text">
+                            </div>
+                            <!-- <button type="submit" class="search-button">Enviar</button> -->
+                        </form>
+                        <!-- <span class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
+                        <div class="dropdown-menu">
+                            <div class="container">
+                                <form class="search-form" action="/tienda">
+                                    <div class="search-box">
+                                        <span class="search-input-icon"></span>
+                                        <input name="s" class="search-input" type="text">
+                                    </div>
+                                    <button type="submit" class="search-button">Enviar</button>
+                                </form>
+                            </div>
+                        </div> -->
+                    </div>
                    
-                    <div class="opciones-movil nav-item menu-item--mi-cuenta">
+                    <div class="opciones-movil opciones-movil-mi-cuenta nav-item menu-item--mi-cuenta">
                         <span class="nav-link">
                             <span>
                                 <a href="<?php echo wc_get_page_permalink( 'myaccount' ); ?>">
@@ -231,6 +253,16 @@ $unidad = $user->get_unidad();
                                 </a>
                             </span>
                         </span>
+                    </div>
+			
+					<div class="opciones-movil opciones-movil-carrito nav-item menu-item--carrito">
+                        <ul id="site-header-cart" class="navbar-nav site-header-cart menu">
+                            <li class="nav-item">
+                                <a class="cart-contents" href="/cart/" title="Ver tu carrito de compra">
+                                    <span class="count">0</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
 			
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
