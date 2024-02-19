@@ -327,3 +327,16 @@ function override_default_address_fields( $address_fields ) {
     return $address_fields;
 }
 add_filter( 'woocommerce_default_address_fields' , 'override_default_address_fields' );
+
+function muguerza_shop_pagination_args( $args ) {
+	if ( wp_is_mobile() ) {
+		$args['end_size'] = 1;
+		$args['mid_size'] = 1;
+	} else {
+		$args['end_size'] = 2;
+		$args['mid_size'] = 1;
+	}
+
+	return $args;
+}
+add_action( 'woocommerce_pagination_args', 'muguerza_shop_pagination_args' );
