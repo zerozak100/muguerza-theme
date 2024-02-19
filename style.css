@@ -743,3 +743,7 @@ header .menu__logo {
     font-style: italic;
     color: #671d75;
 }
+
+.restore-item {
+    display: none;
+}
