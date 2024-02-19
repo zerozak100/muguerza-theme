@@ -79,13 +79,22 @@ function hello_elementor_child_enqueue_scripts() {
 			'micromodal',
 			get_stylesheet_directory_uri() . '/css/micromodal.css',
 			[],
-			'1.0.0',
+			MG_THEME_VERSION,
 		);
 		wp_enqueue_script(
 			'micromodal',
 			'https://unpkg.com/micromodal/dist/micromodal.min.js',
 			[],
-			'1.0.0'
+			MG_THEME_VERSION,
+		);
+	}
+
+	if ( is_account_page() ) {
+		wp_enqueue_script(
+			'mg-myaccount',
+			get_stylesheet_directory_uri() . '/js/myaccount.js',
+			[],
+			MG_THEME_VERSION,
 		);
 	}
 }
