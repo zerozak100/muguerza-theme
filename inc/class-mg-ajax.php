@@ -73,6 +73,7 @@ class MG_Ajax {
         $user->save_unidad( $unidad_id );
 
         WC()->cart->empty_cart();
+        MG_Booking_Session::clean();
 
         wp_send_json( true );
         wp_die();
