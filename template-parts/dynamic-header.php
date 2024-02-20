@@ -10,9 +10,10 @@ $unidad = $user->get_unidad();
     <div class="header-band">
         <span class="header-band__text">RENUEVA O ADQUIERE TU MEMBRESÍA, OBTÉN BENEFICIOS PARA TU SALUD, ¡ES GRATIS! QUIERO SER SOCIO CHRISTUS</span>
     </div>
+
     <div class="menu-terciario-wrapper container">
         <nav class="navbar navbar-expand-lg">
-            <div class="menu-terciario navbar-collapse collapse">
+            <div class="menu-terciario navbar-collapse collapse show">
                 <ul class="navbar-nav">
                     <!--li class="nav-item menu-item--casa-cuna-conchita">
                         <a class="nav-link" href="https://www.casacunaconchita.com/">
@@ -56,6 +57,7 @@ $unidad = $user->get_unidad();
             </div>
         </nav>
     </div>
+
     <div class="menu-principal-wrapper container">
         <nav class="navbar navbar-expand-lg">
             <div class="navbar-brand-wrapper">
@@ -245,7 +247,7 @@ $unidad = $user->get_unidad();
                         </div> -->
                     </div>
                    
-                    <div class="opciones-movil opciones-movil-mi-cuenta nav-item menu-item--mi-cuenta">
+                    <!-- <div class="opciones-movil opciones-movil-mi-cuenta nav-item menu-item--mi-cuenta">
                         <span class="nav-link">
                             <span>
                                 <a href="<?php echo wc_get_page_permalink( 'myaccount' ); ?>">
@@ -263,7 +265,7 @@ $unidad = $user->get_unidad();
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
 			
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="fa fa-bars"></span>
@@ -276,6 +278,24 @@ $unidad = $user->get_unidad();
         <nav class="navbar navbar-expand-lg">
             <div class="menu-secundario navbar-collapse collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item menu-item--mi-cuenta opciones-movil">
+                        <span class="nav-link">
+                            <span>
+                                <a href="<?php echo wc_get_page_permalink( 'myaccount' ); ?>">
+                                    <?php echo is_user_logged_in() ? 'Mi cuenta' : 'Iniciar sesión'; ?>
+                                </a>
+                            </span>
+                        </span>
+                    </li>
+                    <li class="nav-item menu-item--carrito opciones-movil">
+                        <ul id="site-header-cart" class="navbar-nav site-header-cart menu">
+                            <li class="nav-item">
+                                <a class="cart-contents" href="/cart/" title="Ver tu carrito de compra">
+                                    <span class="count">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item menu-item--servicios <?php echo is_page('servicios') == true ? 'current' : ''; ?>">
                         <a class="nav-link" href="<?php echo esc_url( get_permalink( get_page_by_path( 'servicios' ) ) ); ?>">
                             SERVICIOS
@@ -326,6 +346,39 @@ $unidad = $user->get_unidad();
                             COVID-19
                         </a>
                     </li>
+                    <!-- <li class="nav-item menu-item--serviciones-en-linea dropdown opciones-movil">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Servicios en Línea
+                        </a>
+						<ul class="dropdown-menu">
+							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-laboratorio') == true ? 'current' : ''; ?>">
+								<a href="/resultados-de-laboratorio/">Resultados de laboratorio</a>
+							</li>
+							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-imagenologia') == true ? 'current' : ''; ?>">
+								<a href="/resultados-de-imagenologia/">Resultados de Imagenología</a>
+							</li>
+							<li class="dropdown-item nav-item <?php echo is_page('directorio-medico') == true ? 'current' : ''; ?>">
+								<a href="/medico/">Directorio medico</a>
+							</li>
+							<li class="dropdown-item nav-item">
+								<a href="https://facturacion.christusmuguerza.com.mx:8443/ords/finanzas/r/facturacion/15">Facturación electrónica</a>
+							</li>
+							<li class="dropdown-item nav-item <?php echo is_page('directorio-telefonico') == true ? 'current' : ''; ?>">
+								<a href="/directorio-telefonico/">Directorio telefónico</a>
+							</li>
+							<li class="dropdown-item nav-item <?php echo is_page('espacio-saludable') == true ? 'current' : ''; ?>">
+								<a href="/espacio-saludable/">Espacio saludable</a>
+							</li>
+							<li class="dropdown-item nav-item">
+								<a href="https://www.office.com/">Portal de colaboradores</a>
+							</li>
+						</ul>
+                    </li>
+                    <li class="nav-item menu-item--membresias opciones-movil">
+                        <a class="nav-link <?php echo is_page('membresias') == true ? 'current' : ''; ?>" href="https://www.christusmuguerza.com.mx/socio-christus/ ">
+                            Membresías
+                        </a>
+                    </li> -->
                 </ul>
             </div>
         </nav>

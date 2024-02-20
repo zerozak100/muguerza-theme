@@ -747,3 +747,37 @@ header .menu__logo {
 .restore-item {
     display: none;
 }
+
+.menu-item--carrito.opciones-movil .cart-contents {
+    display: inline-block;
+}
+
+.menu-item--carrito.opciones-movil .count {
+    left: 53%!important;
+}
+
+header .opciones-movil.opciones-movil-buscador {
+    float: right;
+    width: 85%;
+}
+
+.navbar-toggler {
+    float: left;
+}
+
+@media only screen and (max-width: 992px) {
+    .menu-secundario-wrapper > nav {
+        text-align: center;
+        padding-top: 0;
+    }
+
+    .menu-principal-wrapper > nav {
+        padding-bottom: 0;
+    }
+
+    .menu-terciario > ul {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+

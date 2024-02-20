@@ -11,7 +11,7 @@ $mg_product = new MG_Product( $product );
 ?>
 
 <?php $image = wp_get_attachment_image_src(get_post_thumbnail_id($product->ID), 'single-post-thumbnail'); ?>
-<div class="cont-servicio" style="display: flex; gap: 40px; padding: 20px;">
+<div class="cont-servicio">
     <div class="image-producto" style="width: 40%;">
         <img src="<?php echo $image[0] ?>" />
     </div>
