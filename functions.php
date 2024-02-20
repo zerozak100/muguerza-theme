@@ -328,15 +328,6 @@ function my_woocommerce_add_error( $error ) {
 }
 add_filter( 'woocommerce_add_error', 'my_woocommerce_add_error', 99, 1 );
 
-function override_default_address_fields( $address_fields ) {
-
-    // @ for first_name
-    $address_fields['first_name']['label'] = __('Nombre(s)', 'woocommerce');
-
-    return $address_fields;
-}
-add_filter( 'woocommerce_default_address_fields' , 'override_default_address_fields' );
-
 function muguerza_shop_pagination_args( $args ) {
 	if ( wp_is_mobile() ) {
 		$args['end_size'] = 1;
