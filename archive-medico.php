@@ -8,6 +8,15 @@ $current_ubicacion    = get_query_var( 'mg_ubicacion' );
 
 get_header();
 
+wc_setup_loop(
+    array(
+        'total'        => $GLOBALS['wp_query']->found_posts,
+        'total_pages'  => $GLOBALS['wp_query']->max_num_pages,
+        'per_page'     => $GLOBALS['wp_query']->get( 'posts_per_page' ),
+        'current_page' => max( 1, $GLOBALS['wp_query']->get( 'paged', 1 ) ),
+    ),
+);
+
 ?>
 
 <div id="banner">
@@ -47,7 +56,9 @@ get_header();
                     </tr>
                 <?php endwhile; ?>
             </table>
-            <?php the_posts_pagination(); ?>
+            <div class="woocommerce">
+                <?php woocommerce_pagination(); ?>
+            </div>
         <?php else : ?>
             <p>No se encontraron médicos</p>
         <?php endif; ?>
