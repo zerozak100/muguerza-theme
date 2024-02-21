@@ -27,8 +27,10 @@ $location = $user->get_location();
                     </div>
                 </div>
                 <div class="mg-location-selector__info">
-                    <p><b>Unidad seleccionada:</b> <span class="mg-location-selector__selected"><?php echo esc_html( $unidad->get_name() ); ?></span></p>
-                    <p><b>Mi ubicación:</b> <span class="mg-location-selector__my-location"><?php echo esc_html( $location->get_address() ); ?></span></p>
+                    <p><b>Unidad seleccionada:</b></p>
+                    <p><span class="mg-location-selector__selected chip"><?php echo esc_html( $unidad->get_name() ); ?></span></p>
+                    <p><b>Mi ubicación:</b></p>
+                    <p><span class="mg-location-selector__my-location"><?php echo esc_html( $location->get_address() ); ?></span></p>
                 </div>
                 <div class="mg-location-selector__actions">
                     <button class="mg-location-selector__accept-btn">Aceptar</button>
