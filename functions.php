@@ -241,7 +241,7 @@ function mg_load_oda_chatbot() {
    	<script src="<?php echo get_stylesheet_directory_uri() . '/lib/chatbot-oda-23.08/web-sdk.js'; ?>" onload="initSdk()"></script>
 	<?php
 }
-add_action( 'wp_head', 'mg_load_oda_chatbot' );
+// add_action( 'wp_head', 'mg_load_oda_chatbot' );
 
 /**
  * @param string $image Image
