@@ -298,6 +298,12 @@ input.mg-product-filter-bar__filter {
     font-size: 14px;
 }
 
+/* @media only screen and (max-width: 1199) {
+    .mg-product-item-ver-mas {
+        font-size: 14px;
+    }
+} */
+
 .mg-product-item-unidad {
     font-weight: bold;
     color: var(--primary);
@@ -793,6 +799,7 @@ header .menu__logo {
     font-weight: bold;
     font-style: italic;
     color: #671d75;
+    line-height: 0.5;
 }
 
 .restore-item {
