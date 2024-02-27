@@ -340,3 +340,112 @@ function muguerza_shop_pagination_args( $args ) {
 	return $args;
 }
 add_action( 'woocommerce_pagination_args', 'muguerza_shop_pagination_args' );
+
+//campos formulario registro woocommerce
+function bbloomer_extra_register_select_field() {
+    $args = array('post_type' => 'unidad', 'numberposts' => -1);
+    $posts = get_posts($args);
+?>
+    <p class="form-row form-row-wide">
+        <label for="names"><?php _e( 'Nombre(s)', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <input type="text" name="nombres_register" id="nombres_register" />
+    </p>
+    <p class="form-row form-row-wide">
+        <label for="apellido-paterno"><?php _e( 'Apellido paterno', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <input type="text" name="apellido_paterno_register" id="apellido_paterno_register" />
+    </p>
+    <p class="form-row form-row-wide">
+        <label for="apellido-materno"><?php _e( 'Apellido materno', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <input type="text" name="apellido_materno_register" id="apellido_materno_register" />
+    </p>
+    <p class="form-row form-row-wide">
+        <label for="telefono"><?php _e( 'Telefono', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <input type="tel" name="telefono_register" id="telefono" />
+    </p>
+    <p class="form-row form-row-wide">
+        <label for="find_where"><?php _e( 'Unidad medica', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <select name="unidad_medica_register" id="unidad_medica_register">
+                <?php
+                    foreach($posts as $post) {
+                        echo '<option value="' . $post->post_name . '">' . $post->post_title . '</option>';
+                    }
+                ?>
+        </select>
+    </p>
+<?php  
+}
+add_action( 'woocommerce_register_form', 'bbloomer_extra_register_select_field' );
+//guardar datos 
+function bbloomer_save_extra_register_select_field( $customer_id ) {
+    if ( isset( $_POST['nombres_register'] ) && isset( $_POST['apellido_paterno_register'] ) && isset( $_POST['apellido_materno_register'] ) && isset( $_POST['telefono_register'] ) && isset( $_POST['unidad_medica_register'] ) ) {
+        update_user_meta( $customer_id, 'nombres_register', $_POST['nombres_register'] );
+        update_user_meta( $customer_id, 'apellido_paterno_register', $_POST['apellido_paterno_register'] );
+        update_user_meta( $customer_id, 'apellido_materno_register', $_POST['apellido_materno_register'] );
+        update_user_meta( $customer_id, 'telefono_register', $_POST['telefono_register'] );
+        update_user_meta( $customer_id, 'unidad_medica_register', $_POST['unidad_medica_register'] );
+    }
+}
+add_action( 'woocommerce_created_customer', 'bbloomer_save_extra_register_select_field' );
+//mostrar datos en perfil
+function bbloomer_show_extra_register_select_field($user){ 
+    $args = array('post_type' => 'unidad', 'numberposts' => -1);
+    $posts = get_posts($args);
+
+    if (empty ($user) ) {
+        $user_id = get_current_user_id();
+        $user = get_userdata( $user_id );
+    }
+    
+?>
+    <p class="form-row form-row-wide">
+        <label for="names"><?php _e( 'Nombre(s)', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <input type="text" name="nombres_register" id="nombres_register" value="<?php echo get_the_author_meta( 'nombres_register', $user->ID ); ?>" />
+    </p>
+    <p class="form-row form-row-wide">
+        <label for="apellido-paterno"><?php _e( 'Apellido paterno', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <input type="text" name="apellido_paterno_register" id="apellido_paterno_register" value="<?php echo get_the_author_meta( 'apellido_paterno_register', $user->ID ); ?>" />
+    </p>
+    <p class="form-row form-row-wide">
+        <label for="apellido-materno"><?php _e( 'Apellido materno', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <input type="text" name="apellido_materno_register" id="apellido_materno_register" value="<?php echo get_the_author_meta( 'apellido_materno_register', $user->ID ); ?>" />
+    </p>
+    <p class="form-row form-row-wide">
+        <label for="telefono"><?php _e( 'Telefono', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <input type="tel" name="telefono_register" id="telefono" value="<?php echo get_the_author_meta( 'telefono_register', $user->ID ); ?>" />
+    </p>
+    <p class="form-row form-row-wide">
+        <label for="find_where"><?php _e( 'Unidad medica', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <select name="unidad_medica_register" id="unidad_medica_register">
+                <?php
+                    foreach($posts as $post) {
+                        if( get_the_author_meta( 'unidad_medica_register', $user->ID ) == $post->post_name ) {
+                            $selected = 'selected=selected';
+                            echo '<option value="' . $post->post_name . '" ' . $selected . '>' . $post->post_title . '</option>';
+                        }else{
+                            echo '<option value="' . $post->post_name . '">' . $post->post_title . '</option>';
+                        }
+                        
+                    }
+                ?>
+        </select>
+    </p>
+  
+<?php
+  
+}
+add_action( 'show_user_profile', 'bbloomer_show_extra_register_select_field', 30 );
+add_action( 'edit_user_profile', 'bbloomer_show_extra_register_select_field', 30 ); 
+add_action( 'woocommerce_edit_account_form', 'bbloomer_show_extra_register_select_field', 30 );
+//actualizar datos en admin
+function bbloomer_save_extra_register_select_field_admin( $customer_id ){
+    if ( isset( $_POST['nombres_register'] ) && isset( $_POST['apellido_paterno_register'] ) && isset( $_POST['apellido_materno_register'] ) && isset( $_POST['telefono_register'] ) && isset( $_POST['unidad_medica_register'] ) ) {
+        update_user_meta( $customer_id, 'nombres_register', $_POST['nombres_register'] );
+        update_user_meta( $customer_id, 'apellido_paterno_register', $_POST['apellido_paterno_register'] );
+        update_user_meta( $customer_id, 'apellido_materno_register', $_POST['apellido_materno_register'] );
+        update_user_meta( $customer_id, 'telefono_register', $_POST['telefono_register'] );
+        update_user_meta( $customer_id, 'unidad_medica_register', $_POST['unidad_medica_register'] );
+    }
+}
+add_action( 'personal_options_update', 'bbloomer_save_extra_register_select_field_admin' );    
+add_action( 'edit_user_profile_update', 'bbloomer_save_extra_register_select_field_admin' );   
+add_action( 'woocommerce_save_account_details', 'bbloomer_save_extra_register_select_field_admin' );
