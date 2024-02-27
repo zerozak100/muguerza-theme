@@ -359,11 +359,11 @@ function bbloomer_extra_register_select_field() {
         <input type="text" name="apellido_materno_register" id="apellido_materno_register" />
     </p>
     <p class="form-row form-row-wide">
-        <label for="telefono"><?php _e( 'Telefono', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <label for="telefono"><?php _e( 'Teléfono', 'woocommerce' ); ?>  <span class="required">*</span></label>
         <input type="tel" name="telefono_register" id="telefono" />
     </p>
     <p class="form-row form-row-wide">
-        <label for="find_where"><?php _e( 'Unidad medica', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <label for="find_where"><?php _e( 'Unidad médica', 'woocommerce' ); ?>  <span class="required">*</span></label>
         <select name="unidad_medica_register" id="unidad_medica_register">
                 <?php
                     foreach($posts as $post) {
@@ -410,11 +410,11 @@ function bbloomer_show_extra_register_select_field($user){
         <input type="text" name="apellido_materno_register" id="apellido_materno_register" value="<?php echo get_the_author_meta( 'apellido_materno_register', $user->ID ); ?>" />
     </p>
     <p class="form-row form-row-wide">
-        <label for="telefono"><?php _e( 'Telefono', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <label for="telefono"><?php _e( 'Teléfono', 'woocommerce' ); ?>  <span class="required">*</span></label>
         <input type="tel" name="telefono_register" id="telefono" value="<?php echo get_the_author_meta( 'telefono_register', $user->ID ); ?>" />
     </p>
     <p class="form-row form-row-wide">
-        <label for="find_where"><?php _e( 'Unidad medica', 'woocommerce' ); ?>  <span class="required">*</span></label>
+        <label for="find_where"><?php _e( 'Unidad médica', 'woocommerce' ); ?>  <span class="required">*</span></label>
         <select name="unidad_medica_register" id="unidad_medica_register">
                 <?php
                     foreach($posts as $post) {
