@@ -307,7 +307,7 @@ $unidad = $user->get_unidad();
                         </a>
                     </li>
                     <li class="nav-item menu-item--promociones">
-                        <a class="nav-link" href="/">
+                        <a class="nav-link" href="/promociones">
                             PROMOCIONES
                         </a>
                     </li>
