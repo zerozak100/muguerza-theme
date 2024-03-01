@@ -29,6 +29,7 @@ abstract class MG_Product_Archive {
     public static function init() {
         include_once __DIR__ . '/class-mg-product-archive-especialidades.php';
         include_once __DIR__ . '/class-mg-product-archive-servicios.php';
+        include_once __DIR__ . '/class-mg-product-archive-promociones.php';
         include_once __DIR__ . '/class-mg-product-archive-shop.php';
 
         if ( self::is_page( 'especialidades' ) ) {
@@ -37,6 +38,10 @@ abstract class MG_Product_Archive {
 
         if ( self::is_page( 'servicios' ) ) {
             new MG_Product_Archive_Servicios();
+        }
+
+        if ( self::is_page( 'promociones' ) ) {
+            new MG_Product_Archive_Promociones();
         }
 
         if ( self::is_page( 'tienda' ) ) {
@@ -164,6 +169,10 @@ abstract class MG_Product_Archive {
                 return 'Especialidades';
             }
 
+            if ( self::is_page( 'promociones' ) ) {
+                return 'Promociones';
+            }
+
             return 'Especialidades y Servicios';
         }
         return $title;
@@ -208,7 +217,7 @@ function alter_the_query( $request ) {
     $query = new WP_Query();
     $query->parse_query( $request );
 
-    if ( $query->is_page( 'servicios' ) || $query->is_page( 'especialidades' ) ){
+    if ( $query->is_page( 'servicios' ) || $query->is_page( 'especialidades' ) || $query->is_page( 'promociones' ) ){
         unset( $request['pagename'] );
         $request['page_id'] = get_page_by_path( 'tienda' )->ID;
     }
