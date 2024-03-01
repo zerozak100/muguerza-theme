@@ -1,0 +1,107 @@
+@font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-XLight_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-XLight_Web.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-XLightItalic_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-XLightItalic_Web.woff') format('woff');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-Light_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-Light_Web.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-LightItalic_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-LightItalic_Web.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-Book_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-Book_Web.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-BookItalic_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-BookItalic_Web.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-Medium_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-Medium_Web.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-MediumItalic_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-MediumItalic_Web.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-Bold_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-Bold_Web.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-BoldItalic_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-BoldItalic_Web.woff') format('woff');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-Black_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-Black_Web.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'HCo Gotham SSm';
+    src:url('../fonts/GothamSSm-BlackItalic_Web.woff2') format('woff2'),
+      url('../fonts/GothamSSm-BlackItalic_Web.woff') format('woff');
+    font-weight: 800;
+    font-style: italic;
+    font-display: swap;
+  }
