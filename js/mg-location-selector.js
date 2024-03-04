@@ -615,7 +615,7 @@ jQuery( function ( $ ) {
             this.setLoading( true );
             const orderedUnidades = await this.API.getUnidadesOrderedByNearest( lat, lng );
             if ( ! orderedUnidades ) {
-                throw "Error al ordenar ubicaciones";
+                throw new Error("Error al ordenar ubicaciones");
             }
             this.orderUnidadesInDom( orderedUnidades );
             this.toast( 'Ubicaciones ordenadas', 'success' );
