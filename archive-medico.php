@@ -42,7 +42,8 @@ wc_setup_loop(
 <div class="content-medicos">
     <div class="container">
         <?php if ( have_posts() ) : ?>
-            <table class="default directorio-medicos">
+            <table descr class="default directorio-medicos">
+                <caption>Directorio médico resultados</caption>
                 <tr class="tableRow">
                     <th class="tableCell">Médico</th>
                     <th class="tableCell">Especialidad</th>
