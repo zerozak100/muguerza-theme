@@ -121,7 +121,6 @@ INICIO PAGE
 }
 
 .home-sala-prensa-item__img-box {
-    /* flex: 1; */
     position: relative;
     height: 120px;
     border-radius: 8px;
@@ -198,7 +197,6 @@ INICIO PAGE
 .home-sala-prensa-item--secondary .home-sala-prensa-item__img-box, 
 .home-sala-prensa-item--tertiary .home-sala-prensa-item__img-box {
     flex-basis: 140px;
-    /* width: 140px; */
     height: 120px;
 }
 
@@ -219,7 +217,7 @@ input.mg-product-filter-bar__filter {
 }
 
 #location_id.mg-product-filter-bar__filter {
-    /* min-width: 250px; */
+
 }
 
 .mg-product-filter-bar__submit {
@@ -298,22 +296,11 @@ input.mg-product-filter-bar__filter {
     font-size: 14px;
 }
 
-/* @media only screen and (max-width: 1199) {
-    .mg-product-item-ver-mas {
-        font-size: 14px;
-    }
-} */
-
 .mg-product-item-unidad {
     font-weight: bold;
     color: var(--primary);
     margin-bottom: 8px;
 }
-
-/* .woocommerce.archive .products .add_to_cart_button,
-.woocommerce.archive ul.products li.product .price {
-    display: none;
-} */
 
 /* woocommerce-pagination */
 .woocommerce-pagination {
@@ -410,14 +397,8 @@ input.mg-product-filter-bar__filter {
 
 }
 
-/* .mg-location-selector__list-item p {
-    line-height: 1;
-} */
-
 .mg-location-item {
     padding: 15px;
-    /* padding-top: 8px;
-    padding-bottom: 16px; */
 }
 .mg-location-item:hover {
     background-color: #f7f8f8;
@@ -498,14 +479,9 @@ input.mg-product-filter-bar__filter {
     }
 }
 
-/* .mg-location-selector #mg-location-selector {
-    margin-bottom: 10px;
-} */
-
 /* Tabs */
 .tabs {
   width: 100%;
-  /* background-color: #09F; */
   background-color: var(--primary);
   border-radius: 5px 5px 5px 5px;
 }
@@ -521,13 +497,10 @@ ul#tabs-nav li {
   margin-right: 2px;
   padding: 8px 10px;
   border-radius: 5px 5px 5px 5px;
-  /*border: 1px solid #d5d5de;
-  border-bottom: none;*/
   cursor: pointer;
 }
 ul#tabs-nav li:hover,
 ul#tabs-nav li.active {
-  /* background-color: #08E; */
   background-color: #89628E;
 }
 #tabs-nav li a {
@@ -611,9 +584,6 @@ ul#tabs-nav li.active {
     font-size: 14px;
     padding: 5px 10px 5px 35px;
     border-radius: 7px;
-    /* padding-left: 35px;
-    padding-right: 10px; */
-    /* height: 20px; */
     width: 100%;
 }
 
@@ -737,7 +707,6 @@ header .menu__logo {
     content: '';
     width: 22px;
     height: 22px;
-    /* margin-right: 5px; */
     background-image: url("img/icono-busqueda.svg");
     background-position: center;
     background-size: contain;

@@ -83,7 +83,6 @@ textarea {
   input[type="url"]:focus,
   select:focus,
   textarea:focus {
-    /* outline: none; */
     outline-color: var(--primary);
     border-color: var(--primary); }
 
