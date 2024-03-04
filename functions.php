@@ -152,7 +152,6 @@ include_once __DIR__ . '/inc/class-mg-checkout.php';
 function show_template() {
     // global $template;
     // echo basename($template);
-	// $API = new MG_API_Membresias();
 	// $response = $API->consultarMembresia( 'EDGAR.MONREAL950@ICLOUD.COM' );
 	// echo "<pre>";
 	// var_dump( $response );
