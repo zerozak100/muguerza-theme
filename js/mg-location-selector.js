@@ -94,7 +94,7 @@ class MG_Api {
     async geocodeInverse( lat, lng ) {
         const params = new URLSearchParams({
             latlng: `${lat},${lng}`,
-            key: 'AIzaSyDLHEgck-NyHg9QBswGn2ayg65BiIo7kMo',
+            key: DATA.map_api_key,
         });
 
         const url = 'https://maps.googleapis.com/maps/api/geocode/json?' + params;

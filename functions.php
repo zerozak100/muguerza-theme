@@ -195,7 +195,7 @@ add_filter( 'woocommerce_add_to_cart_fragments', 'storefront_cart_link_fragment'
 
 
 function my_acf_google_map_api( $api ){
-    $api['key'] = 'AIzaSyDLHEgck-NyHg9QBswGn2ayg65BiIo7kMo';
+    $api['key'] = MG_GOOGLE_MAP_API_KEY;
     return $api;
 }
 add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');

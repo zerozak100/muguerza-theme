@@ -6,8 +6,6 @@ class MG_Unidad_Selector {
      */
     public $user;
 
-    private $apiKey = 'AIzaSyDLHEgck-NyHg9QBswGn2ayg65BiIo7kMo';
-
     public static function order_unidades_by_distance() {
 
     }
@@ -47,6 +45,7 @@ class MG_Unidad_Selector {
             'ajaxurl'        => admin_url( 'admin-ajax.php' ),
             'needs_unidad'   => $this->needs_unidad(),
             'user'           => $this->user,
+            'map_api_key'    => MG_GOOGLE_MAP_API_KEY,
         );
 
         $user_unidad = $this->user->get_unidad();
@@ -89,7 +88,7 @@ class MG_Unidad_Selector {
 
     private function load_google_maps() {
         $params = array(
-            'key'       => $this->apiKey,
+            'key'       => MG_GOOGLE_MAP_API_KEY,
             'callback'  => 'initMap',
             'v'         => 'weekly',
             'libraries' => 'places',
