@@ -608,9 +608,6 @@ jQuery( function ( $ ) {
         $( '.mg-location-selector__accept-btn' ).prop( 'disabled', val );
         $( '.mg-location-selector__geolocate-btn' ).prop( 'disabled', val );
         $( '#search-geolocation' ).prop( 'disabled', val );
-        if ( val === true ) {
-        } else {
-        }
      }
     
     MGLocationSelector.prototype.orderUnidades = async function( lat, lng ) {
