@@ -116,7 +116,7 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
 <div class="contect-seccion">
     <?php
     if ($padecimientos != null) {
-        if ($padecimientos['mostrar'] == true) {
+        if ($padecimientos['mostrar']) {
             if ($padecimientos['titulo'] == null) {
     ?>
                 <div id="padecimientos" class="seccion">
@@ -138,7 +138,7 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
 
     <?php
     if ($procedimientos != null) {
-        if ($procedimientos['mostrar'] == true) {
+        if ($procedimientos['mostrar']) {
             if ($procedimientos['titulo'] == null) {
     ?>
                 <div id="procedimientos" class="seccion">
@@ -160,7 +160,7 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
 
     <?php
     if ($informacion_general != null) {
-        if ($informacion_general['mostrar'] == true) {
+        if ($informacion_general['mostrar']) {
     ?>
             <div id="informacion-general" class="seccion">
                 <div class="content-option-hospital">
@@ -225,7 +225,7 @@ $seccion_genericas 	 = get_field( 'seccion_generica' );
     <?php
     if ($seccion_genericas != null) {
         foreach ($seccion_genericas as $seccion_generica) {
-            if ($seccion_generica['mostrar'] == true) {
+            if ($seccion_generica['mostrar']) {
                 echo '<div id="' . $seccion_generica['identificador'] . '" class="seccion">';
                 echo '<h2>' . $seccion_generica['titulo'] . '</h2>';
                 echo $seccion_generica['contenido'];

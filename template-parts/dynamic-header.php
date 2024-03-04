@@ -25,22 +25,22 @@ $unidad = $user->get_unidad();
                             Servicios en Línea
                         </a>
 						<ul class="dropdown-menu">
-							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-laboratorio') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-laboratorio') ?: 'current'; ?>">
 								<a href="/resultados-de-laboratorio/">Resultados de laboratorio</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-imagenologia') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-imagenologia') ?: 'current'; ?>">
 								<a href="/resultados-de-imagenologia/">Resultados de Imagenología</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('directorio-medico') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('directorio-medico') ?: 'current'; ?>">
 								<a href="/medico/">Directorio medico</a>
 							</li>
 							<li class="dropdown-item nav-item">
 								<a href="https://facturacion.christusmuguerza.com.mx:8443/ords/finanzas/r/facturacion/15">Facturación electrónica</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('directorio-telefonico') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('directorio-telefonico') ?: 'current'; ?>">
 								<a href="/directorio-telefonico/">Directorio telefónico</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('espacio-saludable') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('espacio-saludable') ?: 'current'; ?>">
 								<a href="/espacio-saludable/">Espacio saludable</a>
 							</li>
 							<li class="dropdown-item nav-item">
@@ -49,7 +49,7 @@ $unidad = $user->get_unidad();
 						</ul>
                     </li>
                     <li class="nav-item menu-item--membresias">
-                        <a class="nav-link <?php echo is_page('membresias') == true ? 'current' : ''; ?>" href="https://www.christusmuguerza.com.mx/socio-christus/ ">
+                        <a class="nav-link <?php echo is_page('membresias') ?: 'current'; ?>" href="https://www.christusmuguerza.com.mx/socio-christus/ ">
                             Membresías
                         </a>
                     </li>
@@ -296,12 +296,12 @@ $unidad = $user->get_unidad();
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item menu-item--servicios <?php echo is_page('servicios') == true ? 'current' : ''; ?>">
+                    <li class="nav-item menu-item--servicios <?php echo is_page('servicios') ?: 'current'; ?>">
                         <a class="nav-link" href="<?php echo esc_url( get_permalink( get_page_by_path( 'servicios' ) ) ); ?>">
                             SERVICIOS
                         </a>
                     </li>
-                    <li class="nav-item menu-item--especialidades <?php echo is_page('especialidades') == true ? 'current' : ''; ?>">
+                    <li class="nav-item menu-item--especialidades <?php echo is_page('especialidades') ?: 'current'; ?>">
                         <a class="nav-link" href="<?php echo esc_url( get_permalink( get_page_by_path( 'especialidades' ) ) ); ?>">
                             ESPECIALIDADES
                         </a>
@@ -311,7 +311,7 @@ $unidad = $user->get_unidad();
                             PROMOCIONES
                         </a>
                     </li>
-					<li class="nav-item <?php echo is_page('hospitales') == true ? 'current' : ''; ?>">
+					<li class="nav-item <?php echo is_page('hospitales') ?: 'current'; ?>">
                         <a class="nav-link" href="/hospitales">
                             UBICACIONES
                         </a>
@@ -321,7 +321,7 @@ $unidad = $user->get_unidad();
                             PROPOSITO SOCIAL
                         </a>
 						<ul class="dropdown-menu">
-							<li class="dropdown-item nav-item <?php echo is_page('responsabilidad-social') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('responsabilidad-social') ?: 'current'; ?>">
 								<a href="/responsabilidad-social/">Responsabilidad social</a>
 							</li>
 							<li class="dropdown-item nav-item">
@@ -330,13 +330,13 @@ $unidad = $user->get_unidad();
 							<li class="dropdown-item nav-item">
 								<a href="https://www.casacunaconchita.com/">Casa Cuna Conchita</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('escuela-de-enfermeria') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('escuela-de-enfermeria') ?: 'current'; ?>">
 								<a href="/escuela-de-enfermeria/">Escuela de enfermeria</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('educacion-e-investigacion') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('educacion-e-investigacion') ?: 'current'; ?>">
 								<a href="/educacion-e-investigacion/">Educacion e Investigacion en Salud</a>
 							</li>
-                            <li class="dropdown-item nav-item <?php echo is_page('7-24-asistencia-medica') == true ? 'current' : ''; ?>">
+                            <li class="dropdown-item nav-item <?php echo is_page('7-24-asistencia-medica') ?: 'current'; ?>">
                                 <a href="/7-24-asistencia-medica/">Asistencia Médica Inmediata 7/24</a>
                             </li>
 						</ul>
@@ -351,22 +351,22 @@ $unidad = $user->get_unidad();
                             Servicios en Línea
                         </a>
 						<ul class="dropdown-menu">
-							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-laboratorio') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-laboratorio') ?: 'current'; ?>">
 								<a href="/resultados-de-laboratorio/">Resultados de laboratorio</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-imagenologia') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('resultados-de-imagenologia') ?: 'current'; ?>">
 								<a href="/resultados-de-imagenologia/">Resultados de Imagenología</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('directorio-medico') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('directorio-medico') ?: 'current'; ?>">
 								<a href="/medico/">Directorio medico</a>
 							</li>
 							<li class="dropdown-item nav-item">
 								<a href="https://facturacion.christusmuguerza.com.mx:8443/ords/finanzas/r/facturacion/15">Facturación electrónica</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('directorio-telefonico') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('directorio-telefonico') ?: 'current'; ?>">
 								<a href="/directorio-telefonico/">Directorio telefónico</a>
 							</li>
-							<li class="dropdown-item nav-item <?php echo is_page('espacio-saludable') == true ? 'current' : ''; ?>">
+							<li class="dropdown-item nav-item <?php echo is_page('espacio-saludable') ?: 'current'; ?>">
 								<a href="/espacio-saludable/">Espacio saludable</a>
 							</li>
 							<li class="dropdown-item nav-item">
@@ -375,7 +375,7 @@ $unidad = $user->get_unidad();
 						</ul>
                     </li>
                     <li class="nav-item menu-item--membresias opciones-movil">
-                        <a class="nav-link <?php echo is_page('membresias') == true ? 'current' : ''; ?>" href="https://www.christusmuguerza.com.mx/socio-christus/ ">
+                        <a class="nav-link <?php echo is_page('membresias') ?: 'current'; ?>" href="https://www.christusmuguerza.com.mx/socio-christus/ ">
                             Membresías
                         </a>
                     </li> -->
